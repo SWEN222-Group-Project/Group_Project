@@ -25,5 +25,40 @@ public class Location {
 		this.yPos = yPos;
 	}
 	
+	/**
+	 * Gets the location north of current location.
+	 * @return 
+	 */
+	public Location getNorth(){
+		return new Location(xPos, yPos - 1);
+	}
+	
+	/**
+	 * Gets the location east of current location.
+	 * @return 
+	 */
+	public Location getEast(){
+		return new Location(xPos + 1, yPos);
+	}
+	
+	/**
+	 * Gets the location south of current location.
+	 * @return 
+	 */
+	public Location getSouth(){
+		return new Location(xPos, yPos + 1);
+	}
+	
+	/**
+	 * Gets the location west of current location.
+	 * @return 
+	 */
+	public Location getWest(){
+		return new Location(xPos - 1, yPos);
+	}
+	
+	public String toString(){
+		return "(" + xPos + ", " + yPos + ")";
+	}
 	
 }
