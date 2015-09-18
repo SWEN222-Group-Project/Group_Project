@@ -12,10 +12,10 @@ public class Player extends Piece {
 	private int id;
 	
 	//The direction the player is facing
-	private Direction direction;
+	private PlayerDirection direction;
 
 
-	public Player (int playerId, String name, Position pos, Direction direction){
+	public Player (int playerId, String name, Position pos, PlayerDirection direction){
 		this.id = playerId;
 		this.name = name;
 		this.position = pos;
@@ -27,11 +27,17 @@ public class Player extends Piece {
 		return name;
 	}
 
+	public int id(){
+		return id;
+	}
 
 	public Position getPosition() {
 		return position;
 	}
-
+	
+	public void setLocation(Location loc){
+		this.position.setLocation(loc);
+	}
 
 	public void setPosition(Position position) {
 		this.position = position; //new Position(room, x and y pos)
@@ -55,28 +61,27 @@ public class Player extends Piece {
 	 * Turn direction of the player to right of its current direction
 	 */
 	public void turnRight(){
-		this.setOrientation(getDirection().clockwise());
+		this.setDirection(getDirection().clockwise());
 	}
 
 	/**
 	 * Turn direction of player to left of its current direction
 	 */
 	public void turnLeft(){
-		this.setOrientation(getDirection().anticlockwise());
+		this.setDirection(getDirection().anticlockwise());
 	}
 
 	/**
 	 * Get the current direction of the player
 	 */
-	public Direction getDirection() {
+	public PlayerDirection getDirection() {
 		return direction;
 	}
 
 	/**
 	 * Sets the direction of the player
 	 */
-	public void setDirection(Direction direction) {
+	public void setDirection(PlayerDirection direction) {
 		this.direction = direction;
 	}
-
 }
