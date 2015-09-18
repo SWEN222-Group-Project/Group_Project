@@ -7,4 +7,9 @@ package model;
  */
 public abstract class MovablePiece extends Piece {
 
+	public MovablePiece(Position position) {
+		super(position);
+		// TODO Auto-generated constructor stub
+	}
+
 }
