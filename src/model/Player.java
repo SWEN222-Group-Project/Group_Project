@@ -5,7 +5,6 @@ public class Player extends Piece {
 	public static final int MAX_ITEMS = 4;
 	
 	private String name; //player name
-	private Position position;
 	private List<Piece> container;
 	
 	//Player ID: this can be used to access the player when it is in a Game
@@ -16,11 +15,12 @@ public class Player extends Piece {
 
 
 	public Player (int playerId, String name, Position pos, PlayerDirection direction){
+		super(pos);
 		this.id = playerId;
 		this.name = name;
-		this.position = pos;
 		this.direction = direction;
 		this.container = new ArrayList<Piece>();
+		
 	}
 	
 	public String getName(){
@@ -31,18 +31,6 @@ public class Player extends Piece {
 		return id;
 	}
 
-	public Position getPosition() {
-		return position;
-	}
-	
-	public void setLocation(Location loc){
-		this.position.setLocation(loc);
-	}
-
-	public void setPosition(Position position) {
-		this.position = position; //new Position(room, x and y pos)
-	}	
-	
 	public void addItem(Piece p){
 		this.container.add(p);
 	}
@@ -55,6 +43,10 @@ public class Player extends Piece {
 		//need to find piece and then remove it
 		//TODO: will need to implement equals and hashcode for the piece class
 		return container.remove(p);
+	}
+	
+	public List<Piece> container(){
+		return container;
 	}
 	
 	/**
@@ -83,5 +75,9 @@ public class Player extends Piece {
 	 */
 	public void setDirection(PlayerDirection direction) {
 		this.direction = direction;
+	}
+	
+	public String toString(){
+		return name.substring(0, 1);
 	}
 }
