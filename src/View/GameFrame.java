@@ -126,7 +126,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
         JPanel itemsFound = new JPanel();
 		itemsFound.setSize(100, 50);
 		itemsFound.setVisible(true);
-		JPanel mapPanel = new JPanel();
+		JPanel mapPanel = new JPanel(); // panel for the map
 		mapPanel.setSize(100,132);
 		mapPanel.setVisible(true);
 		JButton mapButton = new JButton("Map");
