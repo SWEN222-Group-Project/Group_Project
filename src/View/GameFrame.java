@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import View.GameFrame;
+import dataStorage.DataStorage;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements MouseListener, ActionListener{
@@ -27,6 +28,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	private JMenuItem aboutItem;
 	private JMenuItem howToPlayItem;
 	private JMenuItem controlsItem;
+	private DataStorage gameSave = new DataStorage();
 	
 	public GameFrame() {
 		canvas = new GameCanvas(this); //new canvas
@@ -49,14 +51,14 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		});
 		loadGameItem = new JMenuItem(new AbstractAction("Load Game") { //new game menu item
 			@Override
-			public void actionPerformed(ActionEvent e) { //when new game clicked
-				loadGame();
+			public void actionPerformed(ActionEvent e) { //when load game clicked
+				gameSave.loadGame();
 			}
 		});
 		saveGameItem = new JMenuItem(new AbstractAction("Save Game") { //new game menu item
 			@Override
-			public void actionPerformed(ActionEvent e) { //when new game clicked
-				saveGame();
+			public void actionPerformed(ActionEvent e) { //when save game clicked
+				gameSave.saveGame();
 			}
 		});
 		exitGameItem = new JMenuItem(new AbstractAction("Exit Game") { //exit game menu item
@@ -121,8 +123,21 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		scroll.setVisible(true); //show scroll
 		scroll.setAutoscrolls(true); //auto scroll
         scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll
+        JPanel itemsFound = new JPanel();
+		itemsFound.setSize(100, 50);
+		itemsFound.setVisible(true);
+		JPanel mapPanel = new JPanel();
+		mapPanel.setSize(100,132);
+		mapPanel.setVisible(true);
+		JButton mapButton = new JButton("Map");
+		mapButton.setToolTipText("Display the map");
+		mapButton.setActionCommand("Show Map");
+		mapPanel.add(mapButton);
+		
 		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
-		screen.add(scroll, BorderLayout.EAST); //add scroll/text field to bottom panel to the east of button panel
+		screen.add(itemsFound, BorderLayout.WEST);
+		screen.add(scroll, BorderLayout.WEST); //add scroll/text field to bottom panel to the east of button panel
+		screen.add(mapPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
 		setVisible(true); //show frame
@@ -135,13 +150,13 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		new GameFrame(); //create new game frame game
 	}
 	
-	public void loadGame() {
-		//TODO 
-	}
-	
-	public void saveGame() {
-		//TODO 
-	}
+//	public void loadGame() {
+//		//TODO 
+//	}
+//	
+//	public void saveGame() {
+//		//TODO 
+//	}
 	
 	public GameCanvas getCanvas() {
 		return canvas;
