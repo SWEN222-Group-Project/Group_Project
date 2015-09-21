@@ -1,4 +1,5 @@
 package model;
+import controller.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,12 +28,12 @@ public class ModelMain {
 		}
 	}
 	
-	private static void movePlayer(Game game, Player p){
+	private static void movePlayer(Controller game, Player p, Piece dropPiece){
 		int playerId = p.id();
 		while(true){
 			Location location = p.getPosition().getLocation();
 			
-			String cmd = inputString("[w/a/s/d] or any key to exit").toLowerCase();
+			String cmd = inputString("[w/a/s/d/q] or any key to exit").toLowerCase();
 			if (cmd.equals("w")){
 				//go up
 				System.out.println(location.getNorth());
@@ -49,6 +50,9 @@ public class ModelMain {
 				//go right
 				System.out.println(location.getEast());
 				game.movePlayer(playerId, location.getEast());
+			} else if (cmd.equals("q")){
+				//go right
+				game.dropItem(playerId, dropPiece);
 			} else {
 				//press any other key to exit the method
 				System.out.println("ending move");
@@ -59,22 +63,12 @@ public class ModelMain {
 		
 	}
 	
-	private static void testPicking(Game game, int playerId, Position pos){
-		Player player = game.getPlayer(playerId);
-		game.pickItem(1, pos); //test picking an item
-		game.printAll(); 
-		System.out.println(player + " container has: " + player.container()); //returns the container of player 1
-	}
-	private static void testDropping(Game game, int playerId, Piece pieceToDrop){
-		Player player = game.getPlayer(playerId);
-		Location playerLoc = player.getPosition().getLocation();
-		Location dropLocation = game.getAdjacentSpace(player.getRoom(), playerLoc);
-		game.dropItem(playerId, pieceToDrop, dropLocation);
+	private static void testDropping(Controller controller, int playerId, Piece pieceToDrop){		
+		controller.dropItem(playerId, pieceToDrop);
 		System.out.println("Dropping item");
-		game.printAll();
-		System.out.println(player + " container has: " + player.container()); //returns the container of player 1
-		
+		controller.printAll();		
 	}
+	
 	public static void main(String[] args){
 		//create room
 		Room room = new Room("Practise Room");
@@ -86,11 +80,8 @@ public class ModelMain {
 		game.addRoom(room); //test adding room
 		game.addPlayer(p1); //test adding player
 		game.addPlayer(p2);
-		game.printAll(); //this will print all of the rooms 
-		movePlayer(game, p1); //test moving player
-		System.out.println("Picking item at pos2");
-		testPicking(game, 1, pos2); //test picking item
-		
-		testDropping(game, 1, p2); //test dropping item
+		game.printAll(); //this will print all of the rooms
+		Controller controller = new Controller(game);
+		movePlayer(controller, p1, p2); //test moving player
 	}
 }
