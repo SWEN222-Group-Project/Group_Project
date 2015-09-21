@@ -60,5 +60,24 @@ public class Location {
 	public String toString(){
 		return "(" + xPos + ", " + yPos + ")";
 	}
+
+	/**
+	 * Determines whether the provided location is horizontally or vertically adjacent to this location.
+	 * @param newLocation
+	 * @return
+	 */
+	public boolean isNextTo(Location newLocation) {
+		if(xPos == newLocation.getxPos()){
+			if(Math.abs(yPos - newLocation.getyPos()) == 1){
+				return true;
+			}
+		}
+		if(yPos == newLocation.getyPos()){
+			if(Math.abs(xPos - newLocation.getxPos()) == 1){
+				return true;
+				}
+		}
+		return false;
+	}
 	
 }
