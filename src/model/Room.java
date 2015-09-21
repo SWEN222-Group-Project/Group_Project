@@ -11,12 +11,15 @@ public class Room {
     	this.name = name;
     }
     
-    public Room(Piece[][] board){
+    public Room(String name, Piece[][] board){
+    	this.name = name;
     	this.board = board;
     }
     
     public void addPiece(Location loc, Piece piece){
+    	piece.setPosition(new Position(this, loc));
     	board[loc.getyPos()][loc.getxPos()] = piece;
+    	
     }
     
     public Piece getPiece(Location loc){
@@ -25,6 +28,9 @@ public class Room {
     
     public Piece removePiece(Location loc){
     	Piece piece = board[loc.getyPos()][loc.getxPos()];
+    	if(piece != null){
+    		piece.setPosition(null);
+    	}
     	board[loc.getyPos()][loc.getxPos()] = null;
     	return piece;
     }
