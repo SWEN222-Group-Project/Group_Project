@@ -108,6 +108,8 @@ public class Game {
 		p.removeItem(item); //removes item from player;
 		Room playerRoom = p.getPosition().getRoom(); //making local variable prevent it from changing by other threads
 //		Location emptySpace = getAdjacentSpace(playerRoom, loc);
+		//piece has additems method that calls addItems of 
+		
 		playerRoom.addPiece(emptySpace, item); //adds item to the location inside room
 	}
 	

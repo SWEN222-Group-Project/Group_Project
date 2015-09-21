@@ -17,6 +17,9 @@ public class Room {
     }
     
     public void addPiece(Location loc, Piece piece){
+    	//calls 
+    	//somehow adds all items in Piece. if piece is a leaf then it is added
+    	//but if the piece is a composite then all its pieces must also be added
     	piece.setPosition(new Position(this, loc));
     	board[loc.getyPos()][loc.getxPos()] = piece;
     	
