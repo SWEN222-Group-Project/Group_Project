@@ -2,14 +2,22 @@ package model;
 
 public abstract class Piece {	
 	private Position position;
-	
-	public Piece(Position position){
+	private String name;
+	private String description;
+	public Piece(Position position, String name, String description){
 		this.position = position;
+		this.name = name;
+		this.description = description;
 	}
 	
 	public Position getPosition(){
 		return position;
 	}
+	
+	public String getDescription(){
+		return description;
+	}
+	
 	
 	public void setPosition(Position position){
 		this.position = position;
@@ -27,7 +35,9 @@ public abstract class Piece {
 	 * Returns the name of the peice
 	 * @return
 	 */
-	public abstract String getName();
+	public String getName(){
+		return name;
+	}
 	
 	public abstract String toString();
 }

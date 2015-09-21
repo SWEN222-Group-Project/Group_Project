@@ -24,4 +24,8 @@ public class Position {
 	public void setLocation(Location loc){
 		this.location = new Location(loc.getxPos(), loc.getyPos());
 	}
+
+	public boolean isAdjacentTo(Location newLocation) {
+		return this.location.isNextTo(newLocation);
+	}
 }

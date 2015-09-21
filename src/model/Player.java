@@ -3,8 +3,6 @@ import java.util.*;
 
 public class Player extends Piece {
 	public static final int MAX_ITEMS = 4;
-	
-	private String name; //player name
 	private List<Piece> container;
 	
 	//Player ID: this can be used to access the player when it is in a Game
@@ -15,23 +13,20 @@ public class Player extends Piece {
 
 
 	public Player (int playerId, String name, Position pos, PlayerDirection direction){
-		super(pos);
+		super(pos, name, null);
 		this.id = playerId;
-		this.name = name;
 		this.direction = direction;
 		this.container = new ArrayList<Piece>();
 		
 	}
 	
-	public String getName(){
-		return name;
-	}
 
 	public int id(){
 		return id;
 	}
 
 	public void addItem(Piece p){
+		//
 		this.container.add(p);
 	}
 	
@@ -49,6 +44,10 @@ public class Player extends Piece {
 		return container;
 	}
 	
+	public boolean hasItems(){
+		return container.isEmpty();
+	}
+
 	/**
 	 * Turn direction of the player to right of its current direction
 	 */
@@ -78,6 +77,6 @@ public class Player extends Piece {
 	}
 	
 	public String toString(){
-		return name.substring(0, 1);
+		return "" + id;
 	}
 }
