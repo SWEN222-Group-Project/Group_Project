@@ -68,7 +68,7 @@ public class Game {
 		playerRoom.removePiece(playerLoc);
 		
 		playerRoom.addPiece(playerLoc, player);
-		player.setPosition(pos);
+//		player.setPosition(pos);
 		//must remove player from previous position
 	}
 
@@ -87,7 +87,7 @@ public class Game {
 		Room room = player.getRoom();
 		room.removePiece(playerPos.getLocation());
 		room.addPiece(loc, player);
-		players.get(playerId).setLocation(loc);
+//		players.get(playerId).setLocation(loc);
 	}
 	
 	/**
@@ -95,13 +95,11 @@ public class Game {
 	 * @param playerId
 	 * @param pos
 	 */
-	public void pickItem(int playerId, Position pos){
-		Room itemRoom = pos.getRoom();
-		Location itemLoc = pos.getLocation();
+	public void pickItem(int playerId, Room itemRoom, Location itemLoc){
 		Piece item = itemRoom.removePiece(itemLoc); //remove piece from room to add to player's container
 		if(item != null){
 			players.get(playerId).addItem(item); //add item to container of player	
-		}
+		}	
 	}
 	
 	public void dropItem(int playerID, Piece item, Location emptySpace){
@@ -119,8 +117,9 @@ public class Game {
 	 * @param room
 	 * @return
 	 */
-	public Location getAdjacentSpace(Room room, Location location){
-	
+	public Location getAdjacentSpace(Position position){
+		Location location = position.getLocation();
+		Room room = position.getRoom();
 		Location tempLoc;
 		tempLoc = location.getNorth();
 		if(room.getPiece(tempLoc) == null){
