@@ -1,5 +1,5 @@
 package model;
-import controller.*;
+import control.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +28,7 @@ public class ModelMain {
 		}
 	}
 	
-	private static void movePlayer(Controller game, Player p, Piece dropPiece){
+	private static void movePlayer(Control game, Player p, Piece dropPiece){
 		int playerId = p.id();
 		while(true){
 			Location location = p.getPosition().getLocation();
@@ -63,7 +63,7 @@ public class ModelMain {
 		
 	}
 	
-	private static void testDropping(Controller controller, int playerId, Piece pieceToDrop){		
+	private static void testDropping(Control controller, int playerId, Piece pieceToDrop){		
 		controller.dropItem(playerId, pieceToDrop);
 		System.out.println("Dropping item");
 		controller.printAll();		
@@ -81,7 +81,7 @@ public class ModelMain {
 		game.addPlayer(p1); //test adding player
 		game.addPlayer(p2);
 		game.printAll(); //this will print all of the rooms
-		Controller controller = new Controller(game);
+		Control controller = new Control(game);
 		movePlayer(controller, p1, p2); //test moving player
 	}
 }
