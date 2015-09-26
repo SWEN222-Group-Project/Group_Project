@@ -54,6 +54,12 @@ public class Game {
 		return true;
 	}
 	
+	
+	public void addPiece(Piece piece, Position position){
+		Room room = position.getRoom();
+		room.addPiece(position.getLocation(), piece);
+	}
+	
 	//add item(room, location): method used by parser to add items such as chest into a room
 	/**
 	 * Moves player to position: pos. Used to move a player to a specific room in a specific location.
@@ -95,11 +101,26 @@ public class Game {
 	 * @param playerId
 	 * @param pos
 	 */
-	public void pickItem(int playerId, Room itemRoom, Location itemLoc){
-		Piece item = itemRoom.removePiece(itemLoc); //remove piece from room to add to player's container
-		if(item != null){
-			players.get(playerId).addItem(item); //add item to container of player	
+	public synchronized void pickItem(int playerId, Room itemRoom, Location itemLoc){
+//		Piece item = itemRoom.removePiece(itemLoc); //remove piece from room to add to player's container
+		Piece piece = itemRoom.getPiece(itemLoc);
+		//item has to be of type: ITEM
+		if(piece instanceof Item){
+			Player player = players.get(playerId);
+//			player.addItem(item); //add item to container of player
+			Item item = (Item) piece; //safe
+			item.addTo(player, itemLoc);
+			//we should be able to place a cast on item : (Item) item
+			//call addTo(player) method of item: this method adds item to player.
+				//if composite: it adds all items inside it to the player, then adds itself
+				//if leaf: it adds itself to the player
+				//sidenote: if movable, then it can add safely
+				//			otherwise, the setPosition(null) method of item should throw error
+			//In addTo(player) the item will first addItem to player and then removePiece from room.
+			//
 		}	
+		//TODO: should add and then remove item
+		//
 	}
 	
 	public void dropItem(int playerID, Piece item, Location emptySpace){
@@ -108,6 +129,8 @@ public class Game {
 		p.removeItem(item); //removes item from player;
 		Room playerRoom = p.getPosition().getRoom(); //making local variable prevent it from changing by other threads
 //		Location emptySpace = getAdjacentSpace(playerRoom, loc);
+		//piece has additems method that calls addItems of 
+		
 		playerRoom.addPiece(emptySpace, item); //adds item to the location inside room
 	}
 	
@@ -157,7 +180,7 @@ public class Game {
 		//create room
 		Room room = new Room("Practise Room");
 		Position pos1 = new Position(room, new Location(1,1));
-		Player p1 = new Player(1, "Harman", pos1, PlayerDirection.NORTH);
+		Player p1 = new Player(1, "Harman", pos1, Direction.NORTH);
 		room.addPiece(pos1.getLocation(), p1);
 		room.printRoom();
 		

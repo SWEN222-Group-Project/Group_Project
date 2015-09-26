@@ -18,6 +18,7 @@ public class Control {
 		if(!currentPos.isAdjacentTo(destination)){
 			//throw exception ("You can only move one square at a time.\nClick or use arrow keys.)
 		}
+		
 		Room currentRoom = currentPos.getRoom();
 		Piece piece = currentRoom.getPiece(destination);
 		
@@ -33,11 +34,13 @@ public class Control {
 //			return;
 //		}
 		if(piece != null){
-			//pick up item
+			//pick up ITEM
 			//TODO: could be coin
 			game.pickItem(playerId, currentRoom, destination);
 			System.out.println("*Picking item at location " + destination);
+			return;
 		}
+		System.out.println("moving player");
 		game.movePlayer(playerId, destination); //move player		
 	}
 	
