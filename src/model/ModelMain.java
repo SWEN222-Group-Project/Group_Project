@@ -4,6 +4,7 @@ import control.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 /**
  * Run this class to test the Model features
@@ -33,7 +34,7 @@ public class ModelMain {
 		while(true){
 			Location location = p.getPosition().getLocation();
 			
-			String cmd = inputString("[w/a/s/d/q] or any key to exit").toLowerCase();
+			String cmd = inputString("[w/a/s/d/q/l/f] or any key to exit").toLowerCase();
 			if (cmd.equals("w")){
 				//go up
 				System.out.println(location.getNorth());
@@ -53,7 +54,10 @@ public class ModelMain {
 			} else if (cmd.equals("q")){
 				//go right
 				game.dropItem(playerId, dropPiece);
-			} else {
+			}else if (cmd.equals("l")){
+				//list container of player
+				System.out.println(p.container());
+			}else {
 				//press any other key to exit the method
 				System.out.println("ending move");
 				break;
@@ -74,14 +78,23 @@ public class ModelMain {
 		Room room = new Room("Practise Room");
 		Position pos1 = new Position(room, new Location(1,1));
 		Position pos2 = new Position(room, new Location(7,4));
-		Player p1 = new Player(1, "1Harman", pos1, PlayerDirection.NORTH);
-		Player p2 = new Player(2, "2Harman", pos2, PlayerDirection.SOUTH);
+		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
+//		Player p2 = new Player(2, "2Harman", pos2, Direction.SOUTH);
+		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
+		ItemsComposite chest = new ItemsComposite(pos2, "h", "Chest",Direction.NORTH);
+		chest.addStrategy(new NonMovableStrategy());
+		chest.addItem(coin);
+		
+		
+		
 		Game game = new Game();
+
+		game.addPiece(chest, pos2);
 		game.addRoom(room); //test adding room
 		game.addPlayer(p1); //test adding player
-		game.addPlayer(p2);
+//		game.addPlayer(p2);
 		game.printAll(); //this will print all of the rooms
 		Control controller = new Control(game);
-		movePlayer(controller, p1, p2); //test moving player
+		movePlayer(controller, p1, coin); //test moving player
 	}
 }
