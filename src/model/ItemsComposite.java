@@ -57,7 +57,7 @@ public class ItemsComposite extends Item {
 		public String getDescription(ItemsComposite composite);
 	}
 	
-	public class ItemIterator implements Iterator<Item>{
+	private class ItemIterator implements Iterator<Item>{
 		int counter;
 
 		public ItemIterator(){
