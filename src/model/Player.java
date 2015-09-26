@@ -2,20 +2,15 @@ package model;
 import java.util.*;
 
 public class Player extends Piece {
-	public static final int MAX_ITEMS = 4;
+	public static final int MAX_ITEMS = 8;
 	private List<Piece> container;
-	
+//	private int points
 	//Player ID: this can be used to access the player when it is in a Game
 	private int id;
 	
-	//The direction the player is facing
-	private PlayerDirection direction;
-
-
-	public Player (int playerId, String name, Position pos, PlayerDirection direction){
-		super(pos, name, null);
+	public Player (int playerId, String name, Position pos, Direction direction){
+		super(pos, name, null,direction);
 		this.id = playerId;
-		this.direction = direction;
 		this.container = new ArrayList<Piece>();
 		
 	}
@@ -25,9 +20,16 @@ public class Player extends Piece {
 		return id;
 	}
 
-	public void addItem(Piece p){
-		//
-		this.container.add(p);
+	public boolean addItem(Piece p){
+		if(container.size() <= MAX_ITEMS){
+		//if full then throw exception
+		//TODO: need a addItems method in Piece class that gets a list of
+		//first 
+			this.container.add(p);
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public void addItems(List<Piece> pieces){
@@ -46,34 +48,6 @@ public class Player extends Piece {
 	
 	public boolean hasItems(){
 		return container.isEmpty();
-	}
-
-	/**
-	 * Turn direction of the player to right of its current direction
-	 */
-	public void turnRight(){
-		this.setDirection(getDirection().clockwise());
-	}
-
-	/**
-	 * Turn direction of player to left of its current direction
-	 */
-	public void turnLeft(){
-		this.setDirection(getDirection().anticlockwise());
-	}
-
-	/**
-	 * Get the current direction of the player
-	 */
-	public PlayerDirection getDirection() {
-		return direction;
-	}
-
-	/**
-	 * Sets the direction of the player
-	 */
-	public void setDirection(PlayerDirection direction) {
-		this.direction = direction;
 	}
 	
 	public String toString(){
