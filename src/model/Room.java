@@ -1,7 +1,7 @@
 package model;
 
 public class Room {
-	public final static int ROOM_WIDTH = 9; 
+	public final static int ROOM_WIDTH = 10; 
     private Piece[][] board; //underlying structure of each room
     private String name;
     
@@ -20,6 +20,7 @@ public class Room {
     	//calls 
     	//somehow adds all items in Piece. if piece is a leaf then it is added
     	//but if the piece is a composite then all its pieces must also be added
+    	//
     	piece.setPosition(new Position(this, loc));
     	board[loc.getyPos()][loc.getxPos()] = piece;
     	
@@ -31,7 +32,9 @@ public class Room {
     
     public Piece removePiece(Location loc){
     	Piece piece = board[loc.getyPos()][loc.getxPos()];
-    	if(piece != null){
+    	
+    	if(piece != null){ 
+    		//TODO: if piece instance of item then setPosition. if bookcase then setPosition throws error 
     		piece.setPosition(null);
     	}
     	board[loc.getyPos()][loc.getxPos()] = null;
