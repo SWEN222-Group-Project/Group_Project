@@ -57,4 +57,10 @@ public class Room {
     public String toString(){
     	return name;
     }
+
+	public Piece[][] getBoard() {
+		return board;
+	}
+    
+    
 }

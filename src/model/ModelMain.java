@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 
 import UI.GameFrame;
 import control.Control;
+import static model.Player.*;
 
 /**
  * Run this class to test the Model features
@@ -74,7 +75,12 @@ public class ModelMain {
 	}
 	
 	public static void main(String[] args){
+		Room room = new Room("Practise Room");
+		Position pos1 = new Position(room, new Location(1,5));
+		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
 		Game game = new Game();
-		new GameFrame(game);
+		game.addRoom(room); //test adding room
+		game.addPlayer(p1); //test adding player
+		new GameFrame(game,1);
 	}
 }

@@ -1,12 +1,15 @@
 package model;
 
+import java.awt.Graphics;
+
 public abstract class Piece {	
 	private Position position;
 	private String name;
 	private String description;
 	private Direction direction;
-	
-	
+	private int X;
+	private int Y;
+
 	public Piece(Position position, String name, String description, Direction direction){
 		this.position = position;
 		this.name = name;
@@ -73,5 +76,23 @@ public abstract class Piece {
 	
 	public String toString(){
 		return name;
+	}
+	
+	public abstract void draw(Graphics g);
+	
+	public int getX() {
+		return X;
+	}
+
+	public void setX(int x) {
+		X = x;
+	}
+
+	public int getY() {
+		return Y;
+	}
+
+	public void setY(int y) {
+		Y = y;
 	}
 }

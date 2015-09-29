@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -47,5 +48,11 @@ public class ItemsComposite extends Item {
 		public void addTo(Player player, ItemsComposite composite, Location location);
 		
 		public String getDescription(ItemsComposite composite);
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 }

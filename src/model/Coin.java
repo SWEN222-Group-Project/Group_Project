@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Graphics;
+
 public class Coin extends Item{
 	public static int VALUE = 1; //THIS IS POINT THAT ONE COIN CORRESPONDS TO
 
@@ -16,6 +18,12 @@ public class Coin extends Item{
 				//increase point counter of player by 1
 			}
 		}
+		
+	}
+
+	@Override
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
 		
 	}
 

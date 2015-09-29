@@ -1,6 +1,8 @@
 package model;
 import java.util.*;
 
+import control.Control;
+
 public class Game {
 	
 	public static final int MAX_PLAYERS = 4; //Maximum players able to play one game
@@ -8,7 +10,10 @@ public class Game {
 	private ArrayList<Room> rooms;
 	//Following maps the integer (ID) to a specific player. Allows easy communication b/w server & client
 	private Map<Integer, Player> players;
-	
+	public Room room;
+	public Position pos1;
+	public Position pos2;
+	public ArrayList<Position> posList = new ArrayList<Position>();
 	//Following maintains the starting position of a player:
 	//The Position is determined by the room and location inside the room
 	//private List<Portal> playerPortals = new LinkedList<Portal>();
@@ -23,8 +28,18 @@ public class Game {
 		this.rooms = new ArrayList<Room>();
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
+		start();
 	}
 	
+	private void start() {
+		// TODO Auto-generated method stub
+		room = new Room("Practise Room");
+		pos1 = new Position(room, new Location(1,1));
+		pos2 = new Position(room, new Location(1,2));
+		posList.add(pos1);
+		posList.add(pos2);
+	}
+
 	public Game(ArrayList<Room> rooms){
 		this.rooms = rooms;
 		this.hasWon = false;
@@ -52,12 +67,6 @@ public class Game {
 		Position pos = player.getPosition();
 		player.getRoom().addPiece(pos.getLocation(), player); //adds player to their room
 		return true;
-	}
-	
-	
-	public void addPiece(Piece piece, Position position){
-		Room room = position.getRoom();
-		room.addPiece(position.getLocation(), piece);
 	}
 	
 	//add item(room, location): method used by parser to add items such as chest into a room
@@ -101,26 +110,11 @@ public class Game {
 	 * @param playerId
 	 * @param pos
 	 */
-	public synchronized void pickItem(int playerId, Room itemRoom, Location itemLoc){
-//		Piece item = itemRoom.removePiece(itemLoc); //remove piece from room to add to player's container
-		Piece piece = itemRoom.getPiece(itemLoc);
-		//item has to be of type: ITEM
-		if(piece instanceof Item){
-			Player player = players.get(playerId);
-//			player.addItem(item); //add item to container of player
-			Item item = (Item) piece; //safe
-			item.addTo(player, itemLoc);
-			//we should be able to place a cast on item : (Item) item
-			//call addTo(player) method of item: this method adds item to player.
-				//if composite: it adds all items inside it to the player, then adds itself
-				//if leaf: it adds itself to the player
-				//sidenote: if movable, then it can add safely
-				//			otherwise, the setPosition(null) method of item should throw error
-			//In addTo(player) the item will first addItem to player and then removePiece from room.
-			//
+	public void pickItem(int playerId, Room itemRoom, Location itemLoc){
+		Piece item = itemRoom.removePiece(itemLoc); //remove piece from room to add to player's container
+		if(item != null){
+			players.get(playerId).addItem(item); //add item to container of player	
 		}	
-		//TODO: should add and then remove item
-		//
 	}
 	
 	public void dropItem(int playerID, Piece item, Location emptySpace){
@@ -129,8 +123,6 @@ public class Game {
 		p.removeItem(item); //removes item from player;
 		Room playerRoom = p.getPosition().getRoom(); //making local variable prevent it from changing by other threads
 //		Location emptySpace = getAdjacentSpace(playerRoom, loc);
-		//piece has additems method that calls addItems of 
-		
 		playerRoom.addPiece(emptySpace, item); //adds item to the location inside room
 	}
 	

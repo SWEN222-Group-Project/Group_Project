@@ -1,13 +1,16 @@
 package UI;
 
+import static UI.GameCanvas.TILE_HEIGHT;
+import static UI.GameCanvas.TILE_WIDTH;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -22,18 +25,11 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
-import model.Coin;
-import model.Direction;
 import model.Game;
-import model.ItemsComposite;
-import model.Location;
-import model.NonMovableStrategy;
 import model.Player;
-import model.Position;
-import model.Room;
 
 @SuppressWarnings("serial")
-public class GameFrame extends JFrame implements MouseListener, ActionListener{
+public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private final GameCanvas canvas;
 	private JPanel screen;
 	private JMenuBar menuBar;
@@ -45,10 +41,12 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	private JMenuItem aboutItem;
 	private JMenuItem howToPlayItem;
 	private JMenuItem controlsItem;
-	
-	public GameFrame(Game game) {
+	Game game;
+	int id;
+	public GameFrame(Game game, int id) {
+		this.id = id;
+		this.game = game;
 		canvas = new GameCanvas(this, game); //new canvas
-		canvas.addMouseListener(this); //add mouse listener onto canvas
 		setLayout(new BorderLayout()); //set layout as border
 		add(canvas);// add canvas
 		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //disable close button					
@@ -147,7 +145,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	 */
 	public void newGame() {
 		this.dispose(); //remove current frame
-		new GameFrame(new Game()); //create new game frame game
+		new GameFrame(new Game(), 1); //create new game frame game
 	}
 	
 	public void repaint(){
@@ -160,20 +158,58 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	
 	public static void main(String[] args){
 		Game game = new Game();
-		new GameFrame(game);
+		new GameFrame(game, 1);
 	}
 
 	//Unimplemeted methods
 	@Override
-	public void actionPerformed(ActionEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+	}
 	@Override
-	public void mouseReleased(MouseEvent e) {}
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void keyPressed(KeyEvent e) {
+		/*int cmd = e.getKeyCode();
+		Player player = game.getPlayer(id);
+		int realX = player.getrealX();
+		int realY = player.getrealY();
+		int posRealX = (newPosition.getyPos()*TILE_WIDTH)/10;
+		int posRealY = (newPosition.getxPos()*TILE_HEIGHT)/10;
+		
+		if(cmd == KeyEvent.VK_UP){
+			direction = NORTH;
+			posRealX=realX+32;
+			posRealY=realY-16;
+			//set new realX and realY here of the player
+			//location.getNorth()
+			break;
+		}
+		else if(cmd == KeyEvent.VK_RIGHT){
+			direction = 1;
+			x=x+32;
+			y=y+16;
+			break;
+		}
+		else if(cmd == KeyEvent.VK_DOWN){
+			direction = 2;
+			x=x-32;
+			y=y+16;
+			break;
+		}
+		else if(cmd == KeyEvent.VK_LEFT){
+			direction = 3;
+			x=x-32;
+			y=y-16;
+			break;
+		}*/
+	}
 }
