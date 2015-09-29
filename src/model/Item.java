@@ -1,6 +1,8 @@
 package model;
 
-public abstract class Item extends Piece {
+import java.io.Serializable;
+
+public abstract class Item extends Piece implements Serializable {
 
 	public Item(Position position, String name, String description,
 			Direction direction) {

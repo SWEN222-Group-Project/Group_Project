@@ -1,18 +1,22 @@
 package model;
 
-public class Room {
+import java.io.Serializable;
+
+public class Room implements Serializable {
 	public final static int ROOM_WIDTH = 10; 
     private Piece[][] board; //underlying structure of each room
     private String name;
     
     public Room(String name){
-    	this.board = new Piece[ROOM_WIDTH][ROOM_WIDTH];
+    	this. board = board;
+    	board = new Piece[ROOM_WIDTH][ROOM_WIDTH];
+    	
 //    	addWalls();
-    	this.name = name;
+    	this.setName(name);
     }
     
     public Room(String name, Piece[][] board){
-    	this.name = name;
+    	this.setName(name);
     	this.board = board;
     }
     
@@ -55,11 +59,25 @@ public class Room {
     }
     
     public String toString(){
-    	return name;
+    	return getName();
     }
 
 	public Piece[][] getBoard() {
 		return board;
+	}
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	private void setName(String name) {
+		this.name = name;
 	}
     
     

@@ -1,8 +1,9 @@
 package model;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public class Coin extends Item{
+public class Coin extends Item implements Serializable {
 	public static int VALUE = 1; //THIS IS POINT THAT ONE COIN CORRESPONDS TO
 
 	public Coin(Position position, String name, String description,

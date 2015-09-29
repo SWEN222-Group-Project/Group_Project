@@ -13,17 +13,16 @@ import model.Direction;
 import model.Game;
 import model.Player;
 
-
 public class Main {
 	
-	static String host = null;	// server
-	//static String host = "localhost";
+	static String host = null;
 	static int port = 32768; // default
 	static boolean server = true;
 	static int nclients = 2;
 	static int id = 1;
-	 public static Game game;// = new Game();
-	 static List<Player> players = new ArrayList<Player>();
+	public static Game game;
+	static List<Player> players = new ArrayList<Player>();
+	static List<String> users = new ArrayList<String>();
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		// Sanity checks
@@ -34,18 +33,16 @@ public class Main {
 		
 		if(server) {
 			// Run in Server mode
-			//Board board = createBoardFromFile(filename,nHomerGhosts,nRandomGhosts);
 			game = new Game();
 			runServer(port,nclients,game);			
 		}
-		
-		//System.exit(0);
+
 	}
 	
 	private static void runServer(int port2, int nclients2, Game g) {
 		// Listen for connections
-				System.out.println("PACMAN SERVER LISTENING ON PORT " + port2);
-				System.out.println("PACMAN SERVER AWAITING " + nclients2 + " CLIENTS");
+				System.out.println("SERVER LISTENING ON PORT " + port2);
+				System.out.println("SERVER AWAITING " + nclients2 + " CLIENTS");
 				try {
 					Server[] connections = new Server[nclients2];
 					// Now, we await connections.
@@ -59,18 +56,11 @@ public class Main {
 			            players.add(p);
 			            game.addPlayer(p);
 			            game.addRoom(game.room);
-//						ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
-//						oos.writeObject(game);
-//						oos.close();
-			        	
-						connections[--nclients2] = new Server(s,id,g);
+			        	Control controller = new Control(game);
+						connections[--nclients2] = new Server(s,id,g, controller);
 						connections[nclients2].start();				
 						if(nclients2 == 0) {
-							
-							Control controller = new Control(game);
 							System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
-							//multiUserGame(clk,game,connections);
-							//System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 							return; // done
 						}
 						id++;

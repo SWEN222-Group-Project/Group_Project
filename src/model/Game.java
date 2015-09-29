@@ -1,16 +1,17 @@
 package model;
+import java.io.Serializable;
 import java.util.*;
 
 import control.Control;
 
-public class Game {
+public class Game implements Serializable {
 	
 	public static final int MAX_PLAYERS = 4; //Maximum players able to play one game
 	
 	private ArrayList<Room> rooms;
 	//Following maps the integer (ID) to a specific player. Allows easy communication b/w server & client
 	private Map<Integer, Player> players;
-	public Room room;
+	public Room room;// = new Room("Practice Room");
 	public Position pos1;
 	public Position pos2;
 	public ArrayList<Position> posList = new ArrayList<Position>();
@@ -25,6 +26,7 @@ public class Game {
 	 * TODO: have a parser class that actually creates this Game based on the text file. 
 	 */
 	public Game(){
+		//room = new Room("Practice Room");
 		this.rooms = new ArrayList<Room>();
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
@@ -35,7 +37,7 @@ public class Game {
 		// TODO Auto-generated method stub
 		room = new Room("Practise Room");
 		pos1 = new Position(room, new Location(1,1));
-		pos2 = new Position(room, new Location(1,2));
+		pos2 = new Position(room, new Location(9,9));
 		posList.add(pos1);
 		posList.add(pos2);
 	}
@@ -50,8 +52,9 @@ public class Game {
 		this.rooms.add(room);
 	}
 	
-	public Player getPlayer(int playerId){
-		return players.get(playerId);
+	public Player getPlayer(int pid){//(int playerId){
+		System.out.println(players.get(pid));
+		return players.get(pid);
 	}
 	
 	/**

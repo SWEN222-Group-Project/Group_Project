@@ -1,8 +1,9 @@
 package model;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 
-public abstract class Piece {	
+public abstract class Piece implements Serializable {	
 	private Position position;
 	private String name;
 	private String description;
@@ -95,4 +96,6 @@ public abstract class Piece {
 	public void setY(int y) {
 		Y = y;
 	}
+	
+	
 }

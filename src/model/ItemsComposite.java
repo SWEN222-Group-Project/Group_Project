@@ -1,12 +1,13 @@
 package model;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-public class ItemsComposite extends Item {
+public class ItemsComposite extends Item implements Serializable {
 	private AddStrategy strategy;
 	private List<Item> items = new ArrayList<Item>(); //this is the composite collection
 	

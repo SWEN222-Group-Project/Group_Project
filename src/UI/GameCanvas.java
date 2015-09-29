@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import model.*;
 
 	@SuppressWarnings("serial")
-	public class GameCanvas extends JPanel {
+	public class GameCanvas extends JPanel implements MouseListener {
 
 		private static GameFrame frame;
 		private static final int PADDING_TOP = 5;
@@ -30,6 +30,7 @@ import model.*;
 		Game game;
 		
 		public GameCanvas(GameFrame frame, Game game) {
+			this.addMouseListener(this);
 			this.game = game;
 		
 		}
@@ -61,7 +62,9 @@ import model.*;
 		public void paint(Graphics g){
 			g.setColor(Color.BLACK);
 			g.fillRect(PADDING_TOP, PADDING_LEFT, CANVAS_WIDTH, CANVAS_HEIGHT);
-			Room room = game.getPlayer(id).getRoom();
+			
+			Room room = game.getPlayer(1).getRoom(); //getPlayer(id)
+			System.out.println(room.getName() + "test");
 			Piece[][] board = room.getBoard();
 			for(int row = 0; row < board.length; row++){
 				for(int col = board[row].length-1; col >= 0; col--){
@@ -72,6 +75,7 @@ import model.*;
 						g.drawImage(loadImage("wallTileNorthMiddle.png"), xPosTile+START_X, yPosWall+START_Y, TILE_WIDTH, WALL_HEIGHT, null);
 					}
 					else if(board[row][col] !=null){
+//						System.out.println("X: " + board[row][col].getX());
 						board[row][col].draw(g);
 					}
 					else{
@@ -80,5 +84,23 @@ import model.*;
 					}
 				}
 			}
+		}
+			
+		
+		//Unimplemented methods
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
 		}
 	}

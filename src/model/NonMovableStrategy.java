@@ -1,8 +1,10 @@
 package model;
 
+import java.io.Serializable;
+
 import model.ItemsComposite.AddStrategy;
 
-public class NonMovableStrategy implements AddStrategy{
+public class NonMovableStrategy implements AddStrategy, Serializable{
 
 	@Override
 	public void addTo(Player player, ItemsComposite composite, Location location) {

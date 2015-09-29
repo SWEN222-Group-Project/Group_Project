@@ -14,7 +14,7 @@ public class Control {
 	//TODO: need the fame class that is the view component.
 	
 	public void movePlayer(int playerId, Location destination){
-		Position currentPos = game.getPlayer(playerId).getPosition();
+		Position currentPos = game.getPlayer(playerId).getPosition();//getPlayer(playerId);
 		if(!currentPos.isAdjacentTo(destination)){
 			//throw exception ("You can only move one square at a time.\nClick or use arrow keys.)
 		}

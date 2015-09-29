@@ -23,7 +23,6 @@ public class Client implements KeyListener{
 	
 	public Client(Socket socket) {
 		this.socket = socket;
-		//this.game = game;
 	}
 
 	public void run() {
@@ -34,33 +33,13 @@ public class Client implements KeyListener{
 			game = (Game) ois.readObject();
 			// First job, is to read the period so we can create the clock				
 			//uid = input.readInt();					
-			//System.out.println("PACMAN CLIENT UID: " + uid);		
-			//game = new Board(width,height);
 			
-			//ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-			
-			//ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
-			
-			//game = (Game) ois.readObject();
-			//ois.close();
-			
-			
-			 GameFrame g = new GameFrame(game,uid);			
-			//boolean exit=false;
-			//long totalRec = 0;
-
-			//while(!exit) {
-				// read event
-				//int amount = input.readInt();
-				//byte[] data = new byte[amount];
-				//input.readFully(data);					
-				//game.fromByteArray(data);				
-				//display.repaint();
-				//totalRec += amount;
-				// print out some useful information about the amount of data
-				// sent and received		
-			//}
-			//socket.close(); // release socket ... v.important!
+			output = new DataOutputStream(socket.getOutputStream());
+			input = new DataInputStream(socket.getInputStream());
+			 GameFrame g = new GameFrame(game,uid);
+			 g.addKeyListener(this);
+//			 new ClockThread(g).start();
+			socket.close(); // release socket ... v.important!
 		} catch(IOException e) {
 			System.err.println("I/O Error: " + e.getMessage());
 			e.printStackTrace(System.err);
@@ -79,28 +58,40 @@ public class Client implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		System.out.println("yay");
+		System.out.println("Client: 35");
 		try {
 			int code = e.getKeyCode();
-			if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {													
+			
+			if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {	
+				System.out.println("Client: RIGHT");
 				output.writeInt(3);
 				//totalSent += 4;
-			} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {				
+			} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {	
+				System.out.println("Client: LEFT");
 				output.writeInt(4);
 				//totalSent += 4;
-			} else if(code == KeyEvent.VK_UP) {				
+			} else if(code == KeyEvent.VK_UP) {	
+				System.out.println("Client: UP");
 				output.writeInt(1);
+				System.out.println("Client: written 69");
 				//totalSent += 4;
-			} else if(code == KeyEvent.VK_DOWN) {						
+			} else if(code == KeyEvent.VK_DOWN) {	
+				System.out.println("Client: DOWN");
 				output.writeInt(2);
 				//totalSent += 4;
-			}
-			output.flush();
-		} catch(IOException ioe) {
+			}output.flush();
+			
+			//**** uncomment this to see that game does not change ***//
+//			System.out.println("Printing Game");
+//			game.printAll();
+			
+			} catch(IOException ioe) {
 			// something went wrong trying to communicate the key press to the
 			// server.  So, we just ignore it.
-		}
-		
+			} finally {
+//				g.repaint();
+//				System.out.println("repaint");
+			}
 	}
 
 	@Override

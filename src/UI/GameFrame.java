@@ -11,6 +11,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -43,6 +46,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private JMenuItem controlsItem;
 	Game game;
 	int id;
+	
+	private DataOutputStream output;
+	private DataInputStream input;
+	
 	public GameFrame(Game game, int id) {
 		this.id = id;
 		this.game = game;
@@ -138,6 +145,47 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		screen.add(mapPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
+//		this.addKeyListener(new KeyListener(){
+//			
+//			public void keyPressed(KeyEvent e) {
+//				System.out.println("GameFrame: 144");
+//				try {
+//					int code = e.getKeyCode();
+//					if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {	
+//						System.out.println("GameFrame: RIGHT");
+//						output.writeInt(3);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {	
+//						System.out.println("GameFrame: LEFT");
+//						output.writeInt(4);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_UP) {	
+//						System.out.println("GameFrame: UP");
+//						output.writeInt(1);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_DOWN) {	
+//						System.out.println("GameFrame: DOWN");
+//						output.writeInt(2);
+//						//totalSent += 4;
+//					}output.flush();
+//					} catch(IOException ioe) {
+//					// something went wrong trying to communicate the key press to the
+//					// server.  So, we just ignore it.
+//				}
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}});
+		this.setFocusable(true);
 		setVisible(true); //show frame
 	}
 	/**

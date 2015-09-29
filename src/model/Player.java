@@ -2,17 +2,18 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static UI.GameCanvas.*;
 
-public class Player extends Piece {
+public class Player extends Piece implements Serializable {
 	public static final int MAX_ITEMS = 8;
 	private static final int PLAYER_WIDTH = 45;
 	private static final int PLAYER_HEIGHT = 100;
-	private static int PLAYERX = 420;
-	private static int PLAYERY = 332;
+	private  int PLAYERX = 420;
+	private  int PLAYERY = 332;
 	private List<Piece> container;
 	Direction dir = getDirection();
 	
@@ -87,27 +88,43 @@ public class Player extends Piece {
 	
 
 	public void moveUp() {
-		System.out.println("hello");
 		PLAYERX = PLAYERX + 40;
 		PLAYERY = PLAYERY + 20;
+		System.out.println("moveup");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveDown() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX - 40;
+		PLAYERY = PLAYERY - 20;
+		System.out.println("Move down");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveRight() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX - 20;
+		PLAYERY = PLAYERY - 40;
+		System.out.println("Move right");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveLeft() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX + 20;
+		PLAYERY = PLAYERY + 40;
+		System.out.println("Move left");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 	
 	public void draw(Graphics g){
+		System.out.println("Player :" + id);
+		System.out.println(PLAYERX + "\n" + PLAYERY);
 		g.drawImage(loadImage("character" + id + dir + ".png"), PLAYERX, PLAYERY, PLAYER_WIDTH, PLAYER_HEIGHT, null);
 	}
 }

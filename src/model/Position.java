@@ -1,10 +1,13 @@
 package model;
+
+import java.io.Serializable;
+
 /**
  * TODO: 
  * @author harman
  *
  */
-public class Position {
+public class Position implements Serializable {
 	private Room room;
 	private Location location;
 	
