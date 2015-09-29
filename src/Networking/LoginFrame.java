@@ -49,7 +49,12 @@ public class LoginFrame {
 		Socket sock = new Socket(host2,port2);
 		System.out.println("CLIENT CONNECTED TO " + host2 + ":" + port);
 		Client c = new Client(sock);
-		c.run();
+		Main.clients.add(c);
+		//if(Main.clients.size() == Main.nclients){
+		//	for(Client client: Main.clients){
+				c.run();
+			//}
+		//}
 	}
     
     public static void BuildLogInWindow()
@@ -84,7 +89,6 @@ public class LoginFrame {
          loggedInNameLabel.setBounds(340, 17, 150, 20);
         
         onlineList.setForeground(new java.awt.Color(0, 0, 255));
-        
         onlineScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         onlineScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         onlineScroll.setViewportView(onlineList);
@@ -105,9 +109,10 @@ public class LoginFrame {
                  { 
                      UserName = userNameField.getText().trim();
                      loggedInNameLabel.setText(UserName);
-                     Main.users.add(UserName);
+                     Main.addUser(UserName);
                      try {
 						runClient(host, port);
+						
 					} catch (UnknownHostException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -115,6 +120,7 @@ public class LoginFrame {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
+                 
                  }
                  else
                  {

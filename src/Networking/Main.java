@@ -23,6 +23,7 @@ public class Main {
 	public static Game game;
 	static List<Player> players = new ArrayList<Player>();
 	static List<String> users = new ArrayList<String>();
+	static List<Client> clients = new ArrayList<Client>();
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		// Sanity checks
@@ -69,5 +70,22 @@ public class Main {
 					System.err.println("I/O error: " + e.getMessage());
 				} 
 			}
+
+	public  List<String> getUsers() {
+		return users;
+	}
+
+	public static List<Client> getClients() {
+		return clients;
+	}
+
+	public static void addUser(String user){
+		users.add(user);
+	}
+	public static void setClients(List<Client> clients) {
+		Main.clients = clients;
+	}
+	
+	
 		
 }
