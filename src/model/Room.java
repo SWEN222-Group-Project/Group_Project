@@ -22,8 +22,14 @@ public class Room {
     	//but if the piece is a composite then all its pieces must also be added
     	//
     	piece.setPosition(new Position(this, loc));
+    	
     	board[loc.getyPos()][loc.getxPos()] = piece;
     	
+    }
+    
+    public void addDoor(Door door){
+    	Location loc = door.getPosition().getLocation();
+    	board[loc.getyPos()][loc.getxPos()] = door;
     }
     
     public Piece getPiece(Location loc){
@@ -32,7 +38,7 @@ public class Room {
     
     public Piece removePiece(Location loc){
     	Piece piece = board[loc.getyPos()][loc.getxPos()];
-    	
+    	System.out.println("Coin piece found: " + (piece instanceof Coin));
     	if(piece != null){ 
     		//TODO: if piece instance of item then setPosition. if bookcase then setPosition throws error 
     		piece.setPosition(null);
@@ -41,17 +47,23 @@ public class Room {
     	return piece;
     }
     
-    public void printRoom(){
+    public String printRoom(){
+    	String toReturn = "";
     	for(int i = 0; i < ROOM_WIDTH; i++){
-			System.out.print("|");
+			toReturn += "|";
 			for(int j = 0; j < ROOM_WIDTH; j++){
 				if(board[i][j] != null)
-					System.out.print(board[i][j].toString() + "|");
+//					System.out.print(board[i][j].toString() + "|");
+					toReturn += board[i][j].toString() + "|";
 				else
-					System.out.print("_|");
+					toReturn += "_|";
+//					System.out.print("_|");
+					
 			}
-			System.out.println();
+//			System.out.println();
+			toReturn += "\n";
 		}    	
+    	return toReturn;
     }
     
     public String toString(){
