@@ -31,8 +31,8 @@ public class ItemsComposite extends Item {
 		items.add(item);
 	}
 	@Override
-	public synchronized void addTo(Player player, Location location) {
-		strategy.addTo(player, this,location); //this deals with adding stuff
+	public synchronized boolean addTo(Player player, Location location) {
+		return strategy.addTo(player, this,location); //this deals with adding stuff
 		
 	}
 	
@@ -52,7 +52,7 @@ public class ItemsComposite extends Item {
 		 * Different add strategies implement different algorithms for adding items to player
 		 * @param player
 		 */
-		public void addTo(Player player, ItemsComposite composite, Location location);
+		public boolean addTo(Player player, ItemsComposite composite, Location location);
 		
 		public String getDescription(ItemsComposite composite);
 	}
@@ -79,6 +79,7 @@ public class ItemsComposite extends Item {
 		@Override
 		public void remove(){
 			items.remove(counter-1);
+			counter--;
 		}	
 	}
 }

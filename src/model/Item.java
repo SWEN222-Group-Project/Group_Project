@@ -15,7 +15,7 @@ public abstract class Item extends Piece {
 	 * add item to player
 	 * @param player
 	 */
-	public abstract void addTo(Player player, Location location);
+	public abstract boolean addTo(Player player, Location location);
 	
 	
 	//setPosition(Position) sets the position of all items in Item object. if nonMovable then throw error  
