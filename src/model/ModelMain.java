@@ -1,9 +1,11 @@
 package model;
-import control.*;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import UI.GameFrame;
+import control.Control;
+import static model.Player.*;
 
 /**
  * Run this class to test the Model features
@@ -33,7 +35,7 @@ public class ModelMain {
 		while(true){
 			Location location = p.getPosition().getLocation();
 			
-			String cmd = inputString("[w/a/s/d/q] or any key to exit").toLowerCase();
+			String cmd = inputString("[w/a/s/d/q/l/f] or any key to exit").toLowerCase();
 			if (cmd.equals("w")){
 				//go up
 				System.out.println(location.getNorth());
@@ -53,7 +55,10 @@ public class ModelMain {
 			} else if (cmd.equals("q")){
 				//go right
 				game.dropItem(playerId, dropPiece);
-			} else {
+			}else if (cmd.equals("l")){
+				//list container of player
+				System.out.println(p.container());
+			}else {
 				//press any other key to exit the method
 				System.out.println("ending move");
 				break;
@@ -70,18 +75,12 @@ public class ModelMain {
 	}
 	
 	public static void main(String[] args){
-		//create room
 		Room room = new Room("Practise Room");
-		Position pos1 = new Position(room, new Location(1,1));
-		Position pos2 = new Position(room, new Location(7,4));
-		Player p1 = new Player(1, "1Harman", pos1, PlayerDirection.NORTH);
-		Player p2 = new Player(2, "2Harman", pos2, PlayerDirection.SOUTH);
+		Position pos1 = new Position(room, new Location(1,5));
+		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
 		Game game = new Game();
 		game.addRoom(room); //test adding room
 		game.addPlayer(p1); //test adding player
-		game.addPlayer(p2);
-		game.printAll(); //this will print all of the rooms
-		Control controller = new Control(game);
-		movePlayer(controller, p1, p2); //test moving player
+		new GameFrame(game,1);
 	}
 }

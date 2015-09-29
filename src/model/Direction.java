@@ -1,6 +1,6 @@
 package model;
 
-public enum PlayerDirection {
+public enum Direction {
 		NORTH,
 		EAST,
 		SOUTH,
@@ -9,36 +9,36 @@ public enum PlayerDirection {
 	/**
 	 * @return The Direction 90 degrees clockwise of the current direction
 	 */
-	public PlayerDirection clockwise(){
+	public Direction clockwise(){
 		return intToDirection((this.ordinal() + 1) % 4);
 	}
 
 	/**
 	 * @return The Direction 90 degrees anticlockwise of the current direction
 	 */
-	public PlayerDirection anticlockwise(){
+	public Direction anticlockwise(){
 		return intToDirection((this.ordinal() - 1) % 4);
 	}
 
 	/**
 	 * @return The Direction 180 degrees from the current direction
 	 */
-	public PlayerDirection opposite(){
+	public Direction opposite(){
 		return intToDirection((this.ordinal() + 2 ) % 4);
 	}
 
-	private PlayerDirection intToDirection(int i){
-		return PlayerDirection.values()[i];
+	private Direction intToDirection(int i){
+		return Direction.values()[i];
 	}
 
 	public String toString(){
 		if(this == WEST) 
-			return "Direction: West";
+			return "West";
 		if(this == NORTH)
-			return "Direction North";
+			return "North";
 		if(this == SOUTH)
-			return "Direction South";
+			return "South";
 		else 
-			return "Direction: East";
+			return "East";
 	}
 }

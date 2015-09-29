@@ -1,33 +1,46 @@
 package model;
-import java.util.*;
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
+
+import static UI.GameCanvas.*;
 
 public class Player extends Piece {
-	public static final int MAX_ITEMS = 4;
+	public static final int MAX_ITEMS = 8;
+	private static final int PLAYER_WIDTH = 45;
+	private static final int PLAYER_HEIGHT = 100;
+	private static int PLAYERX = 420;
+	private static int PLAYERY = 332;
 	private List<Piece> container;
+	Direction dir = getDirection();
+	
 	
 	//Player ID: this can be used to access the player when it is in a Game
 	private int id;
 	
-	//The direction the player is facing
-	private PlayerDirection direction;
-
-
-	public Player (int playerId, String name, Position pos, PlayerDirection direction){
-		super(pos, name, null);
+	public Player (int playerId, String name, Position pos, Direction direction){
+		super(pos, name, null, direction);
 		this.id = playerId;
-		this.direction = direction;
 		this.container = new ArrayList<Piece>();
 		
 	}
 	
-
 	public int id(){
 		return id;
 	}
 
-	public void addItem(Piece p){
-		//
-		this.container.add(p);
+	public boolean addItem(Piece p){
+		if(container.size() <= MAX_ITEMS){
+		//if full then throw exception
+		//TODO: need a addItems method in Piece class that gets a list of
+		//first 
+			this.container.add(p);
+			return true;
+		}else{
+			return false;
+		}
 	}
 	
 	public void addItems(List<Piece> pieces){
@@ -47,36 +60,54 @@ public class Player extends Piece {
 	public boolean hasItems(){
 		return container.isEmpty();
 	}
-
-	/**
-	 * Turn direction of the player to right of its current direction
-	 */
-	public void turnRight(){
-		this.setDirection(getDirection().clockwise());
-	}
-
-	/**
-	 * Turn direction of player to left of its current direction
-	 */
-	public void turnLeft(){
-		this.setDirection(getDirection().anticlockwise());
-	}
-
-	/**
-	 * Get the current direction of the player
-	 */
-	public PlayerDirection getDirection() {
-		return direction;
-	}
-
-	/**
-	 * Sets the direction of the player
-	 */
-	public void setDirection(PlayerDirection direction) {
-		this.direction = direction;
-	}
 	
 	public String toString(){
 		return "" + id;
+	}
+	
+	/*public static final Image[] PLAYER_TOKEN = {
+		loadImage("character1North.png"), 
+		loadImage("character1East.png"),
+		loadImage("character1South.png"),
+		loadImage("character1West.png"),
+		loadImage("character2North.png"), 
+		loadImage("character2East.png"),
+		loadImage("character2South.png"),
+		loadImage("character2West.png"),
+		loadImage("character3North.png"), 
+		loadImage("character3East.png"),
+		loadImage("character3South.png"),
+		loadImage("character3West.png"),
+		//loadImage("character4North.png"), 
+		loadImage("character4East.png"),
+		loadImage("character4South.png"),
+		loadImage("character4West.png")
+		};*/
+	
+	
+
+	public void moveUp() {
+		System.out.println("hello");
+		PLAYERX = PLAYERX + 40;
+		PLAYERY = PLAYERY + 20;
+	}
+
+	public void moveDown() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void moveRight() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void moveLeft() {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void draw(Graphics g){
+		g.drawImage(loadImage("character" + id + dir + ".png"), PLAYERX, PLAYERY, PLAYER_WIDTH, PLAYER_HEIGHT, null);
 	}
 }

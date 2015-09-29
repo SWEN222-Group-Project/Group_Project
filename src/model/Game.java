@@ -1,6 +1,8 @@
 package model;
 import java.util.*;
 
+import control.Control;
+
 public class Game {
 	
 	public static final int MAX_PLAYERS = 4; //Maximum players able to play one game
@@ -8,7 +10,10 @@ public class Game {
 	private ArrayList<Room> rooms;
 	//Following maps the integer (ID) to a specific player. Allows easy communication b/w server & client
 	private Map<Integer, Player> players;
-	
+	public Room room;
+	public Position pos1;
+	public Position pos2;
+	public ArrayList<Position> posList = new ArrayList<Position>();
 	//Following maintains the starting position of a player:
 	//The Position is determined by the room and location inside the room
 	//private List<Portal> playerPortals = new LinkedList<Portal>();
@@ -23,8 +28,18 @@ public class Game {
 		this.rooms = new ArrayList<Room>();
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
+		start();
 	}
 	
+	private void start() {
+		// TODO Auto-generated method stub
+		room = new Room("Practise Room");
+		pos1 = new Position(room, new Location(1,1));
+		pos2 = new Position(room, new Location(1,2));
+		posList.add(pos1);
+		posList.add(pos2);
+	}
+
 	public Game(ArrayList<Room> rooms){
 		this.rooms = rooms;
 		this.hasWon = false;
@@ -157,7 +172,7 @@ public class Game {
 		//create room
 		Room room = new Room("Practise Room");
 		Position pos1 = new Position(room, new Location(1,1));
-		Player p1 = new Player(1, "Harman", pos1, PlayerDirection.NORTH);
+		Player p1 = new Player(1, "Harman", pos1, Direction.NORTH);
 		room.addPiece(pos1.getLocation(), p1);
 		room.printRoom();
 		
