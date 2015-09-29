@@ -9,15 +9,27 @@ public class Coin extends Item{
 	}
 
 	@Override
-	public void addTo(Player player, Location location) {
-		if(player.getRoom().getPiece(location) == this){
-			player.getRoom().removePiece(location);
-			//
-			//increase point counter of player by 1
-			
-		
+	public boolean addTo(Player player, Location location) {
+		Room room = player.getRoom();
+		if(player.addItem(this)){
+			player.addPoint(VALUE);
+			//item has been added to player, so we remove
+			if(room.getPiece(location) == this){
+				//remove piece
+				room.removePiece(location);
+				
+			}//else we don't do anything since it is inside another item
+			return true;
 		}
-		
+		return false;
+/*		
+		if(room.getPiece(location) == this && player.addItem(this)){
+			room.removePiece(location);
+			return true;
+			//increase point counter of player by 1
+		}
+		return false;
+*/	
 	}
 
 }
