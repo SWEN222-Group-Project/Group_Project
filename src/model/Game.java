@@ -4,7 +4,7 @@ import java.util.*;
 public class Game {
 	
 	public static final int MAX_PLAYERS = 4; //Maximum players able to play one game
-	
+	public static int MAX_ASSIGN = 4;
 	private ArrayList<Room> rooms;
 	//Following maps the integer (ID) to a specific player. Allows easy communication b/w server & client
 	private Map<Integer, Player> players;
@@ -14,7 +14,7 @@ public class Game {
 	//private List<Portal> playerPortals = new LinkedList<Portal>();
 	
 	private boolean hasWon; //determines whether the game has ended or not
-	
+	private int winnerId;
 	/**
 	 * Constructor. Creates the game board: which include the rooms and pieces within the room
 	 * TODO: have a parser class that actually creates this Game based on the text file. 
@@ -31,6 +31,17 @@ public class Game {
 		players = new HashMap<Integer, Player>();
 	}
 	
+	public void hasWon(int playerId){
+		this.hasWon = true;
+		this.winnerId = playerId;
+	}
+	
+	public boolean hasWon(){
+		return hasWon;
+	}
+	public int winnerId(){
+		return winnerId;
+	}
 	public void addRoom(Room room){
 		this.rooms.add(room);
 	}
@@ -66,15 +77,16 @@ public class Game {
 	 * @param playerId
 	 * @param pos
 	 */
-	public synchronized void movePlayer(int playerId, Position pos){
+	public synchronized void movePlayer(int playerId, Position newPos){
 		Player player = players.get(playerId);
-		Position playerPos = player.getPosition();
-		Room playerRoom = playerPos.getRoom();
-		Location playerLoc = playerPos.getLocation();
+		Room playerRoom = player.getRoom();
+		Location playerLoc = player.getPosition().getLocation();
 		playerRoom.removePiece(playerLoc);
 		
-		playerRoom.addPiece(playerLoc, player);
-//		player.setPosition(pos);
+		player.setPosition(newPos);
+//		Room 
+		player.getRoom().addPiece(newPos.getLocation(), player);
+		
 		//must remove player from previous position
 	}
 
@@ -86,12 +98,13 @@ public class Game {
 	 * @param playerId
 	 * @param loc
 	 */
-	public void movePlayer(int playerId, Location loc){
+	public void movePlayer(int playerId, Location loc, Room room){
 		//must remove player from previous location
 		Player player = players.get(playerId);
 		Position playerPos = player.getPosition();
-		Room room = player.getRoom();
-		room.removePiece(playerPos.getLocation());
+		Room oldRoom = player.getRoom();
+		oldRoom.removePiece(playerPos.getLocation());
+		
 		room.addPiece(loc, player);
 //		players.get(playerId).setLocation(loc);
 	}
@@ -109,7 +122,10 @@ public class Game {
 			Player player = players.get(playerId);
 //			player.addItem(item); //add item to container of player
 			Item item = (Item) piece; //safe
-			item.addTo(player, itemLoc);
+			if(item.addTo(player, itemLoc)){
+				movePlayer(playerId, itemLoc, itemRoom);
+				
+			}
 			//we should be able to place a cast on item : (Item) item
 			//call addTo(player) method of item: this method adds item to player.
 				//if composite: it adds all items inside it to the player, then adds itself
@@ -127,7 +143,8 @@ public class Game {
 		//get position of player and place the item on the next available adjacent position
 		Player p  = players.get(playerID);
 		p.removeItem(item); //removes item from player;
-		Room playerRoom = p.getPosition().getRoom(); //making local variable prevent it from changing by other threads
+		Room playerRoom = p.getRoom(); //making local variable prevent it from changing by other threads
+		
 //		Location emptySpace = getAdjacentSpace(playerRoom, loc);
 		//piece has additems method that calls addItems of 
 		
@@ -165,14 +182,13 @@ public class Game {
 		}
 		return null; //could be null: in which case an error must be thrown by the controller
 	}
-	
 	//add 
 	public void printAll(){
 		for(Room room: rooms){
 			System.out.println("\n********************");
 			System.out.println(room);
 			System.out.println("********************");
-			room.printRoom();
+			System.out.println(room.printRoom());
 		}
 	}
 	
