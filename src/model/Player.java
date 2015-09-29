@@ -2,20 +2,21 @@ package model;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static UI.GameCanvas.*;
+import static model.Player.PLAYER_HEIGHT;
 
-public class Player extends Piece {
+public class Player extends Piece implements Serializable{
 	public static final int MAX_ITEMS = 8;
-	private static final int PLAYER_WIDTH = 45;
-	private static final int PLAYER_HEIGHT = 100;
-	private static int PLAYERX = 420;
-	private static int PLAYERY = 332;
+	static final int PLAYER_WIDTH = 45;
+	static final int PLAYER_HEIGHT = 70;
+	private static int PLAYERX;
+	private static int PLAYERY;
 	private List<Piece> container;
 	Direction dir = getDirection();
-	
 	
 	//Player ID: this can be used to access the player when it is in a Game
 	private int id;
@@ -84,30 +85,42 @@ public class Player extends Piece {
 		loadImage("character4West.png")
 		};*/
 	
-	
-
 	public void moveUp() {
-		System.out.println("hello");
 		PLAYERX = PLAYERX + 40;
 		PLAYERY = PLAYERY + 20;
+		System.out.println("moveup");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveDown() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX - 40;
+		PLAYERY = PLAYERY - 20;
+		System.out.println("Move down");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveRight() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX - 20;
+		PLAYERY = PLAYERY - 40;
+		System.out.println("Move right");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 
 	public void moveLeft() {
 		// TODO Auto-generated method stub
-		
+		PLAYERX = PLAYERX + 20;
+		PLAYERY = PLAYERY + 40;
+		System.out.println("Move left");
+		System.out.println("New PlayerX: " + PLAYERX);
+		System.out.println("New PlayerY: " + PLAYERY);
 	}
 	
 	public void draw(Graphics g){
-		g.drawImage(loadImage("character" + id + dir + ".png"), PLAYERX, PLAYERY, PLAYER_WIDTH, PLAYER_HEIGHT, null);
+		g.drawImage(loadImage("character1North.png"), xPosTile+START_X, yPosTile+START_Y-28, TILE_WIDTH, PLAYER_HEIGHT, null);
 	}
 }

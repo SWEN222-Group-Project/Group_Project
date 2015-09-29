@@ -1,13 +1,15 @@
 package model;
 
 import java.awt.Graphics;
+import java.io.Serializable;
+import static UI.GameCanvas.*;
 
 /**
  * TODO: This needs to have a draw Image method.
  * @author harman
  *
  */
-public class Wall extends Piece {
+public class Wall extends Piece implements Serializable {
 
 	public Wall(Position position, Direction direction) {
 		super(position, null, null, direction);
@@ -15,8 +17,7 @@ public class Wall extends Piece {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(loadImage("wallTileSmall.png"), xPosTile+START_X, yPosWall+START_Y, TILE_WIDTH, WALL_HEIGHT, null);
 	}
 	
 	

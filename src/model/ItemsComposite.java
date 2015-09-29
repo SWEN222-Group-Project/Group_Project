@@ -1,18 +1,22 @@
 package model;
 
+import static UI.GameCanvas.*;
+
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
-public class ItemsComposite extends Item {
+public class ItemsComposite extends Item implements Serializable {
 	private AddStrategy strategy;
 	private List<Item> items = new ArrayList<Item>(); //this is the composite collection
+	private int height;
 	
-	public ItemsComposite(Position position, String name, String description,
-			Direction direction) {
+	public ItemsComposite(Position position, String name, int height, String description, Direction direction) {
 		super(position, name, description, direction);
+		this.height = height;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -52,7 +56,6 @@ public class ItemsComposite extends Item {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.drawImage(loadImage(super.getName()+".png"), xPosTile+START_X, yPosTile+START_Y-height, TILE_WIDTH, height+40, null);
 	}
 }

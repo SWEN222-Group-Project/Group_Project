@@ -1,9 +1,14 @@
 package model;
 
-public abstract class Item extends Piece {
+import static UI.GameCanvas.loadImage;
 
-	public Item(Position position, String name, String description,
-			Direction direction) {
+import java.awt.Graphics;
+import java.io.Serializable;
+import static UI.GameCanvas.*;
+
+public abstract class Item extends Piece implements Serializable {
+
+	public Item(Position position, String name, String description,	Direction direction) {
 		super(position, name, description, direction);
 		// TODO Auto-generated constructor stub
 	}
@@ -17,6 +22,9 @@ public abstract class Item extends Piece {
 	 */
 	public abstract void addTo(Player player, Location location);
 	
+	public void draw(Graphics g){
+		
+	}
 	
 	//setPosition(Position) sets the position of all items in Item object. if nonMovable then throw error 
 }

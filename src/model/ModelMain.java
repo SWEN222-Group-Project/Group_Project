@@ -76,11 +76,12 @@ public class ModelMain {
 	
 	public static void main(String[] args){
 		Room room = new Room("Practise Room");
-		Position pos1 = new Position(room, new Location(1,5));
-		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
+		//Position pos1 = new Position(room, new Location(9,9));
+		//Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
 		Game game = new Game();
+		game.printAll();
 		game.addRoom(room); //test adding room
-		game.addPlayer(p1); //test adding player
+		//game.addPlayer(p1); //test adding player
 		new GameFrame(game,1);
 	}
 }

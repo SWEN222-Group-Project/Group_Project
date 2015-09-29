@@ -6,13 +6,19 @@ import static UI.GameCanvas.TILE_WIDTH;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -27,6 +33,7 @@ import javax.swing.ScrollPaneConstants;
 
 import model.Game;
 import model.Player;
+import static Networking.LoginFrame.*;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements KeyListener, ActionListener{
@@ -43,6 +50,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private JMenuItem controlsItem;
 	Game game;
 	int id;
+	
+	private DataOutputStream output;
+	private DataInputStream input;
+	
 	public GameFrame(Game game, int id) {
 		this.id = id;
 		this.game = game;
@@ -128,6 +139,14 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		mapPanel.setSize(100,132);
 		mapPanel.setVisible(true);
 		JButton mapButton = new JButton("Map");
+		mapButton.addActionListener(new ActionListener() { //add action listener for button
+			public void actionPerformed(ActionEvent ev) {
+				Image map = GameCanvas.loadImage("map.png"); //load dice image according to rollCounter
+				Icon mapPic = new ImageIcon(map); //create diePic
+				JOptionPane.showMessageDialog(canvas.getFrame(), "", "Game Map", 
+						JOptionPane.PLAIN_MESSAGE, mapPic); //show rollCounter and image in dialog box
+			}
+		});
 		mapButton.setToolTipText("Display the map");
 		mapButton.setActionCommand("Show Map");
 		mapPanel.add(mapButton);
@@ -138,14 +157,56 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		screen.add(mapPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
+//		this.addKeyListener(new KeyListener(){
+//			
+//			public void keyPressed(KeyEvent e) {
+//				System.out.println("GameFrame: 144");
+//				try {
+//					int code = e.getKeyCode();
+//					if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {	
+//						System.out.println("GameFrame: RIGHT");
+//						output.writeInt(3);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {	
+//						System.out.println("GameFrame: LEFT");
+//						output.writeInt(4);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_UP) {	
+//						System.out.println("GameFrame: UP");
+//						output.writeInt(1);
+//						//totalSent += 4;
+//					} else if(code == KeyEvent.VK_DOWN) {	
+//						System.out.println("GameFrame: DOWN");
+//						output.writeInt(2);
+//						//totalSent += 4;
+//					}output.flush();
+//					} catch(IOException ioe) {
+//					// something went wrong trying to communicate the key press to the
+//					// server.  So, we just ignore it.
+//				}
+//			}
+//
+//			@Override
+//			public void keyReleased(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//
+//			@Override
+//			public void keyTyped(KeyEvent e) {
+//				// TODO Auto-generated method stub
+//				
+//			}});
+		this.setFocusable(true);
 		setVisible(true); //show frame
 	}
 	/**
 	 * Start a new game
 	 */
 	public void newGame() {
-		this.dispose(); //remove current frame
-		new GameFrame(new Game(), 1); //create new game frame game
+		//this.dispose(); //remove current frame
+		//ConfigureMainWindow();
+		//new GameFrame(new Game(), 1); //create new game frame game
 	}
 	
 	public void repaint(){

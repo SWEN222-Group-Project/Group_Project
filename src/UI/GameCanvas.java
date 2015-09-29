@@ -1,5 +1,13 @@
 package UI;
 
+import static UI.GameCanvas.START_X;
+import static UI.GameCanvas.START_Y;
+import static UI.GameCanvas.TILE_WIDTH;
+import static UI.GameCanvas.WALL_HEIGHT;
+import static UI.GameCanvas.loadImage;
+import static UI.GameCanvas.xPosTile;
+import static UI.GameCanvas.yPosWall;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -14,7 +22,7 @@ import javax.swing.JPanel;
 import model.*;
 
 	@SuppressWarnings("serial")
-	public class GameCanvas extends JPanel {
+	public class GameCanvas extends JPanel implements MouseListener {
 
 		private static GameFrame frame;
 		private static final int PADDING_TOP = 5;
@@ -23,13 +31,17 @@ import model.*;
 		private static final int CANVAS_HEIGHT = 805;
 		public static final int TILE_WIDTH = 80;
 		public static final int TILE_HEIGHT = 40;
-		public static final int WALL_HEIGHT = 256;
+		public static final int WALL_HEIGHT = 225;
 		public static final int START_X = 400;
 		public static final int START_Y = 400;
+		public static int xPosTile;
+		public static int yPosTile;
+		public static int yPosWall;
 		private int id = 1;
 		Game game;
 		
 		public GameCanvas(GameFrame frame, Game game) {
+			this.addMouseListener(this);
 			this.game = game;
 		
 		}
@@ -61,24 +73,39 @@ import model.*;
 		public void paint(Graphics g){
 			g.setColor(Color.BLACK);
 			g.fillRect(PADDING_TOP, PADDING_LEFT, CANVAS_WIDTH, CANVAS_HEIGHT);
-			Room room = game.getPlayer(id).getRoom();
+			Room room = game.getPlayer(1).getRoom(); //getPlayer(id)
+			System.out.println(room.getName() + "test");
 			Piece[][] board = room.getBoard();
 			for(int row = 0; row < board.length; row++){
 				for(int col = board[row].length-1; col >= 0; col--){
-					int xPosTile = (row+col)*(TILE_WIDTH/2);
-					int yPosTile = (row-col)*(TILE_HEIGHT/2);
-					int yPosWall = (row-col)*(TILE_HEIGHT/2)-225;
-					if(board[row][col] instanceof Wall){
-						g.drawImage(loadImage("wallTileNorthMiddle.png"), xPosTile+START_X, yPosWall+START_Y, TILE_WIDTH, WALL_HEIGHT, null);
-					}
-					else if(board[row][col] !=null){
+					xPosTile = (row+col)*(TILE_WIDTH/2);
+					yPosTile = (row-col)*(TILE_HEIGHT/2);
+					yPosWall = (row-col)*(TILE_HEIGHT/2)-184;
+					if(board[row][col] !=null){
 						board[row][col].draw(g);
 					}
 					else{
 						g.drawImage(loadImage("floorTile.png"), xPosTile+START_X, yPosTile+START_Y, TILE_WIDTH, TILE_HEIGHT, null);
-						//board[row][col].draw(g);
 					}
 				}
 			}
+		}
+			
+		
+		//Unimplemented methods
+		@Override
+		public void mousePressed(MouseEvent e) {
+		}
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
 		}
 	}
