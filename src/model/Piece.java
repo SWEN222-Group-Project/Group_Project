@@ -35,6 +35,9 @@ public abstract class Piece {
 		this.position.setLocation(loc);
 	}
 	
+	public Location getLocation(){
+		return this.position.getLocation();
+	}
 	/**
 	 * Turn direction of the piece to right of its current direction
 	 */
