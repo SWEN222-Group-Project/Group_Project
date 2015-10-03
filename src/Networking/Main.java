@@ -15,15 +15,14 @@ import model.Player;
 
 public class Main {
 	
-	static String host = null;
+	static String host = null;	// server
+	//static String host = "localhost";
 	static int port = 32768; // default
 	static boolean server = true;
 	static int nclients = 2;
 	static int id = 1;
-	public static Game game;
-	static List<Player> players = new ArrayList<Player>();
-	static List<String> users = new ArrayList<String>();
-	static List<Client> clients = new ArrayList<Client>();
+	 public static Game game;// = new Game();
+	 static List<Player> players = new ArrayList<Player>();
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		// Sanity checks
@@ -34,16 +33,18 @@ public class Main {
 		
 		if(server) {
 			// Run in Server mode
+			//Board board = createBoardFromFile(filename,nHomerGhosts,nRandomGhosts);
 			game = new Game();
 			runServer(port,nclients,game);			
 		}
-
+		
+		//System.exit(0);
 	}
 	
 	private static void runServer(int port2, int nclients2, Game g) {
 		// Listen for connections
-				System.out.println("SERVER LISTENING ON PORT " + port2);
-				System.out.println("SERVER AWAITING " + nclients2 + " CLIENTS");
+				System.out.println("PACMAN SERVER LISTENING ON PORT " + port2);
+				System.out.println("PACMAN SERVER AWAITING " + nclients2 + " CLIENTS");
 				try {
 					Server[] connections = new Server[nclients2];
 					// Now, we await connections.
@@ -56,36 +57,32 @@ public class Main {
 						Player p = new Player(id, "john", game.posList.get(id-1), Direction.NORTH);
 			            players.add(p);
 			            game.addPlayer(p);
-			            game.addRoom(game.room);
-			        	Control controller = new Control(game);
-						connections[--nclients2] = new Server(s,id,g, controller);
-						connections[nclients2].start();				
-						if(nclients2 == 0) {
+//			            game.addRoom(game.room);
+//						ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+//						oos.writeObject(game);
+//						oos.close();
+//			        	Control controller = new Control(game);
+						//connections[--nclients2] = new Server(s,id,g);
+			            int i = 0;
+						connections[i] = new Server(s,id,g);
+						connections[i++].start();
+						id++;
+						if(nclients2 == i) {
+							
+//							Control controller = new Control(game);
 							System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
+							//multiUserGame(clk,game,connections);
+							//System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 							return; // done
 						}
-						id++;
+						
 					}
 				} catch(IOException e) {
 					System.err.println("I/O error: " + e.getMessage());
 				} 
+				finally{
+					Server.file.delete();
+				}
 			}
-
-	public  List<String> getUsers() {
-		return users;
-	}
-
-	public static List<Client> getClients() {
-		return clients;
-	}
-
-	public static void addUser(String user){
-		users.add(user);
-	}
-	public static void setClients(List<Client> clients) {
-		Main.clients = clients;
-	}
-	
-	
 		
 }

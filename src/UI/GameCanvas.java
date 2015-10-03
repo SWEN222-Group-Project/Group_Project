@@ -1,13 +1,5 @@
 package UI;
 
-import static UI.GameCanvas.START_X;
-import static UI.GameCanvas.START_Y;
-import static UI.GameCanvas.TILE_WIDTH;
-import static UI.GameCanvas.WALL_HEIGHT;
-import static UI.GameCanvas.loadImage;
-import static UI.GameCanvas.xPosTile;
-import static UI.GameCanvas.yPosWall;
-
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -31,17 +23,19 @@ import model.*;
 		private static final int CANVAS_HEIGHT = 805;
 		public static final int TILE_WIDTH = 80;
 		public static final int TILE_HEIGHT = 40;
-		public static final int WALL_HEIGHT = 225;
+		public static final int WALL_HEIGHT = 256;
 		public static final int START_X = 400;
 		public static final int START_Y = 400;
 		public static int xPosTile;
 		public static int yPosTile;
 		public static int yPosWall;
-		private int id = 1;
+		private int id = 0;
 		Game game;
 		
-		public GameCanvas(GameFrame frame, Game game) {
+		public GameCanvas(GameFrame frame, Game game, int id) {
 			this.addMouseListener(this);
+			new Boot(id, game);
+			this.id = id;
 			this.game = game;
 		
 		}
@@ -73,16 +67,17 @@ import model.*;
 		public void paint(Graphics g){
 			g.setColor(Color.BLACK);
 			g.fillRect(PADDING_TOP, PADDING_LEFT, CANVAS_WIDTH, CANVAS_HEIGHT);
+			game.printAll();
 			Room room = game.getPlayer(1).getRoom(); //getPlayer(id)
-			System.out.println(room.getName() + "test");
+			System.out.println(room + "test");
 			Piece[][] board = room.getBoard();
 			for(int row = 0; row < board.length; row++){
 				for(int col = board[row].length-1; col >= 0; col--){
 					xPosTile = (row+col)*(TILE_WIDTH/2);
 					yPosTile = (row-col)*(TILE_HEIGHT/2);
-					yPosWall = (row-col)*(TILE_HEIGHT/2)-184;
+					yPosWall = (row-col)*(TILE_HEIGHT/2)-225;
 					if(board[row][col] !=null){
-						board[row][col].draw(g);
+//						board[row][col].draw(g);
 					}
 					else{
 						g.drawImage(loadImage("floorTile.png"), xPosTile+START_X, yPosTile+START_Y, TILE_WIDTH, TILE_HEIGHT, null);

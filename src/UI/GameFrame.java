@@ -6,7 +6,6 @@ import static UI.GameCanvas.TILE_WIDTH;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,8 +16,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -33,7 +30,6 @@ import javax.swing.ScrollPaneConstants;
 
 import model.Game;
 import model.Player;
-import static Networking.LoginFrame.*;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements KeyListener, ActionListener{
@@ -55,9 +51,10 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private DataInputStream input;
 	
 	public GameFrame(Game game, int id) {
+//		Room room = game.getPlayer(id).getRoom();
 		this.id = id;
 		this.game = game;
-		canvas = new GameCanvas(this, game); //new canvas
+		canvas = new GameCanvas(this, game, id); //new canvas
 		setLayout(new BorderLayout()); //set layout as border
 		add(canvas);// add canvas
 		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //disable close button					
@@ -139,14 +136,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		mapPanel.setSize(100,132);
 		mapPanel.setVisible(true);
 		JButton mapButton = new JButton("Map");
-		mapButton.addActionListener(new ActionListener() { //add action listener for button
-			public void actionPerformed(ActionEvent ev) {
-				Image map = GameCanvas.loadImage("map.png"); //load dice image according to rollCounter
-				Icon mapPic = new ImageIcon(map); //create diePic
-				JOptionPane.showMessageDialog(canvas.getFrame(), "", "Game Map", 
-						JOptionPane.PLAIN_MESSAGE, mapPic); //show rollCounter and image in dialog box
-			}
-		});
 		mapButton.setToolTipText("Display the map");
 		mapButton.setActionCommand("Show Map");
 		mapPanel.add(mapButton);
@@ -204,9 +193,8 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	 * Start a new game
 	 */
 	public void newGame() {
-		//this.dispose(); //remove current frame
-		//ConfigureMainWindow();
-		//new GameFrame(new Game(), 1); //create new game frame game
+		this.dispose(); //remove current frame
+		new GameFrame(new Game(), 1); //create new game frame game
 	}
 	
 	public void repaint(){
