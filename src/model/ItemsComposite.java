@@ -1,5 +1,8 @@
 package model;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -29,6 +32,7 @@ public class ItemsComposite extends Item {
 	
 	public void addItem(Item item){
 		items.add(item);
+		item.setPosition(null);
 	}
 	@Override
 	public synchronized boolean addTo(Player player, Location location) {
@@ -81,5 +85,70 @@ public class ItemsComposite extends Item {
 			items.remove(counter-1);
 			counter--;
 		}	
+	}
+
+	
+	public synchronized static ItemsComposite fromInputStream(DataInputStream din, 
+			String name, String description, Position pos) throws IOException{
+
+		Direction dir = Direction.values()[din.readByte()];
+		int strategyType = din.readByte();
+		AddStrategy strategy;
+		if(strategyType == 1)
+			strategy = new NonMovableStrategy();
+		else
+			strategy = new MovableStrategy();
+		
+		int nitems = din.readByte();
+		List<Item> items = new ArrayList<Item>();
+		for(int i = 0; i < nitems; i++){	
+			items.add((Item)Piece.fromInputStream(din, null)); //null since the item is inside the composite so doesn't have a room
+		}
+		
+		ItemsComposite ic = new ItemsComposite(pos, name, description, dir);
+		ic.addStrategy(strategy);
+		for(Item i : items){
+				ic.addItem(i);
+		}
+		return ic;
+	}
+	
+	@Override
+	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+		dout.writeByte(Piece.COMPOSITE);
+		if(super.getPosition() == null){
+			dout.writeByte(0); //position is invalid (null)
+			dout.writeByte(-1);
+			dout.writeByte(-1);
+		}else{
+			dout.writeByte(1); //position is valid
+			dout.writeInt(super.getLocation().getxPos()); //send y location
+			dout.writeInt(super.getLocation().getyPos()); //send x location
+		}		
+		byte[] name = super.getName().getBytes("UTF-8");
+		dout.writeByte(name.length);
+		dout.write(name);
+		
+		byte[] desc = super.getDescription().getBytes("UTF-8");
+		dout.writeByte(desc.length);
+		dout.write(desc);
+		
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
+		//----
+		dout.writeByte(super.getDirection().ordinal()); //send direction
+		
+		//need to send strategy
+		dout.writeByte((strategy instanceof MovableStrategy) ? 0 : 1); //0 == movable, 1 == nonmovable
+		
+		//send items
+		dout.writeByte(items.size()); //send length of items 
+		for(Item item : items){
+			item.toOutputSteam(dout);
+		}
 	}
 }
