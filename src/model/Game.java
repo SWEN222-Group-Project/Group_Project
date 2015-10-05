@@ -1,14 +1,28 @@
 package model;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.*;
 
-public class Game {
+import control.Control;
+
+public class Game implements Serializable {
 	
 	public static final int MAX_PLAYERS = 4; //Maximum players able to play one game
 	public static int MAX_ASSIGN = 4;
+	
 	private ArrayList<Room> rooms;
 	//Following maps the integer (ID) to a specific player. Allows easy communication b/w server & client
 	private Map<Integer, Player> players;
-	
+//	public Room room;// = new Room("Practice Room");
+	public Position pos1;
+	public Position pos2;
+	public ArrayList<Position> posList = new ArrayList<Position>();
+	static List<String> users = new ArrayList<String>();
+	private List<Door> doors = new ArrayList<Door>();
 	//Following maintains the starting position of a player:
 	//The Position is determined by the room and location inside the room
 	//private List<Portal> playerPortals = new LinkedList<Portal>();
@@ -20,15 +34,61 @@ public class Game {
 	 * TODO: have a parser class that actually creates this Game based on the text file. 
 	 */
 	public Game(){
+		//room = new Room("Practice Room");
 		this.rooms = new ArrayList<Room>();
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
+		start();
+		
 	}
 	
+	private void start() {
+		// TODO Auto-generated method stub
+//		Room room = new Room("Practise Room");
+//		pos1 = new Position(room, new Location(1,1));
+//		pos2 = new Position(room, new Location(9,9));
+		
+		Room room = new Room("Practise Room");
+		Room room2 = new Room("Second Room");
+		Position pos1 = new Position(room, new Location(1,1));
+		Position pos2 = new Position(room, new Location(7,4));
+		Position pos4 = new Position(room, new Location(7,7));
+		posList.add(pos1);
+		posList.add(pos2);
+		posList.add(pos4);
+
+		Position pos3 = new Position(room2, new Location(6,5));
+        Door door = new Door(new Position(room, new Location(0,0)), Direction.SOUTH, pos3);
+
+		
+//		addDoor(door);
+//	    addPiece(new Wall(new Position(room, new Location(0,9)), Direction.NORTH), new Position(room, new Location(0,9)));
+		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
+		ItemsComposite chest = new ItemsComposite(pos2, "h", "Chestttt", Direction.NORTH);
+		chest.addStrategy(new NonMovableStrategy());
+		chest.addItem(coin);
+//		Coin coin2 = new Coin(pos3, "C2", "Coin", Direction.EAST);
+//		chest.addItem(coin2);
+		Key key = new Key(new Position(room, new Location(1,0)), 0, Direction.NORTH);
+		door.addKey(key);
+//		addPiece(key, new Position(room, new Location(1,0)));
+		Assignment a1 = new Assignment(new Position(room2, new Location(1,1)), 0, "");
+//		addPiece(a1, a1.getPosition());
+		
+//		Coin coin2 = new Coin(new Position(room2, new Location(5,5)), "C", "Coin", Direction.EAST);
+//		addPiece(coin2, pos3);
+		addPiece(chest, pos4);
+		addRoom(room); //test adding room
+		addRoom(room2);
+	}
 	public Game(ArrayList<Room> rooms){
 		this.rooms = rooms;
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
+	}
+	
+	public int getRoomSize(){
+		return rooms.size();
 	}
 	
 	public void hasWon(int playerId){
@@ -65,12 +125,22 @@ public class Game {
 		return true;
 	}
 	
+	public void removePlayer(int playerId){
+		Player p = players.get(playerId);
+		Room room = p.getRoom();
+		room.removePiece(p.getLocation());
+		this.players.remove(playerId);
+		
+	}
 	
 	public void addPiece(Piece piece, Position position){
 		Room room = position.getRoom();
 		room.addPiece(position.getLocation(), piece);
 	}
 	
+	public Room getRoom(int index){
+		return rooms.get(index);
+	}
 	//add item(room, location): method used by parser to add items such as chest into a room
 	/**
 	 * Moves player to position: pos. Used to move a player to a specific room in a specific location.
@@ -183,7 +253,7 @@ public class Game {
 		return null; //could be null: in which case an error must be thrown by the controller
 	}
 	//add 
-	public void printAll(){
+	public synchronized void printAll(){
 		for(Room room: rooms){
 			System.out.println("\n********************");
 			System.out.println(room);
@@ -191,6 +261,58 @@ public class Game {
 			System.out.println(room.printRoom());
 		}
 	}
+	
+	public void addDoor(Door door){
+		door.getRoom().addDoor(door);
+		doors.add(door);
+	}
+	
+	public synchronized void fromByteArray(byte[] bytes) throws IOException{
+		ByteArrayInputStream bin = new ByteArrayInputStream(bytes);
+		DataInputStream din = new DataInputStream(bin);
+		if(din.readByte() == 1)
+			hasWon = true;
+		else
+			hasWon = false;
+		
+		int nroom = din.readByte();
+		players.clear();
+		rooms.clear();
+		doors.clear();
+		for(int i = 0; i != nroom; i++){
+			rooms.add(Room.fromInputStream(din, this));
+		}
+		
+		int numdoors = din.readByte();  //read number of doors
+		
+		for(int i = 0; i < numdoors; i++){
+			Door d = Door.fromInputStream(din, rooms);
+			d.getRoom().addDoor(d);
+			doors.add(d);
+		}
+	}
+	public synchronized byte[] toByteArray() throws IOException{
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		DataOutputStream dout = new DataOutputStream(bout);
+		dout.writeByte((hasWon)? 1 : 0);
+		
+		dout.writeByte(rooms.size());
+		//first output all rooms
+		for(Room room: rooms){
+			room.toOutputSteam(dout);
+		}
+		
+		//need to send doors here
+		dout.writeByte(doors.size());
+//		System.out.println("Doors to byte array :" + doors.size());
+		for(Door door: doors){
+			door.toOutputSteam(dout);
+		}
+		
+		//dout.flush();
+		return bout.toByteArray();
+	}
+
 	
 	public static void main(String[] args){
 		//create room

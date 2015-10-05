@@ -1,5 +1,9 @@
 package model;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+
 public class Coin extends Item{
 	public static int VALUE = 1; //THIS IS POINT THAT ONE COIN CORRESPONDS TO
 
@@ -31,5 +35,46 @@ public class Coin extends Item{
 		return false;
 */	
 	}
+	
+	public String toString(){
+		return "c";
+	}
 
+	
+	public  static Coin fromInputStream(DataInputStream din, Position pos, 
+			String description) throws IOException{
+		int dirValue = din.readByte();
+		Direction dir = Direction.values()[dirValue];
+		return new Coin(pos, "Coin", description, dir);
+		
+	}
+	@Override
+	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+		dout.writeByte(Piece.COIN);
+		if(super.getPosition() == null){
+			dout.writeByte(0); //position is invalid (null)
+			dout.writeByte(-1);
+			dout.writeByte(-1);
+		}else{
+			dout.writeByte(1); //position is valid
+			dout.writeInt(super.getLocation().getxPos()); //send x location
+			dout.writeInt(super.getLocation().getyPos()); //send y location
+		}		
+		byte[] name = super.getName().getBytes("UTF-8");
+		dout.writeByte(name.length);
+		dout.write(name);
+		
+		byte[] desc = super.getDescription().getBytes("UTF-8");
+		dout.writeByte(desc.length);
+		dout.write(desc);
+		
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
+		//----		
+		dout.writeByte(super.getDirection().ordinal()); //send direction	
+	}
 }

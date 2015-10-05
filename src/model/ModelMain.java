@@ -76,14 +76,15 @@ public class ModelMain {
 	public static void main(String[] args){
 		//create room
 		Game game = new Game();
+//		Game game = new Parser().getGameFromFile();
 		Room room = new Room("Practise Room");
 		Room room2 = new Room("Second Room");
-		Position pos1 = new Position(room, new Location(1,1));
+		Position pos1 = new Position(game.getRoom(0), new Location(4,4));
 		Position pos2 = new Position(room, new Location(7,4));
 		Position pos3 = new Position(room, new Location(7,7));
 		Door door = new Door(new Position(room, new Location(0,0)), Direction.SOUTH, new Position(room2, new Location(8,8)));
 		
-		room.addDoor(door);
+		game.addDoor(door);
 		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
 		Player p2 = new Player(2, "2Harman", new Position(room, new Location(4,5)), Direction.SOUTH);
 		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
@@ -92,7 +93,7 @@ public class ModelMain {
 		chest.addItem(coin);
 //		Coin coin2 = new Coin(pos3, "C2", "Coin", Direction.EAST);
 //		chest.addItem(coin2);
-		Key key = new Key(new Position(room, new Location(1,0)), 0);
+		Key key = new Key(new Position(room, new Location(1,0)), 0, Direction.NORTH);
 		door.addKey(key);
 		game.addPiece(key, new Position(room, new Location(1,0)));
 		Assignment a1 = new Assignment(pos3, 0, null);
@@ -104,10 +105,10 @@ public class ModelMain {
 		game.addRoom(room); //test adding room
 		game.addRoom(room2);
 		game.addPlayer(p1); //test adding player
-		game.addPlayer(p2);
+//		game.addPlayer(p2);
 		game.printAll(); //this will print all of the rooms
 		Control controller = new Control(game);
-		movePlayer(controller, p1, coin); //test moving player
-		movePlayer(controller, p2, coin);
+		movePlayer(controller, p1, null); //test moving player
+//		movePlayer(controller, p2, coin);
 	}
 }

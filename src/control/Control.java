@@ -35,6 +35,7 @@ public class Control {
 			game.pickItem(playerId, room, destination);
 			checkWon(playerId);
 			System.out.println("*Picking item at location " + destination);
+//			System.out.println("")
 			return false;
 		}
 		System.out.println("moving player");
@@ -102,7 +103,7 @@ public class Control {
 			game.hasWon(playerId);
 		}
 	}
-	public void printAll(){
+	public synchronized void printAll(){
 		game.printAll();
 	}
 	public String printRoom(Room room){
