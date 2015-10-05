@@ -150,7 +150,7 @@ public abstract class Piece {
 		p.setY(y); //set Piece y variable
 		p.setImage(fileName); //set Piece filename variable
 		return p;
-	}
+	} 
 	/**
 	 * Returns the name of the peice
 	 * @return
