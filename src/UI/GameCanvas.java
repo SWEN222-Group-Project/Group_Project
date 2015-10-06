@@ -31,10 +31,11 @@ import model.*;
 		public static int yPosWall;
 		private int id = 0;
 		Game game;
+		Boot boot;
 		
 		public GameCanvas(GameFrame frame, Game game, int id) {
 			this.addMouseListener(this);
-			new Boot(id, game);
+			this.boot = new Boot(id, game);
 			this.id = id;
 			this.game = game;
 		
@@ -65,25 +66,7 @@ import model.*;
 		
 		@Override
 		public void paint(Graphics g){
-			g.setColor(Color.BLACK);
-			g.fillRect(PADDING_TOP, PADDING_LEFT, CANVAS_WIDTH, CANVAS_HEIGHT);
-			game.printAll();
-			Room room = game.getPlayer(1).getRoom(); //getPlayer(id)
-			System.out.println(room + "test");
-			Piece[][] board = room.getBoard();
-			for(int row = 0; row < board.length; row++){
-				for(int col = board[row].length-1; col >= 0; col--){
-					xPosTile = (row+col)*(TILE_WIDTH/2);
-					yPosTile = (row-col)*(TILE_HEIGHT/2);
-					yPosWall = (row-col)*(TILE_HEIGHT/2)-225;
-					if(board[row][col] !=null){
-//						board[row][col].draw(g);
-					}
-					else{
-						g.drawImage(loadImage("floorTile.png"), xPosTile+START_X, yPosTile+START_Y, TILE_WIDTH, TILE_HEIGHT, null);
-					}
-				}
-			}
+			//boot.repaint();
 		}
 			
 		
