@@ -56,8 +56,7 @@ public class Client implements KeyListener{
 				byte[] ndata = new byte[stateLen];
 				input.readFully(ndata);
 				game.fromByteArray(ndata);
-				
-				game.printAll();
+				g.repaint();
 				try {
 					Thread.sleep(100);
 				} catch (InterruptedException e) {
