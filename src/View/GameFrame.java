@@ -92,6 +92,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		newGameItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitGameItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		screen = new JPanel(); //create bottom panel
+		screen.setPreferredSize(new Dimension(1580, 132));
 		textField = new JTextArea(); //create game log
 		JScrollPane scroll = new JScrollPane(textField); //add scroll to text field
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -99,20 +100,55 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		scroll.setAutoscrolls(true); //auto scroll
         scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll
         JPanel itemsFound = new JPanel();
-		itemsFound.setSize(100, 50);
+		itemsFound.setBackground(Color.blue);
 		itemsFound.setVisible(true);
-		JPanel mapPanel = new JPanel(); // panel for the map
-		mapPanel.setSize(100,132);
-		mapPanel.setVisible(true);
+		JPanel buttonsPanel = new JPanel(); // panel for the buttons
+		buttonsPanel.setLayout(new GridLayout(3, 1));
+		buttonsPanel.setVisible(true);
 		JButton mapButton = new JButton("Map");
 		mapButton.setToolTipText("Display the map");
-		mapButton.setActionCommand("Show Map");
-		mapPanel.add(mapButton);
+		mapButton.setPreferredSize(new Dimension(100, 10));
+		mapButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		buttonsPanel.add(mapButton);
+		JButton dropItem = new JButton("Drop Item");
+		dropItem.setToolTipText("Drop an item");
+		dropItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		buttonsPanel.add(dropItem);
+		JButton rotateView = new JButton("Rotate 180");
+		rotateView.setToolTipText("Rotate the view 180 degrees");
+		rotateView.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		buttonsPanel.add(rotateView);
+		
 		
 		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
+		
 		screen.add(itemsFound, BorderLayout.WEST);
 		screen.add(scroll, BorderLayout.WEST); //add scroll/text field to bottom panel to the east of button panel
-		screen.add(mapPanel, BorderLayout.EAST);
+		screen.add(buttonsPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
 		setVisible(true); //show frame
