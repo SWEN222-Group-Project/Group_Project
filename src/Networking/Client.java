@@ -11,7 +11,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
 
-import org.apache.commons.io.FileUtils;
 
 import UI.GameFrame;
 import model.Game;
