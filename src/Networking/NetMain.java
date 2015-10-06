@@ -49,7 +49,6 @@ public class NetMain {
 			Client c = new Client(s);
 			c.run();
 		
-		
 	}
 
 	private static void runServer(int port, int nclients, Game game) {
@@ -72,6 +71,7 @@ public class NetMain {
 				connections[nclients].start();				
 				if(nclients == 0) {
 					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
+					multiUserGame(game,connections);
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 					return; // done
 				}
@@ -79,7 +79,21 @@ public class NetMain {
 		} catch(IOException e) {
 			System.err.println("I/O error: " + e.getMessage());
 		} 
+	}
+	
+	private static void multiUserGame(Game game,
+			Server... connections) throws IOException {
+		byte[] state = game.toByteArray();		
+		while(atleastOneConnection(connections)) {
+			while(game.hasWon() != true) {
+				Thread.yield();
+			}
+			System.out.println("Game ended");
+		}
+	}
 
-		
+	private static boolean atleastOneConnection(Server[] connections) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
