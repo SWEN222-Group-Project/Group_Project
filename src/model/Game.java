@@ -43,41 +43,131 @@ public class Game implements Serializable {
 	
 	private void start() {
 		// TODO Auto-generated method stub
-//		Room room = new Room("Practise Room");
-//		pos1 = new Position(room, new Location(1,1));
-//		pos2 = new Position(room, new Location(9,9));
-		
 		Room room = new Room("Practise Room");
-		Room room2 = new Room("Second Room");
-		Position pos1 = new Position(room, new Location(1,1));
-		Position pos2 = new Position(room, new Location(7,4));
-//		Position pos3 = new Position(room, new Location(7,7));
+		pos1 = new Position(room, new Location(1,4));
+		pos2 = new Position(room, new Location(7,7));
+		Position pos3 = new Position(room, new Location(8,8));
+		Position pos23 = new Position(room, new Location(5,1));
+		
+		Position pos4 = new Position(room, new Location(0,0));
+		Position pos5 = new Position(room, new Location(1,0));
+		Position pos6 = new Position(room, new Location(2,0));
+		Position pos7 = new Position(room, new Location(3,0));
+		Position pos8 = new Position(room, new Location(4,0));
+		Position pos9 = new Position(room, new Location(5,0));
+		Position pos10 = new Position(room, new Location(6,0));
+		Position pos11 = new Position(room, new Location(7,0));
+		Position pos12 = new Position(room, new Location(8,0));
+		Position pos13 = new Position(room, new Location(9,0));
+		Position pos14 = new Position(room, new Location(9,9));
+		Position pos15 = new Position(room, new Location(9,8));
+		Position pos16 = new Position(room, new Location(9,7));
+		Position pos17 = new Position(room, new Location(9,6));
+		Position pos18 = new Position(room, new Location(9,5));
+		Position pos19 = new Position(room, new Location(9,4));
+		Position pos20 = new Position(room, new Location(9,3));
+		Position pos21 = new Position(room, new Location(9,2));
+		Position pos22 = new Position(room, new Location(9,1));
+		
+		Wall wall = new Wall(pos4, Direction.NORTH);
+		Wall wall2 = new Wall(pos5, Direction.NORTH);
+		Wall wall3 = new Wall(pos6, Direction.NORTH);
+		Wall wall4 = new Wall(pos7, Direction.NORTH);
+		Wall wall5 = new Wall(pos8, Direction.NORTH);
+		Wall wall6 = new Wall(pos9, Direction.NORTH);
+		Wall wall7 = new Wall(pos10, Direction.NORTH);
+		Wall wall8 = new Wall(pos11, Direction.NORTH);
+		Wall wall9 = new Wall(pos12, Direction.NORTH);
+		Wall wall10 = new Wall(pos13, Direction.NORTH);
+		Wall wall11= new Wall(pos14, Direction.NORTH);
+		Wall wall12 = new Wall(pos15, Direction.NORTH);
+		Wall wall13 = new Wall(pos16, Direction.NORTH);
+		Wall wall14 = new Wall(pos17, Direction.NORTH);
+		Wall wall15 = new Wall(pos18, Direction.NORTH);
+		Wall wall16 = new Wall(pos19, Direction.NORTH);
+		Wall wall17 = new Wall(pos20, Direction.NORTH);
+		Wall wall18 = new Wall(pos21, Direction.NORTH);
+		Wall wall19 = new Wall(pos22, Direction.NORTH);
+		
+//		Player p1 = new Player(1, "Harman", pos1, Direction.NORTH);
+		
+//		Room room = new Room("Practise Room");
+//		Room room2 = new Room("Second Room");
+
+		
 		posList.add(pos1);
 		posList.add(pos2);
-//		posList.add(pos3);
+		posList.add(pos3);
+		posList.add(pos4);
+		posList.add(pos5);
+		posList.add(pos6);
+		posList.add(pos7);
+		posList.add(pos8);
+		posList.add(pos9);
+		posList.add(pos10);
+		posList.add(pos11);
+		posList.add(pos12);
+		posList.add(pos13);
+		posList.add(pos14);
+		posList.add(pos15);
+		posList.add(pos16);
+		posList.add(pos17);
+		posList.add(pos18);
+		posList.add(pos19);
+		posList.add(pos20);
+		posList.add(pos21);
+		posList.add(pos22);
+		posList.add(pos23);
+//		Position pos3 = new Position(room2, new Location(6,5));
+//        Door door = new Door(new Position(room, new Location(0,0)), Direction.SOUTH, pos3);
 
-		Position pos3 = new Position(room2, new Location(6,5));
-        Door door = new Door(new Position(room, new Location(0,0)), Direction.SOUTH, pos3);
 		
-		addDoor(door);
+//		addDoor(door);
 	
-		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
-		ItemsComposite chest = new ItemsComposite(pos2, "h", "Chest",Direction.NORTH);
-		chest.addStrategy(new MovableStrategy());
-		chest.addItem(coin);
-		Coin coin2 = new Coin(pos3, "C2", "Coin", Direction.EAST);
+//		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
+//		
+		ItemsComposite table = new ItemsComposite(pos2, "table", "table",Direction.NORTH);
+		ItemsComposite glassCabinetNorth = new ItemsComposite(pos3, "glassCabinetNorth", "glassCabinetNorth",Direction.NORTH);
+		ItemsComposite cabinetWest = new ItemsComposite(pos23, "cabinetWest", "cabinetWest",Direction.WEST);
+		table.addStrategy(new NonMovableStrategy());
+		glassCabinetNorth.addStrategy(new NonMovableStrategy());
+//		
+//		Wall wall = new Wall(new Position(room, new Location(0,0)), Direction.NORTH);
+//		chest.addItem(coin);
+//		Coin coin2 = new Coin(pos3, "C2", "Coin", Direction.EAST);
 //		chest.addItem(coin2);
-		Key key = new Key(new Position(room, new Location(1,0)), 0, Direction.NORTH);
-		door.addKey(key);
-		addPiece(key, new Position(room, new Location(1,0)));
-		Assignment a1 = new Assignment(new Position(room2, new Location(1,1)), 0, "");
-		addPiece(a1, a1.getPosition());
+//		Key key = new Key(new Position(room, new Location(1,0)), 0, Direction.NORTH);
+//		door.addKey(key);
+//		addPiece(key, new Position(room, new Location(1,0)));
+//		Assignment a1 = new Assignment(new Position(room2, new Location(1,1)), 0, "");
+//		addPiece(a1, a1.getPosition());
 		
 //		Coin coin2 = new Coin(new Position(room2, new Location(5,5)), "C", "Coin", Direction.EAST);
 //		addPiece(coin2, pos3);
-		addPiece(chest, pos2);
+		addPiece(table, pos2);
+		addPiece(glassCabinetNorth, pos3);
+		this.addPiece(wall, pos4);
+		this.addPiece(wall2, pos5);
+		this.addPiece(wall3, pos6);
+		this.addPiece(wall4, pos7);
+		this.addPiece(wall5, pos8);
+		this.addPiece(wall6, pos9);
+		this.addPiece(wall7, pos10);
+		this.addPiece(wall8, pos11);
+		this.addPiece(wall9, pos12);
+		this.addPiece(wall10, pos13);
+		this.addPiece(wall11, pos14);
+		this.addPiece(wall12, pos15);
+		this.addPiece(wall13, pos16);
+		this.addPiece(wall14, pos17);
+		this.addPiece(wall15, pos18);
+		this.addPiece(wall16, pos19);
+		this.addPiece(wall17, pos20);
+		this.addPiece(wall18, pos21);
+		this.addPiece(wall19, pos22);
+		this.addPiece(cabinetWest, pos23);
 		addRoom(room); //test adding room
-		addRoom(room2);
+//		addRoom(room2);
 	}
 	public Game(ArrayList<Room> rooms){
 		this.rooms = rooms;
@@ -292,7 +382,7 @@ public class Game implements Serializable {
 		
 		//need to send doors here
 		dout.writeByte(doors.size());
-		System.out.println("Doors to byte array :" + doors.size());
+//		System.out.println("Doors to byte array :" + doors.size());
 		for(Door door: doors){
 			door.toOutputSteam(dout);
 		}
@@ -304,11 +394,11 @@ public class Game implements Serializable {
 	
 	public static void main(String[] args){
 		//create room
-		Room room = new Room("Practise Room");
+		/*Room room = new Room("Practise Room");
 		Position pos1 = new Position(room, new Location(1,1));
 		Player p1 = new Player(1, "Harman", pos1, Direction.NORTH);
 		room.addPiece(pos1.getLocation(), p1);
 		room.printRoom();
-		
+		*/
 	}
 }
