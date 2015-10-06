@@ -3,6 +3,7 @@ package Networking;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 import model.Direction;
 import model.Game;
@@ -27,14 +28,27 @@ public class NetMain {
 			runServer(port,nclients,game);			
 		} else if(url != null) {
 			// Run in client mode
-			runClient(url,port);
+			try {
+				runClient(url,port);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		System.exit(0);
 	}
 
-	private static void runClient(String url, int port) {
+	private static void runClient(String url, int port) throws UnknownHostException, IOException {
 		// TODO Auto-generated method stub
+		Socket s = new Socket(url,port);
+			System.out.println("CLIENT CONNECTED TO " + url + ":" + port);			
+			Client c = new Client(s);
+			c.run();
+		
 		
 	}
 
