@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import model.Direction;
 import model.Game;
 import model.Location;
 import model.Player;
@@ -64,22 +65,22 @@ public class Server extends Thread {
 							//game.getPlayer(1).moveUp();
 							
 							control.movePlayer(1, playerLoc.getNorth(), playerRoom);
-//							
+							player.setDirection(Direction.NORTH);
 //							player.moveUp();
 							break;
 						case 2:
 							control.movePlayer(1, playerLoc.getSouth(), playerRoom);
-//							
+							player.setDirection(Direction.SOUTH);
 //							game.getPlayer(1).moveDown();
 							break;
 						case 3:
 							control.movePlayer(1, playerLoc.getEast(), playerRoom);
-//							
+							player.setDirection(Direction.EAST);
 //							game.getPlayer(1).moveRight();
 							break;
 						case 4:
 							control.movePlayer(1, playerLoc.getWest(), playerRoom);
-
+							player.setDirection(Direction.WEST);
 //							game.getPlayer(1).moveLeft();
 							break;
 					}
