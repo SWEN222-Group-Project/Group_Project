@@ -1,12 +1,15 @@
 package Networking;
 
 import java.io.IOException;
+
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import control.Control;
 import model.Direction;
@@ -23,6 +26,8 @@ public class Main {
 	static int id = 1;
 	 public static Game game;// = new Game();
 	 static List<Player> players = new ArrayList<Player>();
+	 public static ArrayList<String> CurrentUsers = new ArrayList<String>();
+	 public static ArrayList<Socket> ConnectionArray = new ArrayList<Socket>();
 	
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		// Sanity checks
@@ -43,17 +48,19 @@ public class Main {
 	
 	private static void runServer(int port2, int nclients2, Game g) {
 		// Listen for connections
-				System.out.println("PACMAN SERVER LISTENING ON PORT " + port2);
-				System.out.println("PACMAN SERVER AWAITING " + nclients2 + " CLIENTS");
+				System.out.println("SERVER LISTENING ON PORT " + port2);
+				System.out.println("SERVER AWAITING " + nclients2 + " CLIENTS");
 				try {
 					Server[] connections = new Server[nclients2];
+					
 					// Now, we await connections.
 					ServerSocket ss = new ServerSocket(port2);			
 					while (true) {
 						// 	Wait for a socket
 						Socket s = ss.accept();
-						System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-						int uid = id;
+						ConnectionArray.add(s);
+						System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());	
+						System.out.println(game.posList.get(id-1).getLocation().getxPos());
 						Player p = new Player(id, "john", game.posList.get(id-1), Direction.NORTH);
 			            players.add(p);
 			            game.addPlayer(p);
@@ -84,5 +91,7 @@ public class Main {
 					Server.file.delete();
 				}
 			}
+	
+    
 		
 }
