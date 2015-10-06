@@ -10,12 +10,11 @@ public abstract class Piece {
 	private String name;
 	private String description;
 	private Direction direction;
-	private static int TILE_WIDTH = 96;
-	private static int TILE_HEIGHT = 33;
-	private static int WALL_HEIGHT = 256;
-	private static int x= 400;
-	private static int y = 500;
-	private static String file="";
+	public int WIDTH;
+	public int HEIGHT;
+	private int x;
+	private int y;
+	private String file="";
 	
 	public Piece(Position position, String name, String description, Direction direction){
 		this.position = position;
@@ -88,7 +87,8 @@ public abstract class Piece {
 	
 	public abstract void toOutputSteam(DataOutputStream dout) throws IOException;
 	
-	public   static Piece fromInputStream(DataInputStream din, Room room) throws IOException{
+	public  static Piece fromInputStream(DataInputStream din, Room room) throws IOException{
+		
 		int type = din.readByte(); //TODO: insert type writeByte to all 
 		int validPos = din.readByte();
 		Location location = null;
@@ -102,36 +102,52 @@ public abstract class Piece {
 		}
 		
 		int nameLen = din.readByte();
-		byte[] nameb = new byte[nameLen];
-		din.read(nameb);
+		byte[] data = new byte[nameLen];
+		din.read(data);
 		
-		String name = new String(nameb, "UTF-8");
+		String name = new String(data, "UTF-8");
 		
 		int descLen = din.readByte();
-		byte[] descb = new byte[descLen];
-		din.read(descb);
-		String description = new String(descb, "UTF-8");
+		data = new byte[descLen];
+		din.read(data);
+		String description = new String(data, "UTF-8");
 		 
+//		private int x;
+//		private int y;
+//		private String file="";
+//		
+		int x = din.readInt(); //get x value
+		int y = din.readInt(); //get x value
+		int fileLen = din.readInt(); //get filename length
+		data = new byte[fileLen];
+		din.read(data); 
+		String fileName = new String(data, "UTF-8"); //get filename
 		
 		Position pos = null;
 		if(room != null){
 			pos = new Position(room, location);
 		}
+		Piece p;
 		if(type == PLAYER){
-			return Player.fromInputStream(din, name, pos);
+			 p = Player.fromInputStream(din, name, pos);
 		}else if(type == ASSIGNMENT){
-			return Assignment.fromInputStream(din, pos, description);
+			p =  Assignment.fromInputStream(din, pos, description);
 		}else if(type == COIN){
-			return Coin.fromInputStream(din, pos, description);
+			p = Coin.fromInputStream(din, pos, description);
 		}else if(type == COMPOSITE){
-			return ItemsComposite.fromInputStream(din, name, description, pos);
+			p = ItemsComposite.fromInputStream(din, name, description, pos);
 		}else if(type == KEY){
-			return Key.fromInputStream(din, pos);
+			p = Key.fromInputStream(din, pos);
 		}else if(type == WALL){
-			return Wall.fromInputStream(din, pos);
+			p = Wall.fromInputStream(din, pos);
 		}else{
 			throw new IllegalArgumentException("Unrecognised Piece type:" + type);
 		}
+		
+		p.setX(x); //set Piece x variable
+		p.setY(y); //set Piece y variable
+		p.setImage(fileName); //set Piece filename variable
+		return p;
 	}
 	/**
 	 * Returns the name of the peice
@@ -144,56 +160,47 @@ public abstract class Piece {
 	public String toString(){
 		return name;
 	}
+	
 
-	public static int getTileWidth() {
-		return TILE_WIDTH;
+	public int getWidth() {
+		return WIDTH;
 	}
 
-	public static int getTileHeight() {
-		return TILE_HEIGHT;
+	public int getHeight() {
+		return HEIGHT;
 	}
 
-	public static int getWallHeight() {
-		return WALL_HEIGHT;
-	}
-
-	public static int getx() {
+	public int getx() {
 		return x;
 	}
 
-	public static int gety() {
+	public int gety() {
 		return y;
 	}
 	
-	public static String getImage() {
+	public String getImage() {
 		return file;
 		
 	}
 
-	public static void setTILE_WIDTH(int tILE_WIDTH) {
-		TILE_WIDTH = tILE_WIDTH;
+	public void setWidth(int width) {
+		WIDTH = width;
 	}
 
-	public static void setTILE_HEIGHT(int tILE_HEIGHT) {
-		TILE_HEIGHT = tILE_HEIGHT;
+	public void setHeight(int height) {
+		HEIGHT = height;
 	}
 
-	public static void setWALL_HEIGHT(int wALL_HEIGHT) {
-		WALL_HEIGHT = wALL_HEIGHT;
-	}
-
-	public static void setX(int X) {
+	public void setX(int X) {
 		x = X;
 	}
 
-	public static void setY(int Y) {
+	public void setY(int Y) {
 		y = Y;
 	}
 
-	public static void setImage(String name) {
+	public void setImage(String name) {
 		file = name;
 		
 	}
-
-	
 }
