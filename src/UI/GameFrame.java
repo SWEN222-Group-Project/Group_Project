@@ -1,8 +1,5 @@
 package UI;
 
-import static UI.GameCanvas.TILE_HEIGHT;
-import static UI.GameCanvas.TILE_WIDTH;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -13,7 +10,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
@@ -29,7 +25,6 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
 import model.Game;
-import model.Player;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements KeyListener, ActionListener{
@@ -56,8 +51,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		this.game = game;
 		canvas = new GameCanvas(this, game, id); //new canvas
 		setLayout(new BorderLayout()); //set layout as border
-		add(canvas);// add canvas
-		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //disable close button					
+		add(canvas);// add canvas				
 		pack();
 		menuBar = new JMenuBar(); //create new menu bar
 		menu = new JMenu("File"); //name menu file
@@ -146,46 +140,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		screen.add(mapPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
-//		this.addKeyListener(new KeyListener(){
-//			
-//			public void keyPressed(KeyEvent e) {
-//				System.out.println("GameFrame: 144");
-//				try {
-//					int code = e.getKeyCode();
-//					if(code == KeyEvent.VK_RIGHT || code == KeyEvent.VK_KP_RIGHT) {	
-//						System.out.println("GameFrame: RIGHT");
-//						output.writeInt(3);
-//						//totalSent += 4;
-//					} else if(code == KeyEvent.VK_LEFT || code == KeyEvent.VK_KP_LEFT) {	
-//						System.out.println("GameFrame: LEFT");
-//						output.writeInt(4);
-//						//totalSent += 4;
-//					} else if(code == KeyEvent.VK_UP) {	
-//						System.out.println("GameFrame: UP");
-//						output.writeInt(1);
-//						//totalSent += 4;
-//					} else if(code == KeyEvent.VK_DOWN) {	
-//						System.out.println("GameFrame: DOWN");
-//						output.writeInt(2);
-//						//totalSent += 4;
-//					}output.flush();
-//					} catch(IOException ioe) {
-//					// something went wrong trying to communicate the key press to the
-//					// server.  So, we just ignore it.
-//				}
-//			}
-//
-//			@Override
-//			public void keyReleased(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//
-//			@Override
-//			public void keyTyped(KeyEvent e) {
-//				// TODO Auto-generated method stub
-//				
-//			}});
 		this.setFocusable(true);
 		setVisible(true); //show frame
 	}
@@ -227,38 +181,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	}
 	@Override
 	public void keyPressed(KeyEvent e) {
-		/*int cmd = e.getKeyCode();
-		Player player = game.getPlayer(id);
-		int realX = player.getrealX();
-		int realY = player.getrealY();
-		int posRealX = (newPosition.getyPos()*TILE_WIDTH)/10;
-		int posRealY = (newPosition.getxPos()*TILE_HEIGHT)/10;
 		
-		if(cmd == KeyEvent.VK_UP){
-			direction = NORTH;
-			posRealX=realX+32;
-			posRealY=realY-16;
-			//set new realX and realY here of the player
-			//location.getNorth()
-			break;
-		}
-		else if(cmd == KeyEvent.VK_RIGHT){
-			direction = 1;
-			x=x+32;
-			y=y+16;
-			break;
-		}
-		else if(cmd == KeyEvent.VK_DOWN){
-			direction = 2;
-			x=x-32;
-			y=y+16;
-			break;
-		}
-		else if(cmd == KeyEvent.VK_LEFT){
-			direction = 3;
-			x=x-32;
-			y=y-16;
-			break;
-		}*/
 	}
 }
