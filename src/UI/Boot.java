@@ -56,8 +56,8 @@ public class Boot {
 				else if (p instanceof Player){
 					p.setX(xPosTile+STARTX+14);
 					p.setY(yPosTile+STARTY-55);
-					p.setHeight(100);
-					p.setWidth(45);
+					p.setHeight(90);
+					p.setWidth(80);
 					if(p.getDirection() == Direction.SOUTH)
 						p.setImage("character2South");
 					else if(p.getDirection() == Direction.EAST)
@@ -70,7 +70,7 @@ public class Boot {
 				else if (p instanceof ItemsComposite){
 					p.setX(xPosTile+STARTX);
 					p.setY(yPosTile+STARTY-54);
-					p.setHeight(140);
+					p.setHeight(100);
 					p.setWidth(TILE_WIDTH);
 					p.setImage(p.getName());
 				}
