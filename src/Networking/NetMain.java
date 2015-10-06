@@ -51,11 +51,13 @@ public class NetMain {
 				Socket s = ss.accept();
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
 				System.out.println("ACCEPTED CONNECTION FROM: " + s.getInetAddress());				
-				int uid = id;				
+				int uid = id;
+				Player p = new Player(id, "john", game.posList.get(id-1), Direction.NORTH);
+	            game.addPlayer(p);
 				connections[--nclients] = new Server(s,uid,game);
 				connections[nclients].start();				
 				if(nclients == 0) {
-					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");					
+					System.out.println("ALL CLIENTS ACCEPTED --- GAME BEGINS");
 					System.out.println("ALL CLIENTS DISCONNECTED --- GAME OVER");
 					return; // done
 				}
