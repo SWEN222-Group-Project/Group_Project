@@ -92,8 +92,12 @@ public class NetMain {
 		}
 	}
 
-	private static boolean atleastOneConnection(Server[] connections) {
-		// TODO Auto-generated method stub
+	private static boolean atleastOneConnection(Server... connections) {
+		for (Server s : connections) {
+			if (s.isAlive()) {
+				return true;
+			}			
+		}
 		return false;
 	}
 }
