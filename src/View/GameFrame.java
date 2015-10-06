@@ -2,16 +2,9 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import javax.swing.*;
 
 import View.GameFrame;
-import dataStorage.DataStorage;
 
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements MouseListener, ActionListener{
@@ -21,14 +14,11 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	private JMenu menu;
 	private JMenu menu2;
 	private JMenuItem newGameItem;
-	private JMenuItem loadGameItem;
-	private JMenuItem saveGameItem;
 	private JMenuItem exitGameItem;
 	private JTextArea textField;
 	private JMenuItem aboutItem;
 	private JMenuItem howToPlayItem;
 	private JMenuItem controlsItem;
-	private DataStorage gameSave = new DataStorage();
 	
 	public GameFrame() {
 		canvas = new GameCanvas(this); //new canvas
@@ -49,18 +39,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 				newGame(); //start new game
 			}
 		});
-		loadGameItem = new JMenuItem(new AbstractAction("Load Game") { //new game menu item
-			@Override
-			public void actionPerformed(ActionEvent e) { //when load game clicked
-				gameSave.loadGame();
-			}
-		});
-		saveGameItem = new JMenuItem(new AbstractAction("Save Game") { //new game menu item
-			@Override
-			public void actionPerformed(ActionEvent e) { //when save game clicked
-				gameSave.saveGame();
-			}
-		});
+		
 		exitGameItem = new JMenuItem(new AbstractAction("Exit Game") { //exit game menu item
 			@Override
 			public void actionPerformed(ActionEvent e) { //when exit game clicked
@@ -106,15 +85,11 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 			}
 		});
 		menu.add(newGameItem);
-		menu.add(loadGameItem);
-		menu.add(saveGameItem);
 		menu.add(exitGameItem); 
 		menu2.add(aboutItem);
 		menu2.add(howToPlayItem);
 		menu2.add(controlsItem);
 		newGameItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		loadGameItem.setAccelerator(KeyStroke.getKeyStroke('L', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		saveGameItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		exitGameItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
 		screen = new JPanel(); //create bottom panel
 		textField = new JTextArea(); //create game log
@@ -149,14 +124,6 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		this.dispose(); //remove current frame
 		new GameFrame(); //create new game frame game
 	}
-	
-//	public void loadGame() {
-//		//TODO 
-//	}
-//	
-//	public void saveGame() {
-//		//TODO 
-//	}
 	
 	public GameCanvas getCanvas() {
 		return canvas;
