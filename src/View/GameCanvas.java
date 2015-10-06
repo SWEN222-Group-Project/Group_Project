@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import View.GameFrame;
 
 	@SuppressWarnings("serial")
-	public class GameCanvas extends JPanel implements MouseListener {
+	public class GameCanvas extends Canvas implements MouseListener {
 
 		private static GameFrame frame;
 		

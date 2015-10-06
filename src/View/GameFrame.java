@@ -9,16 +9,11 @@ import View.GameFrame;
 @SuppressWarnings("serial")
 public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	private final GameCanvas canvas;
-	private JPanel screen;
+	private JPanel screen, buttonsPanel;
 	private JMenuBar menuBar;
-	private JMenu menu;
-	private JMenu menu2;
-	private JMenuItem newGameItem;
-	private JMenuItem exitGameItem;
+	private JMenu menu, menu2;
+	private JMenuItem newGameItem, exitGameItem, aboutItem, howToPlayItem, controlsItem;
 	private JTextArea textField;
-	private JMenuItem aboutItem;
-	private JMenuItem howToPlayItem;
-	private JMenuItem controlsItem;
 	
 	public GameFrame() {
 		canvas = new GameCanvas(this); //new canvas
@@ -27,6 +22,77 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		add(canvas);// add canvas
 		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //disable close button					
 		pack();
+		
+		createMenu(); // create menu
+		
+		screen = new JPanel(); //create bottom panel
+		screen.setPreferredSize(new Dimension(1580, 132));
+		textField = new JTextArea(); //create game log
+		JScrollPane scroll = new JScrollPane(textField); //add scroll to text field
+		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scroll.setVisible(true); //show scroll
+		scroll.setAutoscrolls(true); //auto scroll
+        scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll
+        JPanel itemsFound = new JPanel();
+		itemsFound.setBackground(Color.blue); // temporary color to see the panel
+		itemsFound.setVisible(true);
+		buttonsPanel = new JPanel(); // panel for the buttons
+		buttonsPanel.setLayout(new GridLayout(3, 1));
+		buttonsPanel.setVisible(true);
+		createButtons();
+				
+		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
+		
+		screen.add(itemsFound, BorderLayout.WEST);
+		screen.add(scroll, BorderLayout.WEST); //add scroll/text field to bottom panel to the east of button panel
+		screen.add(buttonsPanel, BorderLayout.EAST);
+		this.setSize(1580,1020); //default size of game frame
+		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
+		setVisible(true); //show frame
+	}
+	private void createButtons() {
+		// TODO Auto-generated method stub
+		JButton mapButton = new JButton("Map");
+		mapButton.setToolTipText("Display the map");
+		mapButton.setPreferredSize(new Dimension(100, 10));
+		mapButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub				
+			}			
+		});
+		buttonsPanel.add(mapButton);
+		JButton dropItem = new JButton("Drop Item");
+		dropItem.setToolTipText("Drop an item");
+		dropItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub				
+			}			
+		});
+		buttonsPanel.add(dropItem);
+		JButton rotateView = new JButton("Rotate 180");
+		rotateView.setToolTipText("Rotate the view 180 degrees");
+		rotateView.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub				
+			}			
+		});
+		buttonsPanel.add(rotateView);
+	}
+	/**
+	 * Start a new game
+	 */
+	public void newGame() {
+		this.dispose(); //remove current frame
+		new GameFrame(); //create new game frame game
+	}
+	
+	/**
+	 * Creates the menu bar and all the menu items
+	 */
+	public void createMenu() {
 		menuBar = new JMenuBar(); //create new menu bar
 		menu = new JMenu("File"); //name menu file
 		menu2 = new JMenu("Game"); //name menu game
@@ -90,75 +156,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		menu2.add(howToPlayItem);
 		menu2.add(controlsItem);
 		newGameItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		exitGameItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-		screen = new JPanel(); //create bottom panel
-		screen.setPreferredSize(new Dimension(1580, 132));
-		textField = new JTextArea(); //create game log
-		JScrollPane scroll = new JScrollPane(textField); //add scroll to text field
-		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scroll.setVisible(true); //show scroll
-		scroll.setAutoscrolls(true); //auto scroll
-        scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll
-        JPanel itemsFound = new JPanel();
-		itemsFound.setBackground(Color.blue);
-		itemsFound.setVisible(true);
-		JPanel buttonsPanel = new JPanel(); // panel for the buttons
-		buttonsPanel.setLayout(new GridLayout(3, 1));
-		buttonsPanel.setVisible(true);
-		JButton mapButton = new JButton("Map");
-		mapButton.setToolTipText("Display the map");
-		mapButton.setPreferredSize(new Dimension(100, 10));
-		mapButton.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		buttonsPanel.add(mapButton);
-		JButton dropItem = new JButton("Drop Item");
-		dropItem.setToolTipText("Drop an item");
-		dropItem.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		buttonsPanel.add(dropItem);
-		JButton rotateView = new JButton("Rotate 180");
-		rotateView.setToolTipText("Rotate the view 180 degrees");
-		rotateView.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-		buttonsPanel.add(rotateView);
-		
-		
-		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
-		
-		screen.add(itemsFound, BorderLayout.WEST);
-		screen.add(scroll, BorderLayout.WEST); //add scroll/text field to bottom panel to the east of button panel
-		screen.add(buttonsPanel, BorderLayout.EAST);
-		this.setSize(1580,1020); //default size of game frame
-		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
-		setVisible(true); //show frame
-	}
-	/**
-	 * Start a new game
-	 */
-	public void newGame() {
-		this.dispose(); //remove current frame
-		new GameFrame(); //create new game frame game
+		exitGameItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));		
 	}
 	
 	public GameCanvas getCanvas() {
