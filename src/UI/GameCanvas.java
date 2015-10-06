@@ -26,7 +26,10 @@ import model.*;
 		public static final int WALL_HEIGHT = 256;
 		public static final int START_X = 400;
 		public static final int START_Y = 400;
-		private int id = 1;
+		public static int xPosTile;
+		public static int yPosTile;
+		public static int yPosWall;
+		private int id = 0;
 		Game game;
 		
 		public GameCanvas(GameFrame frame, Game game) {
@@ -62,25 +65,20 @@ import model.*;
 		public void paint(Graphics g){
 			g.setColor(Color.BLACK);
 			g.fillRect(PADDING_TOP, PADDING_LEFT, CANVAS_WIDTH, CANVAS_HEIGHT);
-			
+			game.printAll();
 			Room room = game.getPlayer(1).getRoom(); //getPlayer(id)
-			System.out.println(room.getName() + "test");
+			System.out.println(room + "test");
 			Piece[][] board = room.getBoard();
 			for(int row = 0; row < board.length; row++){
 				for(int col = board[row].length-1; col >= 0; col--){
-					int xPosTile = (row+col)*(TILE_WIDTH/2);
-					int yPosTile = (row-col)*(TILE_HEIGHT/2);
-					int yPosWall = (row-col)*(TILE_HEIGHT/2)-225;
-					if(board[row][col] instanceof Wall){
-						g.drawImage(loadImage("wallTileNorthMiddle.png"), xPosTile+START_X, yPosWall+START_Y, TILE_WIDTH, WALL_HEIGHT, null);
-					}
-					else if(board[row][col] !=null){
-//						System.out.println("X: " + board[row][col].getX());
-						board[row][col].draw(g);
+					xPosTile = (row+col)*(TILE_WIDTH/2);
+					yPosTile = (row-col)*(TILE_HEIGHT/2);
+					yPosWall = (row-col)*(TILE_HEIGHT/2)-225;
+					if(board[row][col] !=null){
+//						board[row][col].draw(g);
 					}
 					else{
 						g.drawImage(loadImage("floorTile.png"), xPosTile+START_X, yPosTile+START_Y, TILE_WIDTH, TILE_HEIGHT, null);
-						//board[row][col].draw(g);
 					}
 				}
 			}

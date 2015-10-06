@@ -33,12 +33,12 @@ public enum Direction {
 
 	public String toString(){
 		if(this == WEST) 
-			return "West";
+			return "Direction: West";
 		if(this == NORTH)
-			return "North";
+			return "Direction North";
 		if(this == SOUTH)
-			return "South";
+			return "Direction South";
 		else 
-			return "East";
+			return "Direction: East";
 	}
 }

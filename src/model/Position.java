@@ -1,13 +1,10 @@
 package model;
-
-import java.io.Serializable;
-
 /**
  * TODO: 
  * @author harman
  *
  */
-public class Position implements Serializable {
+public class Position {
 	private Room room;
 	private Location location;
 	
@@ -18,6 +15,10 @@ public class Position implements Serializable {
 	
 	public Room getRoom(){
 		return this.room;
+	}
+	
+	public void setRoom(Room room){
+		this.room = room;
 	}
 	
 	public Location getLocation(){

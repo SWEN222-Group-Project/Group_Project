@@ -28,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 
+
 import model.Game;
 import model.Player;
 
@@ -51,6 +52,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	private DataInputStream input;
 	
 	public GameFrame(Game game, int id) {
+//		Room room = game.getPlayer(id).getRoom();
 		this.id = id;
 		this.game = game;
 		canvas = new GameCanvas(this, game); //new canvas
@@ -187,6 +189,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 //			}});
 		this.setFocusable(true);
 		setVisible(true); //show frame
+		
 	}
 	/**
 	 * Start a new game

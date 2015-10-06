@@ -1,8 +1,6 @@
 package model;
 
-import java.io.Serializable;
-
-public class Location implements Serializable {
+public class Location {
 
 	private int xPos, yPos;
 	
