@@ -17,6 +17,10 @@ public class Position {
 		return this.room;
 	}
 	
+	public void setRoom(Room room){
+		this.room = room;
+	}
+	
 	public Location getLocation(){
 		return new Location(location.getxPos(), location.getyPos());
 	}
