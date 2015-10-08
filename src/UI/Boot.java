@@ -3,9 +3,13 @@ package UI;
 import static UI.Artist.DrawQuadTex;
 import static UI.Artist.quickLoad;
 import static UI.Artist.startSession;
+import model.Coin;
 import model.Direction;
+import model.Door;
+import model.Empty;
 import model.Game;
 import model.ItemsComposite;
+import model.Key;
 import model.Location;
 import model.Piece;
 import model.Player;
@@ -23,7 +27,7 @@ public class Boot {
 	Piece[][] board;
 	private static final int TILE_WIDTH = 80;
 	private static final int TILE_HEIGHT = 40;
-	private static final int WALL_HEIGHT = 260;
+	private static final int WALL_HEIGHT = 160;
 	private static final int STARTX = 400;
 	private static final int STARTY = 500;
 	public Boot(int uid, Game g){
@@ -35,29 +39,40 @@ public class Boot {
 				int xPosTile = (row+col)*(TILE_WIDTH/2);
 				int yPosTile = (row-col)*(TILE_HEIGHT/2);
 				int xPosWall = (row+col)*(TILE_WIDTH/2);
-				int yPosWall = (row-col)*(TILE_HEIGHT/2)-220;
+				int yPosWall = (row-col)*(TILE_HEIGHT/2)-120;
 				Piece p = board[row][col];
 				if (p instanceof Wall){
 					p.setX(xPosWall+STARTX);
 					p.setY(yPosWall+STARTY);
-					p.setHeight(WALL_HEIGHT);
-					p.setWidth(TILE_WIDTH);
-					p.setImage("wallTileNorthMiddle");
+					p.setTILE_HEIGHT(WALL_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					if(p.getDirection() == Direction.NORTH || p.getDirection() == Direction.EAST)
+						p.setImage("wallTileBrickOpac");
+					else 
+						p.setImage("wallTileBrick");
+				}
+				else if (p instanceof Door){
+					p.setX(xPosWall+STARTX);
+					p.setY(yPosWall+STARTY);
+					p.setTILE_HEIGHT(WALL_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					p.setImage("wallTileBrick");
 				}
 				else if(p == null){
-					board[row][col] = new Wall(new Position(r, new Location(row, col)), Direction.NORTH);
+					board[row][col] = new Empty(new Position(r, new Location(row, col)), null, null, null);
 					p = board[row][col];
 					p.setX(xPosTile+STARTX);
 					p.setY(yPosTile+STARTY);
-					p.setHeight(TILE_HEIGHT);
-					p.setWidth(TILE_WIDTH);
+					p.setTILE_HEIGHT(TILE_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
 					p.setImage("floorTile");
 				}
 				else if (p instanceof Player){
-					p.setX(xPosTile+STARTX+14);
-					p.setY(yPosTile+STARTY-55);
-					p.setHeight(90);
-					p.setWidth(80);
+					p.setX(xPosTile+STARTX);
+					p.setY(yPosTile+STARTY-40);
+					p.setTILE_HEIGHT(80);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					System.out.println(p.getTileWidth());
 					if(p.getDirection() == Direction.SOUTH)
 						p.setImage("character2South");
 					else if(p.getDirection() == Direction.EAST)
@@ -65,20 +80,44 @@ public class Boot {
 					else if(p.getDirection() == Direction.WEST)
 						p.setImage("character2West");
 					else 
-						p.setImage("character2North");
+						p.setImage("character1North");
 				}
 				else if (p instanceof ItemsComposite){
+					if(p.getName().startsWith("cabinet") || p.getName().startsWith("plant")){
+						p.setX(xPosTile+STARTX);
+						p.setY(yPosTile+STARTY-120);
+						p.setTILE_HEIGHT(160);
+						p.setTILE_WIDTH(TILE_WIDTH);
+						p.setImage(p.getName());
+					}
+					else{
+						p.setX(xPosTile+STARTX);
+						p.setY(yPosTile+STARTY-40);
+						p.setTILE_HEIGHT(80);
+						p.setTILE_WIDTH(TILE_WIDTH);
+						p.setImage(p.getName());
+					}
+				}
+				else if (p instanceof Coin){
 					p.setX(xPosTile+STARTX);
-					p.setY(yPosTile+STARTY-54);
-					p.setHeight(100);
-					p.setWidth(TILE_WIDTH);
+					p.setY(yPosTile+STARTY-120);
+					p.setTILE_HEIGHT(TILE_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
 					p.setImage(p.getName());
+					//p.getDirection().anticlockwise()
+				}
+				else if (p instanceof Key){
+					p.setX(xPosTile+STARTX);
+					p.setY(yPosTile+STARTY-120);
+					p.setTILE_HEIGHT(TILE_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					p.setImage(p.getName());
+					//p.getDirection().anticlockwise()
 				}
 				
 			}
 		}
 		startSession();
-		//Player character = new Player(quickLoad(Character.Char1North.charName), Boot.grid.getTile(5,5), WIDTH, HEIGHT);
 		while(!Display.isCloseRequested()){
 			draw();
 			Display.update();
@@ -91,16 +130,11 @@ public class Boot {
 		for(int row = 0; row < board.length; row++){
 			for(int col = board[row].length-1; col >= 0; col--){
 				Piece t = board[row][col];
-				String name = "table";
-				if(t.getName().equals(name)){
-					System.out.println("height: " + t.getHeight());
-					System.out.println("width: " + t.getWidth());
-				}
-				//System.out.println(t.getName());
 				//if(!(t instanceof Wall))
 					//continue;
+				System.out.println(t.getTileWidth());
 				Texture texture = quickLoad(t.getImage());
-				DrawQuadTex(texture, t.getx(), t.gety(), t.getWidth(), t.getHeight());
+				DrawQuadTex(texture, t.getx(), t.gety(), t.getTileWidth(), t.getTileHeight());
 			}
 		}
 	}
