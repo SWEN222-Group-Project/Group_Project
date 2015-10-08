@@ -74,11 +74,11 @@ public class Boot {
 					p.setTILE_WIDTH(TILE_WIDTH);
 					System.out.println(p.getTileWidth());
 					if(p.getDirection() == Direction.SOUTH)
-						p.setImage("character2South");
+						p.setImage("character1South");
 					else if(p.getDirection() == Direction.EAST)
-						p.setImage("character2East");
+						p.setImage("character1East");
 					else if(p.getDirection() == Direction.WEST)
-						p.setImage("character2West");
+						p.setImage("character1West");
 					else 
 						p.setImage("character1North");
 				}
