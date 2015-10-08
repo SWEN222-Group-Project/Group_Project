@@ -11,7 +11,7 @@ public class Control {
 	}
 	//TODO: need the fame class that is the view component.
 	
-	public boolean movePlayer(int playerId, Location destination, Room room){
+	public synchronized boolean movePlayer(int playerId, Location destination, Room room){
 //		Position currentPos = game.getPlayer(playerId).getPosition();
 //		if(!currentPos.isAdjacentTo(destination)){
 //			//throw exception ("You can only move one square at a time.\nClick or use arrow keys.)
@@ -35,6 +35,7 @@ public class Control {
 			game.pickItem(playerId, room, destination);
 			checkWon(playerId);
 			System.out.println("*Picking item at location " + destination);
+//			System.out.println("")
 			return false;
 		}
 		System.out.println("moving player");
@@ -110,7 +111,7 @@ public class Control {
 	}
 	
 	//examine item(room, location) based on user click
-	public String examineItem(int playerId, Location interest){
+	public synchronized String examineItem(int playerId, Location interest){
 		//need to return the description of the item at interset location, iff not null;
 		Room currentRoom = game.getPlayer(playerId).getRoom();
 		Piece piece = currentRoom.getPiece(interest);
@@ -126,7 +127,7 @@ public class Control {
 	 * @param playerId
 	 * @param item
 	 */
-	public void dropItem(int playerId, Piece item){
+	public synchronized void dropItem(int playerId, Piece item){
 		//first get empty location
 		Player player = game.getPlayer(playerId);
 		if(!player.hasItems()){
