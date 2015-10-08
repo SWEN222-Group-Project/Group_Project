@@ -54,24 +54,25 @@ public class Door extends Piece {
 	//draw(g)
 
 	@Override
-	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+	public  void toOutputStream(DataOutputStream dout) throws IOException {
 		
 		dout.writeInt(super.getLocation().getxPos()); //send x location
 		dout.writeInt(super.getLocation().getyPos()); //send y location
-		System.out.println("name " + super.getName());
+//		System.out.println("name " + super.getName());
 
-//		byte[] name = super.getName().getBytes("UTF-8");
-//		dout.writeByte(name.length);
-//		dout.write(name);
-//		
-//		byte[] desc = super.getDescription().getBytes("UTF-8");
-//		dout.writeByte(desc.length);
-//		dout.write(desc);//dout.writeBytes(super.getRoom().toString()); //room name to check with equals
-		
 		byte[] roomName = (getRoom().toString()).getBytes("UTF-8");
-		System.out.println("roomName byte: " + roomName.toString());
+//		System.out.println("roomName byte: " + roomName.toString());
 		dout.writeByte(roomName.length);
 		dout.write(roomName);
+		
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
 		//---
 		dout.writeByte(super.getDirection().ordinal()); //send direction
 		
@@ -99,30 +100,27 @@ public class Door extends Piece {
 		location = new Location(x,y);
 		
 		
-//		int nameLen = din.readByte();
-//		byte[] nameb = new byte[nameLen];
-//		din.read(nameb);
-//		System.out.println("roomName byte: " + nameb.toString());
-//		String name = nameb.toString();
-//		//System.out.println(name);
-//		
-//		int descLen = din.readByte();
-//		byte[] descb = new byte[descLen];
-//		din.read(descb);
-//		String description = descb.toString();
-		 
 		int roomLen = din.readByte();
 		byte[] roomb = new byte[roomLen];
 		din.read(roomb);
 		String roomName = new String(roomb, "UTF-8");
-		System.out.println("roomName: " + roomName);
+//		System.out.println("roomName: " + roomName);
 		Room room = getRoom(rooms, roomName);
-		for(Room r : rooms){
-			System.out.println("room in rooms: " + r);
-		}
-		System.out.println("door is located in: " + room);
+//		for(Room r : rooms){
+//			System.out.println("room in rooms: " + r);
+//		}
+//		System.out.println("door is located in: " + room);
+		
 		Position pos = new Position(room, location);
-
+        int tileWidth = din.readInt();
+        int tileHeight = din.readInt();
+		int realX = din.readInt(); //get x value
+		int realY = din.readInt(); //get x value
+		int fileLen = din.readInt(); //get filename length
+		byte[] data = new byte[fileLen];
+		din.read(data); 
+		String fileName = new String(data, "UTF-8"); //get filename
+		
 		Direction dir = Direction.values()[din.readByte()];
 		int locked = din.readByte();
 		boolean isLocked;
@@ -138,7 +136,7 @@ public class Door extends Piece {
 		
 		Room room2 = getRoom(rooms, new String(room2b, "UTF-8"));
 		
-		System.out.println("Door leads to: " + room2.toString());
+//		System.out.println("Door leads to: " + room2.toString());
 		int xPos = din.readInt(); //get x pos
 		int yPos = din.readInt(); //get y pos
 		Position leadsTo = new Position(room2, new Location(xPos, yPos));
@@ -153,6 +151,12 @@ public class Door extends Piece {
 		Door door = new Door(pos, dir, leadsTo);
 		door.addKeys(keys);
 		door.setLocked(isLocked);
+		
+		door.setTILE_WIDTH(tileWidth);
+		door.setTILE_HEIGHT(tileHeight);
+		door.setX(realX); //set Piece x variable
+		door.setY(realY); //set Piece y variable
+		door.setImage(fileName); //set Piece filename variable
 		return door;
 	}
 	

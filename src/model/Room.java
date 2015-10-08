@@ -13,20 +13,46 @@ public class Room {
     public Room(String name){
     	this.board = new Piece[ROOM_WIDTH][ROOM_WIDTH];
     	this.name = name;
+
     }
 
+    
     public Room(String name, Piece[][] board){
     	this.name = name;
     	this.board = board;
     	for(int i = 0; i < board.length; i++){
     		for(int j = 0; j < board.length; j++){
-    			if(board[i][j] != null && !(board[i][j] instanceof Door)){
+    			Piece p = board[i][j];
+    			if(p != null && !(p instanceof Door) && !(p instanceof Wall)){
     				pieces++;
     			}
     		}
     	}
     }
     
+    
+    public void addWalls(){
+		
+		for(int i = 0; i < ROOM_WIDTH; i++){
+			//add walls on the top
+			if(board[0][i] == null)
+				board[0][i] = new Wall(new Position(this, new Location(0,i)), Direction.SOUTH);
+			if(board[i][0] == null)
+				board[i][0] = new Wall(new Position(this, new Location(i,0)), Direction.EAST);
+			if(board[Room.ROOM_WIDTH-1][i] == null)
+				board[Room.ROOM_WIDTH-1][i] = new Wall(new Position(this, new Location(Room.ROOM_WIDTH - 1, i)), Direction.NORTH);
+			if(board[i][Room.ROOM_WIDTH-1] == null)
+				board[i][Room.ROOM_WIDTH-1] = new Wall(new Position(this, new Location(i, Room.ROOM_WIDTH-1)), Direction.WEST);
+//			if(getPiece(new))
+//			addPiece(new Location(0,i), new Wall(null, Direction.EAST));
+			
+//			addPiece(new Location(i,0), new Wall(null, Direction.NORTH));
+			
+//			addPiece(new Location(ROOM_WIDTH-1,i), new Wall(null, Direction.WEST));
+//			addPiece(new Location(i,ROOM_WIDTH-1), new Wall(null, Direction.SOUTH));
+		}
+
+	}
     public synchronized void addPiece(Location loc, Piece piece){
   
     	piece.setPosition(new Position(this, loc));
@@ -79,7 +105,7 @@ public class Room {
     	return name;
     }
 
-	public synchronized void toOutputSteam(DataOutputStream dout) throws IOException {
+	public synchronized void toOutputStream(DataOutputStream dout) throws IOException {
 		//first write room name
 		byte[] nameb = name.getBytes("UTF-8");
 		dout.writeByte(nameb.length);
@@ -88,13 +114,14 @@ public class Room {
 		
 		//first send number pieces in the board 
 		//then do outputstream
-		dout.writeByte(pieces);
-		
+		dout.writeInt(pieces);
+//		System.out.println("room."+toString()+ "pieces = " + pieces);
 		for(int i = 0; i < board.length; i++){
 			for(int j = 0; j < board.length; j++){
-				if(board[i][j] != null && !(board[i][j] instanceof Door)){
-					System.out.println("room's piece: " + board[i][j].getName());
-    				board[i][j].toOutputSteam(dout);
+				Piece p = board[i][j];
+				if(p!= null && !(p instanceof Door) && !(p instanceof Wall)){
+//					System.out.println("room's piece: " + board[i][j].getName());
+    				board[i][j].toOutputStream(dout);
 				}
 			}
 		}
@@ -105,17 +132,20 @@ public class Room {
 		byte[] nameb = new byte[nameLen];
 		din.read(nameb);
 		
-		int pieces = din.readByte(); //read number of pieces
+		int pieces = din.readInt(); //read number of pieces
 		Room room = new Room(new String(nameb, "UTF-8"));
-		
+//		room.addWalls();
+//		System.out.println("room.in pieces = " + pieces);
 		for(int i = 0; i < pieces; i++){
+//			System.out.println("Room:" + room);
+//			System.out.println("piece:" + i);
 			Piece p = Piece.fromInputStream(din, room);
-			System.out.println("p: " + p);
+//			System.out.println("p: " + p.getLocation().toString());
 			
 			if(p instanceof Player){
 				game.addPlayer((Player) p);
 			}
-			System.out.println("Room:" + room);
+			
 			if(p.getLocation() != null){
 	    		room.addPiece(p.getLocation(), p);
 			}
@@ -124,7 +154,6 @@ public class Room {
 	}
 
 	public Piece[][] getBoard() {
-		// TODO Auto-generated method stub
 		return board;
 	}
 }

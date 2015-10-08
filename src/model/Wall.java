@@ -19,7 +19,7 @@ public class Wall extends Piece{
 	//have a drawImage method that have to be implemented by the wallImpl and door class
 
 	@Override
-	public void toOutputSteam(DataOutputStream dout) throws IOException {
+	public void toOutputStream(DataOutputStream dout) throws IOException {
 		dout.writeByte(Piece.WALL);
 		if(super.getPosition() == null){
 			dout.writeByte(0); //position is invalid (null)
@@ -38,9 +38,21 @@ public class Wall extends Piece{
 		dout.writeByte(desc.length);
 		dout.write(desc);
 		
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
 		//---
 		//don't know if it is important here
 		dout.writeByte(super.getDirection().ordinal()); //send direction
+	}
+	
+	public String toString(){
+		return "*";
 	}
 	
 	public synchronized static Wall fromInputStream(DataInputStream din, Position pos) throws IOException{

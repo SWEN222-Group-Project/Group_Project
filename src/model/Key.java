@@ -63,7 +63,7 @@ public class Key extends Item{
 	}
 
 	@Override
-	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+	public  void toOutputStream(DataOutputStream dout) throws IOException {
 		dout.writeByte(Piece.KEY);
 		if(super.getPosition() == null){
 			dout.writeByte(0); //position is invalid (null)
@@ -82,6 +82,14 @@ public class Key extends Item{
 		dout.writeByte(desc.length);
 		dout.write(desc);
 		
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
 		//----
 		dout.writeByte(super.getDirection().ordinal()); //send direction
 		

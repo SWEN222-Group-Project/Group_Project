@@ -94,7 +94,7 @@ public class Player extends Piece {
 	
 		Direction dir = Direction.values()[din.readByte()];
 		
-		int id = din.readByte();
+		int id = din.readInt();
 		int points = din.readByte();
 		
 		int numContain = din.readByte();
@@ -132,7 +132,7 @@ public class Player extends Piece {
 	}
 	
 	@Override
-	public void toOutputSteam(DataOutputStream dout) throws IOException {
+	public void toOutputStream(DataOutputStream dout) throws IOException {
 //		private Position position;
 //		private String name;
 //		private String description;
@@ -156,26 +156,35 @@ public class Player extends Piece {
 		byte[] desc = super.getDescription().getBytes("UTF-8");
 		dout.writeByte(desc.length);
 		dout.write(desc);
+		
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
 	
 		//----
 		dout.writeByte(super.getDirection().ordinal()); //send direction
 		
-		dout.writeByte(id); //write player id 
+		dout.writeInt(id); //write player id 
 		//write points
 		dout.writeByte(points);
 		
 		
 		//iterate over container
 		dout.writeByte(container.size());
-		System.out.println("container.size()): " + container.size());
+//		System.out.println("container.size()): " + container.size());
 		for(Piece p  : container){
-			p.toOutputSteam(dout);
+			p.toOutputStream(dout);
 		}
 		
 		//iterate over assignments		
 		dout.writeByte(assignments.size());
 		for(Assignment a : assignments){
-			a.toOutputSteam(dout);
+			a.toOutputStream(dout);
 		}		
 	}
 }

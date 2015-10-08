@@ -15,6 +15,7 @@ public class NonMovableStrategy implements AddStrategy{
 		while(itemItr.hasNext()){
 			Item item = (Item) itemItr.next(); //safe
 			if(item.addTo(player, location)){//this adds each item in composite to the player
+				System.out.println("item added: " + item.toString());
 				itemItr.remove();
 			}			
 		}

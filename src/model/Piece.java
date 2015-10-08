@@ -10,8 +10,8 @@ public abstract class Piece {
 	private String name;
 	private String description;
 	private Direction direction;
-	public int WIDTH;
-	public int HEIGHT;
+	public int tileWidth;
+	public int tileHeight;
 	private int x;
 	private int y;
 	private String file="";
@@ -84,12 +84,14 @@ public abstract class Piece {
 	public static final int KEY = 4;
 	public static final int WALL = 5;
 	public static final int DOOR = 6;
+	public static final int EMPTY = 7;
 	
-	public abstract void toOutputSteam(DataOutputStream dout) throws IOException;
+	public abstract void toOutputStream(DataOutputStream dout) throws IOException;
 	
 	public  static Piece fromInputStream(DataInputStream din, Room room) throws IOException{
 		
-		int type = din.readByte(); //TODO: insert type writeByte to all 
+		int type = din.readByte(); //TODO: insert type writeByte to all
+		System.out.println("Piece type: " + type);
 		int validPos = din.readByte();
 		Location location = null;
 		if(validPos == 1){
@@ -106,16 +108,14 @@ public abstract class Piece {
 		din.read(data);
 		
 		String name = new String(data, "UTF-8");
-		
+		System.out.println("Piece name: " + name);
 		int descLen = din.readByte();
 		data = new byte[descLen];
 		din.read(data);
 		String description = new String(data, "UTF-8");
 		 
-//		private int x;
-//		private int y;
-//		private String file="";
-//		
+		int tileWidth = din.readInt();
+		int tileHeight = din.readInt();
 		int x = din.readInt(); //get x value
 		int y = din.readInt(); //get x value
 		int fileLen = din.readInt(); //get filename length
@@ -144,6 +144,8 @@ public abstract class Piece {
 			throw new IllegalArgumentException("Unrecognised Piece type:" + type);
 		}
 		
+		p.setTILE_WIDTH(tileWidth);
+		p.setTILE_HEIGHT(tileHeight);
 		p.setX(x); //set Piece x variable
 		p.setY(y); //set Piece y variable
 		p.setImage(fileName); //set Piece filename variable
@@ -162,13 +164,15 @@ public abstract class Piece {
 	}
 	
 
-	public int getWidth() {
-		return WIDTH;
+	public int getTileWidth() {
+		return tileWidth;
 	}
 
-	public int getHeight() {
-		return HEIGHT;
+	public int getTileHeight() {
+		return tileHeight;
 	}
+
+	
 
 	public int getx() {
 		return x;
@@ -183,12 +187,12 @@ public abstract class Piece {
 		
 	}
 
-	public void setWidth(int width) {
-		WIDTH = width;
+	public void setTILE_WIDTH(int tILE_WIDTH) {
+		tileWidth= tILE_WIDTH;
 	}
 
-	public void setHeight(int height) {
-		HEIGHT = height;
+	public void setTILE_HEIGHT(int tILE_HEIGHT) {
+		tileHeight = tILE_HEIGHT;
 	}
 
 	public void setX(int X) {

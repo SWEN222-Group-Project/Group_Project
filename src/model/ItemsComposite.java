@@ -32,6 +32,7 @@ public class ItemsComposite extends Item {
 	
 	public void addItem(Item item){
 		items.add(item);
+		item.setPosition(null);
 	}
 	@Override
 	public synchronized boolean addTo(Player player, Location location) {
@@ -87,7 +88,7 @@ public class ItemsComposite extends Item {
 	}
 
 	
-	public  static ItemsComposite fromInputStream(DataInputStream din, 
+	public synchronized static ItemsComposite fromInputStream(DataInputStream din, 
 			String name, String description, Position pos) throws IOException{
 
 		Direction dir = Direction.values()[din.readByte()];
@@ -113,7 +114,7 @@ public class ItemsComposite extends Item {
 	}
 	
 	@Override
-	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+	public  void toOutputStream(DataOutputStream dout) throws IOException {
 		dout.writeByte(Piece.COMPOSITE);
 		if(super.getPosition() == null){
 			dout.writeByte(0); //position is invalid (null)
@@ -132,6 +133,14 @@ public class ItemsComposite extends Item {
 		dout.writeByte(desc.length);
 		dout.write(desc);
 		
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeInt(super.getx()); //send RealX pos 
+		dout.writeInt(super.gety()); //send RealY pos
+		
+		byte[] fname = super.getImage().getBytes("UTF-8");
+		dout.writeInt(fname.length);
+		dout.write(fname); //send filename
 		//----
 		dout.writeByte(super.getDirection().ordinal()); //send direction
 		
@@ -141,7 +150,7 @@ public class ItemsComposite extends Item {
 		//send items
 		dout.writeByte(items.size()); //send length of items 
 		for(Item item : items){
-			item.toOutputSteam(dout);
+			item.toOutputStream(dout);
 		}
 	}
 }
