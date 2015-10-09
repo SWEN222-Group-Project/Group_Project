@@ -2,22 +2,32 @@ package View;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+
 import javax.swing.*;
 
+import org.lwjgl.LWJGLException;
+
 import View.GameFrame;
+import model.Game;
 
 @SuppressWarnings("serial")
-public class GameFrame extends JFrame implements MouseListener, ActionListener{
-	private final GameCanvas canvas;
-	private JPanel screen, buttonsPanel;
+public class GameFrame extends JFrame implements KeyListener, ActionListener{
+	private final Canvas canvas;
+	private JPanel screen, buttonsPanel, itemsFound;
 	private JMenuBar menuBar;
 	private JMenu menu, menu2;
 	private JMenuItem newGameItem, exitGameItem, aboutItem, howToPlayItem, controlsItem;
 	private JTextArea textField;
+	Game game;
+	int id;
 	
-	public GameFrame() {
-		canvas = new GameCanvas(this); //new canvas
-		canvas.addMouseListener(this); //add mouse listener onto canvas
+	public GameFrame(Game game, int id) throws LWJGLException {
+		this.id = id;
+		this.game = game;
+		canvas = new MyGLCanvas(game, id); //new canvas
+		
 		setLayout(new BorderLayout()); //set layout as border
 		add(canvas);// add canvas
 		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE); //disable close button					
@@ -32,14 +42,15 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scroll.setVisible(true); //show scroll
 		scroll.setAutoscrolls(true); //auto scroll
-        scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll
-        JPanel itemsFound = new JPanel();
-		itemsFound.setBackground(Color.blue); // temporary color to see the panel
-		itemsFound.setVisible(true);
+        scroll.setPreferredSize(new Dimension(100, 132)); //set size of scroll       
 		buttonsPanel = new JPanel(); // panel for the buttons
 		buttonsPanel.setLayout(new GridLayout(3, 1));
 		buttonsPanel.setVisible(true);
 		createButtons();
+		createItemsPanel();
+//		JPanel itemsFound = new JPanel();
+//		itemsFound.setBackground(Color.blue); // temporary color to see the panel
+//		itemsFound.setVisible(true);
 				
 		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
 		
@@ -49,7 +60,16 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		this.setSize(1580,1020); //default size of game frame
 		this.add(screen, BorderLayout.SOUTH); //add bottom screen to frame 
 		setVisible(true); //show frame
+		((MyGLCanvas) canvas).startDisplay();
 	}
+	private void createItemsPanel() {
+		// TODO Auto-generated method stub
+		itemsFound = new ItemsContainer();
+		itemsFound.setBackground(Color.blue);
+		itemsFound.setVisible(true);
+		
+	}
+	
 	private void createButtons() {
 		// TODO Auto-generated method stub
 		JButton mapButton = new JButton("Map");
@@ -86,7 +106,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 	 */
 	public void newGame() {
 		this.dispose(); //remove current frame
-		new GameFrame(); //create new game frame game
+//		new GameFrame(game, id); //create new game frame game
 	}
 	
 	/**
@@ -120,7 +140,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		aboutItem = new JMenuItem(new AbstractAction("About") { //new game menu item
 			@Override
 			public void actionPerformed(ActionEvent e) { //when new game clicked
-				JOptionPane.showMessageDialog(GameCanvas.getFrame(), 
+				JOptionPane.showMessageDialog(canvas.getParent(), 
 						"SWEN222 Group Project 2015\n"+
 						"Authors:\n"+ 
 						"Miten Chauhan\n"+
@@ -133,7 +153,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		howToPlayItem = new JMenuItem(new AbstractAction("How to play") { //new game menu item
 			@Override
 			public void actionPerformed(ActionEvent e) { //when new game clicked
-				JOptionPane.showMessageDialog(GameCanvas.getFrame(), "SWEN222 Group Project 2015\n"+
+				JOptionPane.showMessageDialog(canvas.getParent(), "SWEN222 Group Project 2015\n"+
 						"Authors:\n"+ 
 						"Miten Chauhan\n"+
 						"Krina Nagar\n"+
@@ -145,7 +165,7 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		controlsItem = new JMenuItem(new AbstractAction("Controls") { //new game menu item
 			@Override
 			public void actionPerformed(ActionEvent e) { //when new game clicked
-				JOptionPane.showMessageDialog(GameCanvas.getFrame(), 
+				JOptionPane.showMessageDialog(canvas.getParent(), 
 						"Moving controls: W-Up, A-Left, S-Down, D-Right"
 						, "Controls", JOptionPane.PLAIN_MESSAGE); //show dialog
 			}
@@ -159,21 +179,29 @@ public class GameFrame extends JFrame implements MouseListener, ActionListener{
 		exitGameItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));		
 	}
 	
-	public GameCanvas getCanvas() {
+	public Canvas getCanvas() {
 		return canvas;
 	}
 
-	//Unimplemeted methods
+	
 	@Override
-	public void actionPerformed(ActionEvent e) {}
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
-	public void mouseClicked(MouseEvent e) {}
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
-	public void mousePressed(MouseEvent e) {}
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 	@Override
-	public void mouseReleased(MouseEvent e) {}
-	@Override
-	public void mouseEntered(MouseEvent e) {}
-	@Override
-	public void mouseExited(MouseEvent e) {}
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
