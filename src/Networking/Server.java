@@ -34,31 +34,34 @@ public class Server extends Thread {
 		this.uid = uid;
 	}
 	
+	/**
+	 * Handles server functions, updates game based on players moves
+	 */
 	public void run() {		
 		try {
 			int i = 1;
+			//create input and output datastreams
 			DataInputStream input = new DataInputStream(socket.getInputStream());
-			
 			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-			// First, write the period to the stream				
-			//System.out.println("writing to output first time: " + i);
+			// Write the id to the stream		
 			output.writeByte(uid);
-//			FileUtils.writeByteArrayToFile(file, game.toByteArray());
-
+			//turn game into byte array
 			byte[] data = game.toByteArray();
 			output.writeInt(data.length);
+			//write game out
 			output.write(data);
-			//System.out.println("finishing writing to output first time: " + i++);
 			boolean exit=false;
 			while(!exit) {
 				if(input.available() != 0) {
-					//System.out.println("input available in server");
 					// read direction event from client.
 					int dir = input.readInt();
-					//System.out.println("Server dir: " + dir);
+					//get player from game
 					Player player = game.getPlayer(uid);
+					//get players location
 					Location playerLoc = player.getLocation();
+					//get room player is in
 					Room playerRoom = player.getRoom();
+					//move player according to which direction was pressed
 					switch(dir) {
 						case 1:
 							control.movePlayer(1, playerLoc.getNorth(), playerRoom);
@@ -74,28 +77,21 @@ public class Server extends Thread {
 							break;
 					}
 				}
-//					file.delete();
-//					control.printAll();
-//					game.printAll();
-					//comment this out and uncomment the printAll() in client in line 155
-//					file = new File(fpath);
-//					FileUtils.writeByteArrayToFile(file, game.toByteArray());
-					//System.out.println("writing to output :" + i);
+				//turn game into byte array after player has moved
 					byte[] state = game.toByteArray();
 					output.writeInt(state.length);
+					//write game out
 					output.write(state);
 					output.flush();
-					//System.out.println("writing to output :" + i++);
 					try {
 						Thread.sleep(50);
 					} catch (InterruptedException e) {
 					}
 				
 				}
-			socket.close(); // release socket ... v.important!
+			socket.close(); // release socket
 		} catch(IOException e) {
 			System.err.println("PLAYER " + uid + " DISCONNECTED");
-//			game.removePlayer(id); //TODO: remove player
 		}finally{
 			file.delete();
 		}
