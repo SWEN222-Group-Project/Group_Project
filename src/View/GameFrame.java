@@ -55,6 +55,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 		screen.setLayout(new GridLayout()); //set bottom panel to grid layout
 		
 		screen.add(itemsFound, BorderLayout.WEST);
+		itemsFound.setVisible(true);
 		screen.add(scroll, BorderLayout.WEST); //add scroll/text field to bottom panel to the east of button panel
 		screen.add(buttonsPanel, BorderLayout.EAST);
 		this.setSize(1580,1020); //default size of game frame
@@ -64,9 +65,8 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener{
 	}
 	private void createItemsPanel() {
 		// TODO Auto-generated method stub
-		itemsFound = new ItemsContainer();
-		itemsFound.setBackground(Color.blue);
-		itemsFound.setVisible(true);
+		itemsFound = new ItemsContainer(game, id);
+		
 		
 	}
 	
