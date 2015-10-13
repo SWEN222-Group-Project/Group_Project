@@ -12,16 +12,21 @@ import model.Player;
 public class NetMain {
 	
 	private static int id = 1;
+	private static boolean server = false;
+	private static String url = "localhost";
+	static int nclients = 2;	
+	static int port = 32768; // default
 	
 	public static void main(String[] args) {
+		NetMain main = new NetMain();
+		new LoginFrame(main);
 		
-		boolean server = false;
-		//boolean server = true;
-		int nclients = 2;		
-		//String url = null;
-		String url = "localhost";
-		int port = 32768; // default
-		
+	}
+	/**
+	 * Method to check if running in server or in
+	 * client mode. 
+	 */
+	public void start(){
 		if(server) {
 			// Run in Server mode
 			Game game = new Game(); //create game
@@ -45,6 +50,7 @@ public class NetMain {
 	 * in client mode. 
 	 * @param url
 	 * @param port 
+	 * @param lg 
 	 */
 	private static void runClient(String url, int port) throws UnknownHostException, IOException {
 		//create socket for client to run on same port as server
@@ -52,7 +58,6 @@ public class NetMain {
 		System.out.println("CLIENT CONNECTED TO " + url + ":" + port);			
 		Client c = new Client(s); //create new client when someone connects
 		c.run(); //start client
-		
 	}
 	
 	/**
@@ -124,4 +129,14 @@ public class NetMain {
 		}
 		return false;
 	}
+
+	public void setServer(boolean server) {
+		this.server = server;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	
+	
 }
