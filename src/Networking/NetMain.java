@@ -9,7 +9,7 @@ import model.Direction;
 import model.Game;
 import model.Player;
 
-public class NetMain {
+public class NetMain extends Thread {
 	
 	private static int id = 1;
 	private static boolean server = false;
@@ -26,7 +26,7 @@ public class NetMain {
 	 * Method to check if running in server or in
 	 * client mode. 
 	 */
-	public void start(){
+	public void run(){
 		if(server) {
 			// Run in Server mode
 			Game game = new Game(); //create game
