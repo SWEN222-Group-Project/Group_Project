@@ -10,14 +10,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 public class LoginFrame extends JFrame{
 
 	private NetMain main;
 	private JLabel label;
 	private JPanel modeScreen;
+	private JPanel userScreen;
 	private JButton hostButton;
 	private JButton joinButton;
+	private JButton enterButton;
+	private JTextField userNameText;
 	
 	public LoginFrame(NetMain main) {
 		setTitle("Mode Selection"); 
@@ -25,6 +29,9 @@ public class LoginFrame extends JFrame{
 		initialise(); //start mode selection frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
+		//position frame in the middle of the screen
+		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);	
 		setVisible(true);
 	}
 
@@ -69,7 +76,7 @@ public class LoginFrame extends JFrame{
 					//remove current panel
 					remove(modeScreen);
 					//repaint login components
-					configure();
+					usernamePanel();
 			}
 		});
 		modeScreen.add(joinButton);
@@ -85,8 +92,38 @@ public class LoginFrame extends JFrame{
 	 * input a username before starting the game in client
 	 * mode. 
 	 */
-	private void configure() {
-		// TODO Auto-generated method stub
+	private void usernamePanel() {
+		userScreen = new JPanel();
+		//Create and add label to panel
+		label = new JLabel("Please enter your username:");
+		userScreen.add(label);
+		//Create and add textfield to panel
+		userNameText = new JTextField(15);
+		userScreen.add(userNameText);
+		//Create and add enter button to panel
+		enterButton = new JButton("Start Game");
+		enterButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//check if user has entered something
+				if(!userNameText.getText().equals("")){
+					//close frame
+					setVisible(false);
+					//run client
+					main.start();	
+				}
+				else{
+					JOptionPane.showMessageDialog(LoginFrame.this,"Please enter your name!");
+				}
+			}
+		});
+		userScreen.add(enterButton);
+		//set size of screen
+		setPreferredSize(new Dimension(350, 90));
+		//add user panel to frame
+		add(userScreen);
+		//set frame to visible again
+		setVisible(true);
 		
 	}
 

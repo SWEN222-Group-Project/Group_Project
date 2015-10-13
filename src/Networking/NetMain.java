@@ -14,8 +14,8 @@ public class NetMain {
 	private static int id = 1;
 	private static boolean server = false;
 	private static String url = "localhost";
-	static int nclients = 2;	
-	static int port = 32768; // default
+	private static int nclients = 2;	
+	private static int port = 32768; // default
 	
 	public static void main(String[] args) {
 		NetMain main = new NetMain();
