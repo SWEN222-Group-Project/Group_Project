@@ -22,6 +22,7 @@ public class LoginFrame extends JFrame{
 	private JButton joinButton;
 	private JButton enterButton;
 	private JTextField userNameText;
+	private JTextField hostIpText;
 	
 	public LoginFrame(NetMain main) {
 		setTitle("Mode Selection"); 
@@ -68,9 +69,6 @@ public class LoginFrame extends JFrame{
 		joinButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//update main variables to run in client mode
-					main.setServer(false);
-					main.setUrl("localhost");
 					//close mode selection 
 					setVisible(false);
 					//remove current panel
@@ -81,7 +79,7 @@ public class LoginFrame extends JFrame{
 		});
 		modeScreen.add(joinButton);
 		//set size of screen
-		setPreferredSize(new Dimension(350, 90));
+		setPreferredSize(new Dimension(370, 90));
 		//add panel to the frame
 		add(modeScreen);
 		
@@ -93,7 +91,15 @@ public class LoginFrame extends JFrame{
 	 * mode. 
 	 */
 	private void usernamePanel() {
+		setTitle("User Login");
 		userScreen = new JPanel();
+		//Create and add label to panel
+		JLabel ipLabel = new JLabel("Please enter your host's IP:");
+		userScreen.add(ipLabel);
+		//Create and add textfield to panel
+		hostIpText = new JTextField(15);
+		hostIpText.setText("localhost");
+		userScreen.add(hostIpText);
 		//Create and add label to panel
 		label = new JLabel("Please enter your username:");
 		userScreen.add(label);
@@ -106,22 +112,29 @@ public class LoginFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//check if user has entered something
-				if(!userNameText.getText().equals("")){
+				if(!userNameText.getText().equals("") && !hostIpText.getText().equals("") ){
+					//update main variables to run in client mode
+					main.setServer(false);
+					main.setUrl(hostIpText.getText().trim());
 					//close frame
 					setVisible(false);
 					//run client
 					main.start();	
 				}
-				else{
+				else if(userNameText.getText().equals("") && !hostIpText.getText().equals("") ){
 					JOptionPane.showMessageDialog(LoginFrame.this,"Please enter your name!");
+				}
+				else if(!userNameText.getText().equals("") && hostIpText.getText().equals("") ){
+					JOptionPane.showMessageDialog(LoginFrame.this,"Please enter your host's IP!");
 				}
 			}
 		});
 		userScreen.add(enterButton);
-		//set size of screen
-		setPreferredSize(new Dimension(350, 90));
 		//add user panel to frame
 		add(userScreen);
+		//set size of screen
+		setPreferredSize(new Dimension(400, 130));
+		pack();
 		//set frame to visible again
 		setVisible(true);
 		
