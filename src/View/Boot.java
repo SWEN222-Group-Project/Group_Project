@@ -125,6 +125,27 @@ public class Boot {
 						p.setImage(p.getName());
 					}
 				}
+				else if (p instanceof Coin){
+					p.setX(xPosTile+STARTX);
+					p.setY(yPosTile+STARTY);
+					p.setTILE_HEIGHT(40);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					p.setImage(p.getName());
+				}
+				else if (p instanceof Key){
+					p.setX(xPosTile+STARTX);
+					p.setY(yPosTile+STARTY);
+					p.setTILE_HEIGHT(TILE_HEIGHT);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					p.setImage(p.getName());
+				}
+				else if (p instanceof Assignment){
+					p.setX(xPosTile+STARTX);
+					p.setY(yPosTile+STARTY);
+					p.setTILE_HEIGHT(40);
+					p.setTILE_WIDTH(TILE_WIDTH);
+					p.setImage(p.getName());
+				}
 
 			}
 		}
@@ -201,6 +222,27 @@ public class Boot {
 							p.setTILE_WIDTH(TILE_WIDTH);
 							p.setImage(p.getName());
 						}
+					}
+					else if (p instanceof Coin){
+						p.setX(xPosTile+STARTX);
+						p.setY(yPosTile+STARTY);
+						p.setTILE_HEIGHT(TILE_HEIGHT);
+						p.setTILE_WIDTH(TILE_WIDTH);
+						p.setImage(p.getName());
+					}
+					else if (p instanceof Key){
+						p.setX(xPosTile+STARTX);
+						p.setY(yPosTile+STARTY);
+						p.setTILE_HEIGHT(TILE_HEIGHT);
+						p.setTILE_WIDTH(TILE_WIDTH);
+						p.setImage(p.getName());
+					}
+					else if (p instanceof Assignment){
+						p.setX(xPosTile+STARTX);
+						p.setY(yPosTile+STARTY);
+						p.setTILE_HEIGHT(TILE_HEIGHT);
+						p.setTILE_WIDTH(TILE_WIDTH);
+						p.setImage(p.getName());
 					}
 				}
 			}
