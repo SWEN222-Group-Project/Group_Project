@@ -1,5 +1,6 @@
-package model;
+ package model;
 import control.*;
+import control.Control.InvalidMove;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,8 +8,9 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 /**
- * Run this class to test the Model features
- * @author harman
+ * This class is used to test the functionality of the model without running application.
+ * Run this class to test the functionality of the model. 
+ * @author Harman (singhharm1)
  *
  */
 public class ModelMain {
@@ -29,7 +31,14 @@ public class ModelMain {
 		}
 	}
 	
-	private static void movePlayer(Control game, Player p, Piece dropPiece){
+	/**
+	 * Test player movement, picking items and dropping items.
+	 * @param game
+	 * @param p
+	 * @param dropPiece
+	 * @throws InvalidMove
+	 */
+	private static void movePlayer(Control game, Player p, Piece dropPiece) throws InvalidMove{
 		int playerId = p.id();
 		while(true){
 			Location location = p.getPosition().getLocation();
@@ -53,7 +62,7 @@ public class ModelMain {
 				game.movePlayer(playerId, location.getEast(), room);
 			} else if (cmd.equals("q")){
 				//go right
-				game.dropItem(playerId, dropPiece);
+				game.dropItem(playerId);
 			}else if (cmd.equals("l")){
 				//list container of player
 				System.out.println(p.container());
@@ -67,47 +76,24 @@ public class ModelMain {
 		
 	}
 	
-	private static void testDropping(Control controller, int playerId, Piece pieceToDrop){		
-		controller.dropItem(playerId, pieceToDrop);
-		System.out.println("Dropping item");
-		controller.printAll();		
-	}
 	
-	public static void main(String[] args){
-		//create room
+	/**
+	 * Creates Game and displays the game on the console
+	 * @param args
+	 * @throws InvalidMove
+	 */
+	public static void main(String[] args) throws InvalidMove{
+		//create Game
 		Game game = new Game();
-		Room room = new Room("Practise Room");
-		Room room2 = new Room("Second Room");
-		Position pos1 = new Position(room, new Location(1,1));
-		Position pos2 = new Position(room, new Location(7,4));
-		Position pos3 = new Position(room, new Location(7,7));
-		Door door = new Door(new Position(room, new Location(0,0)), Direction.SOUTH, new Position(room2, new Location(8,8)));
-		
-		game.addDoor(door);
-		Player p1 = new Player(1, "1Harman", pos1, Direction.NORTH);
-		Player p2 = new Player(2, "2Harman", new Position(room, new Location(4,5)), Direction.SOUTH);
-		Coin coin = new Coin(pos2, "C", "Coin", Direction.EAST);
-		ItemsComposite chest = new ItemsComposite(pos2, "h", "Chest",Direction.NORTH);
-		chest.addStrategy(new MovableStrategy());
-		chest.addItem(coin);
-//		Coin coin2 = new Coin(pos3, "C2", "Coin", Direction.EAST);
-//		chest.addItem(coin2);
-		Key key = new Key(new Position(room, new Location(1,0)), 0, Direction.NORTH);
-		door.addKey(key);
-		game.addPiece(key, new Position(room, new Location(1,0)));
-		Assignment a1 = new Assignment(pos3, 0, null);
-		game.addPiece(a1, pos3);
-		
-		
 
-		game.addPiece(chest, pos2);
-		game.addRoom(room); //test adding room
-		game.addRoom(room2);
+		Position pos1 = new Position(game.getRoom(0), new Location(4,4));		
+		Player p1 = new Player(1, "Harman", game.getStartPos(), Direction.NORTH);
+		Player p2 = new Player(2, "2Harman", game.getStartPos(), Direction.SOUTH);
 		game.addPlayer(p1); //test adding player
 		game.addPlayer(p2);
 		game.printAll(); //this will print all of the rooms
 		Control controller = new Control(game);
-		movePlayer(controller, p1, coin); //test moving player
-		movePlayer(controller, p2, coin);
+		movePlayer(controller, p1, null); //test moving player
+		movePlayer(controller, p2, null);
 	}
 }

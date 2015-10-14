@@ -3,13 +3,28 @@ package model;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-
+/**
+ * This class represents a Key object that are used to traverse through doors.
+ * Each key contains a number that is used to identify whether nor
+ * not it can unlock a door nor not.
+ * @author Harman (singhharm1)
+ *
+ */
 public class Key extends Item{
-	int number;
-	public Key(Position position, int number, Direction dir) {
-		super(position, "Key", "", dir); //direction here is unimportant??
+	private int number; //Number of key
+
+	/**
+	 * Constructor: Takes in the position of where the Key is to be placed in the game
+	 * and the id (number) of the key and a description of the key to be displayed
+	 * on the player's container.
+	 * @param position
+	 * @param number
+	 * @param dir
+	 * @param description
+	 */
+	public Key(Position position, int number, Direction dir, String description) {
+		super(position, "Key", description, dir); //direction here is unimportant??
 		this.number = number;
-		
 	}
 
 	@Override
@@ -26,12 +41,23 @@ public class Key extends Item{
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Return the number of the key
+	 * @return total keys
+	 */
 	public int getNum(){
 		return number;
 	}
-	
-	
+
+	/**
+	 * Return the description of the key
+	 */
+	public String getDescription(){
+		return "Key:" + number+". Hint: "+  super.getDescription();
+	}
+
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -55,15 +81,14 @@ public class Key extends Item{
 	}
 
 	/**
-	 * This is temporary.
-	 * TODO: delete this after
+	 * This is used simply for displaying the piece textually on the console.
 	 */
 	public String toString(){
 		return super.toString().substring(0, 1); //should return "K"
 	}
 
 	@Override
-	public  void toOutputSteam(DataOutputStream dout) throws IOException {
+	public void toOutputStream(DataOutputStream dout) throws IOException {
 		dout.writeByte(Piece.KEY);
 		if(super.getPosition() == null){
 			dout.writeByte(0); //position is invalid (null)
@@ -73,31 +98,44 @@ public class Key extends Item{
 			dout.writeByte(1); //position is valid
 			dout.writeInt(super.getLocation().getxPos()); //send x location
 			dout.writeInt(super.getLocation().getyPos()); //send y location
-		}		
+		}
 		byte[] name = super.getName().getBytes("UTF-8");
 		dout.writeByte(name.length);
-		dout.write(name);
-		
+		dout.write(name); //send name
+
 		byte[] desc = super.getDescription().getBytes("UTF-8");
 		dout.writeByte(desc.length);
-		dout.write(desc);
-		
-		dout.writeInt(super.getx()); //send RealX pos 
-		dout.writeInt(super.gety()); //send RealY pos
-		
+		dout.write(desc); //send description
+
+		dout.writeInt(super.getTileWidth());
+		dout.writeInt(super.getTileHeight());
+		dout.writeFloat(super.getx()); //send RealX pos
+		dout.writeFloat(super.gety()); //send RealY pos
+
 		byte[] fname = super.getImage().getBytes("UTF-8");
 		dout.writeInt(fname.length);
 		dout.write(fname); //send filename
 		//----
 		dout.writeByte(super.getDirection().ordinal()); //send direction
-		
+
 		dout.writeByte(number); //send key number
 	}
 
-
-	public  static Key fromInputStream(DataInputStream din, Position pos) throws IOException{
-		Direction dir = Direction.values()[din.readByte()];
+	/**
+	 * Constructs a Key object from the DataInputStream
+	 * The object will be broadcast by a master connection, and is
+	 * then used to create the object in the Client game.
+	 * @param din
+	 * @param pos
+	 * @param description
+	 * @return key
+	 * @throws IOException
+	 * @author Harman (singhharm1)
+	 */
+	public static Key fromInputStream(DataInputStream din, Position pos,
+			String description) throws IOException{
+		Direction dir = Direction.values()[din.readByte()]; //read direction
 		int number = din.readByte(); //read key number
-		return new Key(pos, number, dir);
+		return new Key(pos, number, dir, description); //create new Key object
 	}
 }
