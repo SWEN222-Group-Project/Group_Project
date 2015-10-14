@@ -12,6 +12,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+/**
+ * A JFrame that is displayed when the game is initially run. Responsible
+ * to updating NetMain information depending on user input to run in either
+ * mode. Also allows user name input and hostUrl input if running on separate
+ * machines.
+ *
+ * @author Krina (nagarkrin)
+ *
+ */
 public class LoginFrame extends JFrame{
 
 	private NetMain main;
@@ -23,24 +32,24 @@ public class LoginFrame extends JFrame{
 	private JButton enterButton;
 	private JTextField userNameText;
 	private JTextField hostIpText;
-	
-	public LoginFrame(NetMain main) {
-		setTitle("Mode Selection"); 
-		this.main = main;
+
+	public LoginFrame(NetMain main2) {
+		setTitle("Mode Selection");
+		this.main = main2;
 		initialise(); //start mode selection frame
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
 		//position frame in the middle of the screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);	
+		setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
 		setVisible(true);
 	}
 
 	/**
 	 * Adds components to the frame asking user whether they
-	 * want to host the game or join it. Updates the variables 
+	 * want to host the game or join it. Updates the variables
 	 * in the NetMain class depending on if user wants to run the
-	 * game in server or client mode. 
+	 * game in server or client mode.
 	 */
 	private void initialise() {
 		modeScreen = new JPanel();
@@ -55,7 +64,7 @@ public class LoginFrame extends JFrame{
 				//update main variables to run in server mode
 				main.setServer(true);
 				main.setUrl(null);
-				//close mode selection 
+				//close mode selection
 				setVisible(false);
 				//inform user server is running
 				JOptionPane.showMessageDialog(LoginFrame.this,"Server is running!");
@@ -69,7 +78,9 @@ public class LoginFrame extends JFrame{
 		joinButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-					//close mode selection 
+				main.setServer(false);
+//				main.setUrl(hostIpText.getText());
+					//close mode selection
 					setVisible(false);
 					//remove current panel
 					remove(modeScreen);
@@ -82,13 +93,13 @@ public class LoginFrame extends JFrame{
 		setPreferredSize(new Dimension(370, 90));
 		//add panel to the frame
 		add(modeScreen);
-		
+
 	}
 
 	/**
 	 * Adds components to the frame requiring user to
 	 * input a username before starting the game in client
-	 * mode. 
+	 * mode.
 	 */
 	private void usernamePanel() {
 		setTitle("User Login");
@@ -114,12 +125,13 @@ public class LoginFrame extends JFrame{
 				//check if user has entered something
 				if(!userNameText.getText().equals("") && !hostIpText.getText().equals("") ){
 					//update main variables to run in client mode
-					main.setServer(false);
-					main.setUrl(hostIpText.getText().trim());
+					//main.setServer(false);
+					//main.setUrl(hostIpText.getText().trim());
 					//close frame
+					main.setUrl(hostIpText.getText());
 					setVisible(false);
 					//run client
-					main.start();	
+					main.start();
 				}
 				else if(userNameText.getText().equals("") && !hostIpText.getText().equals("") ){
 					JOptionPane.showMessageDialog(LoginFrame.this,"Please enter your name!");
@@ -137,7 +149,7 @@ public class LoginFrame extends JFrame{
 		pack();
 		//set frame to visible again
 		setVisible(true);
-		
+
 	}
 
 }
