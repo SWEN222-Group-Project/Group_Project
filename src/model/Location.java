@@ -1,9 +1,20 @@
 package model;
 
+/**
+ * This class is used to store the x and y location of a Piece.
+ * The x and y location represent the location inside a room
+ * @author Harman (singhharm1)
+ *
+ */
 public class Location {
 
 	private int xPos, yPos;
 	
+	/**
+	 * Constructor to create the Location objects
+	 * @param xPos
+	 * @param yPos
+	 */
 	public Location(int xPos, int yPos){
 		this.xPos = xPos;
 		this.yPos = yPos;
@@ -57,6 +68,7 @@ public class Location {
 		return new Location(xPos - 1, yPos);
 	}
 	
+	@Override
 	public String toString(){
 		return "(" + xPos + ", " + yPos + ")";
 	}
@@ -79,5 +91,32 @@ public class Location {
 		}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + xPos;
+		result = prime * result + yPos;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Location other = (Location) obj;
+		if (xPos != other.xPos)
+			return false;
+		if (yPos != other.yPos)
+			return false;
+		return true;
+	}
+	
+	
 	
 }
