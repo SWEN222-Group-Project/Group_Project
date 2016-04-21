@@ -52,7 +52,11 @@ public class Coin extends Item{
 	 * @param din : datainputstream from which the piece is constructed
 	 * @param pos : Position of where the piece is to be placed
 	 * @param description : description of the piece
+<<<<<<< HEAD
 	 * @return coin 
+=======
+	 * @return
+>>>>>>> GameItems
 	 * @throws IOException
 	 * @author Harman (singhharm1)
 	 */

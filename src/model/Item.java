@@ -32,7 +32,11 @@ public abstract class Item extends Piece {
 	 * Location field is used to determine whether or not to remove the item itself from the room. 
 	 * @param player
 	 * @param location
+<<<<<<< HEAD
 	 * @return boolean
+=======
+	 * @return
+>>>>>>> GameItems
 	 * @author Harman (singhharm1)
 	 */
 	public abstract boolean addTo(Player player, Location location);
