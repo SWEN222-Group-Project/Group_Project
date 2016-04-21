@@ -94,11 +94,7 @@ public class Room {
     /**
      * Return the piece at the given location
      * @param loc
-<<<<<<< HEAD
      * @return piece
-=======
-     * @return
->>>>>>> GameItems
      */
     public synchronized Piece getPiece(Location loc){
     	return board[loc.getyPos()][loc.getxPos()];
@@ -107,11 +103,7 @@ public class Room {
     /**
      * Remove the Piece at the given location
      * @param loc
-<<<<<<< HEAD
      * @return removed piece
-=======
-     * @return
->>>>>>> GameItems
      */
     public synchronized Piece removePiece(Location loc){
     	Piece piece = board[loc.getyPos()][loc.getxPos()];
@@ -127,11 +119,7 @@ public class Room {
 
     /**
      * This method is used to textually represent the room
-<<<<<<< HEAD
      * @return text based room
-=======
-     * @return
->>>>>>> GameItems
      */
     public synchronized String printRoom(){
     	String toReturn = "";
@@ -150,11 +138,7 @@ public class Room {
 
     /**
 	 * Returns the board
-<<<<<<< HEAD
 	 * @return 2d array of board
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public Piece[][] getBoard() {
 		return board;
@@ -194,11 +178,7 @@ public class Room {
 	 * The following constructs a Room given a DataInputStream.
 	 * @param din
 	 * @param game
-<<<<<<< HEAD
 	 * @return room
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws IOException
 	 */
 	public synchronized static Room fromInputStream(DataInputStream din, Game game) throws IOException {

@@ -43,11 +43,7 @@ public class Player extends Piece {
 
 	/**
 	 * Returns points of player
-<<<<<<< HEAD
 	 * @return players points
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int points(){
 		return points;
@@ -55,11 +51,7 @@ public class Player extends Piece {
 
 	/**
 	 * Returns the number of items inside the player container.
-<<<<<<< HEAD
 	 * @return players items
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int getContainerSize(){
 		return container.size();
@@ -67,11 +59,7 @@ public class Player extends Piece {
 
 	/**
 	 * Determines whether or not the player has won.
-<<<<<<< HEAD
 	 * @return won or not
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public boolean hasWon(){
 		return assignments.size() == Game.MAX_ASSIGN;
@@ -87,11 +75,7 @@ public class Player extends Piece {
 
 	/**
 	 * Get this player's id
-<<<<<<< HEAD
 	 * @return players id
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int id(){
 		return id;
@@ -100,11 +84,7 @@ public class Player extends Piece {
 	/**
 	 * Add assignment pieces to the player.
 	 * @param assign
-<<<<<<< HEAD
 	 * @return found assignment
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public boolean addAssign(Assignment assign){
 		if(assignments.size() == Game.MAX_ASSIGN){
@@ -123,11 +103,7 @@ public class Player extends Piece {
 
 	/**
 	 * Return the number of assignments that the player has collected
-<<<<<<< HEAD
 	 * @return total assignments
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int numOfAssign(){
 		return assignments.size();
@@ -153,11 +129,7 @@ public class Player extends Piece {
 	/**
 	 * Removes the item last added to the player's container.
 	 * Return the item that has been removed.
-<<<<<<< HEAD
 	 * @return removed piece
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws InvalidMove if there are no items to drop
 	 */
 	public Piece removeItem() throws InvalidMove{
@@ -173,11 +145,7 @@ public class Player extends Piece {
 
 	/**
 	 * Returns the player's container
-<<<<<<< HEAD
 	 * @return container
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public List<Piece> container(){
 		return container;
@@ -204,11 +172,7 @@ public class Player extends Piece {
 	 * @param din
 	 * @param name
 	 * @param pos
-<<<<<<< HEAD
 	 * @return player
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws IOException
 	 */
 	public static Player fromInputStream(

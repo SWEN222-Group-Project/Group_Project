@@ -24,11 +24,7 @@ public class Position {
 	
 	/**
 	 * Returns the room.
-<<<<<<< HEAD
 	 * @return room
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public Room getRoom(){
 		return this.room;
@@ -45,11 +41,7 @@ public class Position {
 	/**
 	 * Returns the Location as a separate object.
 	 *  
-<<<<<<< HEAD
 	 * @return location
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public Location getLocation(){
 		return new Location(location.getxPos(), location.getyPos());

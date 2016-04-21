@@ -44,11 +44,7 @@ public class Key extends Item{
 
 	/**
 	 * Return the number of the key
-<<<<<<< HEAD
 	 * @return total keys
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int getNum(){
 		return number;
@@ -132,11 +128,7 @@ public class Key extends Item{
 	 * @param din
 	 * @param pos
 	 * @param description
-<<<<<<< HEAD
 	 * @return key
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws IOException
 	 * @author Harman (singhharm1)
 	 */

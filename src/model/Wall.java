@@ -65,11 +65,7 @@ public class Wall extends Piece{
 	 * Construct Wall piece from an input stream.
 	 * @param din
 	 * @param pos
-<<<<<<< HEAD
 	 * @return wall
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws IOException
 	 * @author Harman (singhharm1)
 	 */

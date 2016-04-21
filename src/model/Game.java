@@ -46,7 +46,6 @@ public class Game implements Serializable {
 		this.hasWon = false;
 		players = new HashMap<Integer, Player>();
 		new Parser(this).getGameFromFile();
-<<<<<<< HEAD
 	}
 
 	/**
@@ -63,24 +62,6 @@ public class Game implements Serializable {
 	}
 
 	/**
-=======
-	}
-
-	/**
-	 * Constructor. Used for testing the game.
-	 * @param test
-	 * @author Harman (singhharm1)
-	 */
-	public Game(String test){
-		this.rooms = new ArrayList<Room>();
-		this.hasWon = false;
-		this.players = new HashMap<Integer, Player>();
-		this.portals = new ArrayList<Position>();
-		this.testGame();
-	}
-
-	/**
->>>>>>> GameItems
 	 * Helper method. This method is used specifically for creating a demo of the game
 	 * for testing. This method should not be used by any other class.
 	 */
@@ -130,11 +111,7 @@ public class Game implements Serializable {
 
 	/**
 	 * Returns the number of room in the game
-<<<<<<< HEAD
 	 * @return total rooms
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int getRoomSize(){
 		return rooms.size();
@@ -160,11 +137,7 @@ public class Game implements Serializable {
 
 	/**
 	 * Determines whether not the game has been won.
-<<<<<<< HEAD
 	 * @return won game or not
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public synchronized boolean hasWon(){
 		return hasWon;
@@ -173,11 +146,7 @@ public class Game implements Serializable {
 	/**
 	 * Returns the id of the winning players.
 	 * Precondition: hasWon() == true
-<<<<<<< HEAD
 	 * @return which player won
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public int winnerId(){
 		return winnerId;
@@ -236,7 +205,6 @@ public class Game implements Serializable {
 		portals.add(portal);
 	}
 
-<<<<<<< HEAD
 	/**
 	 * Returns a starting player portal
 	 * @return
@@ -259,30 +227,6 @@ public class Game implements Serializable {
 	 * Returns the room as specified by the index.
 	 * @param index
 	 * @return room needed
-=======
-	/**
-	 * Returns a starting player portal
-	 * @return
-	 */
-	public Position getStartPos(){
-		return portals.get((i++)% MAX_PLAYERS);
-	}
-
-	/**
-	 * Adds a piece to game as specified by the position
-	 * @param piece
-	 * @param position
-	 */
-	public void addPiece(Piece piece, Position position){
-		Room room = position.getRoom();
-		room.addPiece(position.getLocation(), piece);
-	}
-
-	/**
-	 * Returns the room as specified by the index.
-	 * @param index
-	 * @return
->>>>>>> GameItems
 	 */
 	public Room getRoom(int index){
 		return rooms.get(index);
@@ -290,11 +234,7 @@ public class Game implements Serializable {
 
 	/**
 	 * Returns the statistics of each player in the game.
-<<<<<<< HEAD
 	 * @return string
-=======
-	 * @return
->>>>>>> GameItems
 	 */
 	public String printStats(){
 		Player p;
@@ -422,58 +362,10 @@ public class Game implements Serializable {
 			System.out.println(room);
 			System.out.println("********************");
 			System.out.println(room.printRoom());
-<<<<<<< HEAD
-=======
 		}
 	}
 
 	/**
-	 * Add door to the game.
-	 * @param door
-	 */
-	public void addDoor(Door door){
-		door.getRoom().addDoor(door);
-		doors.add(door);
-	}
-
-	/**
-	 * The following method accepts a byte array representing the state of a
-	 * game board; this state will be broadcast by a master connection, and is
-	 * then used to overwrite the current state (since it should be more up to
-	 * date).
-	 * @param bytes
-	 * @throws IOException
-	 * @author Harman (singhharm1)
-	 */
-	public synchronized void fromByteArray(byte[] bytes) throws IOException{
-		ByteArrayInputStream bin = new ByteArrayInputStream(bytes);
-		DataInputStream din = new DataInputStream(bin);
-		if(din.readByte() == 1)
-			hasWon = true;
-		else
-			hasWon = false;
-		winnerId = din.readInt();
-		int nroom = din.readByte();
-		players.clear();
-		rooms.clear();
-		doors.clear();
-		for(int i = 0; i != nroom; i++){
-			rooms.add(Room.fromInputStream(din, this));
-		}
-
-		int numdoors = din.readByte();  //read number of doors
-
-		for(int i = 0; i < numdoors; i++){
-			Door d = Door.fromInputStream(din, rooms);
-			d.getRoom().addDoor(d);
-			doors.add(d);
->>>>>>> GameItems
-		}
-		addWalls();
-	}
-
-	/**
-<<<<<<< HEAD
 	 * Add door to the game.
 	 * @param door
 	 */
@@ -518,17 +410,11 @@ public class Game implements Serializable {
 	}
 
 	/**
-=======
->>>>>>> GameItems
 	 * The following method converts the current state of the game into a byte
 	 * array, such that it can be shipped across a connection to an awaiting
 	 * client.
 	 *
-<<<<<<< HEAD
 	 * @return game state
-=======
-	 * @return
->>>>>>> GameItems
 	 * @throws IOException
 	 * @author Harman (singhharm1)
 	 */
@@ -559,10 +445,6 @@ public class Game implements Serializable {
 		Player p1 = new Player(1, "Harman", pos1, Direction.NORTH);
 		room.addPiece(pos1.getLocation(), p1);
 		room.printRoom();
-<<<<<<< HEAD
-=======
-//		new Game();
->>>>>>> GameItems
 
 	}
 }
