@@ -54,7 +54,11 @@ public class ItemsComposite extends Item {
 
 	/**
 	 * Returns the collection of items that is maintained by this object
+<<<<<<< HEAD
+	 * @return items
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public List<Item> items(){
 		return Collections.unmodifiableList(items);
@@ -84,7 +88,11 @@ public class ItemsComposite extends Item {
 //	}
 	/**
 	 * Allows the Collection of items to be iterated.
+<<<<<<< HEAD
+	 * @return iterable items
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public Iterator<Item> iterator(){
 		return new ItemIterator();
@@ -108,7 +116,11 @@ public class ItemsComposite extends Item {
 		/**
 		 * Returns the description Item
 		 * @param composite
+<<<<<<< HEAD
+		 * @return description
+=======
 		 * @return
+>>>>>>> GameItems
 		 */
 		public String getDescription(ItemsComposite composite);
 	}
@@ -148,7 +160,11 @@ public class ItemsComposite extends Item {
 	 * @param name
 	 * @param description
 	 * @param pos
+<<<<<<< HEAD
+	 * @return items composite
+=======
 	 * @return
+>>>>>>> GameItems
 	 * @throws IOException
 	 */
 	public synchronized static ItemsComposite fromInputStream(DataInputStream din,

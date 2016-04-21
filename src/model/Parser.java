@@ -30,7 +30,11 @@ public class Parser {
 
 	/**
 	 * Returns a Game object created from the file.
+<<<<<<< HEAD
+	 * @return game
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public Game getGameFromFile(){
 		int i = 0;
@@ -197,7 +201,11 @@ public class Parser {
 	 * Helper method: Creates a piece from the scanner and places the piece in the given room.
 	 * @param sc
 	 * @param room
+<<<<<<< HEAD
+	 * @return piece
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	private Piece createPieceFromFile(Scanner sc, Room room){
 		 String type, pieceName, pieceDesc = "";

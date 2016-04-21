@@ -38,7 +38,7 @@ public class Location {
 	
 	/**
 	 * Gets the location north of current location.
-	 * @return 
+	 * @return location
 	 */
 	public Location getNorth(){
 		return new Location(xPos, yPos - 1);
@@ -46,7 +46,7 @@ public class Location {
 	
 	/**
 	 * Gets the location east of current location.
-	 * @return 
+	 * @return location
 	 */
 	public Location getEast(){
 		return new Location(xPos + 1, yPos);
@@ -54,7 +54,7 @@ public class Location {
 	
 	/**
 	 * Gets the location south of current location.
-	 * @return 
+	 * @return location
 	 */
 	public Location getSouth(){
 		return new Location(xPos, yPos + 1);
@@ -62,7 +62,7 @@ public class Location {
 	
 	/**
 	 * Gets the location west of current location.
-	 * @return 
+	 * @return location
 	 */
 	public Location getWest(){
 		return new Location(xPos - 1, yPos);
@@ -76,7 +76,7 @@ public class Location {
 	/**
 	 * Determines whether the provided location is horizontally or vertically adjacent to this location.
 	 * @param newLocation
-	 * @return
+	 * @return boolean
 	 */
 	public boolean isNextTo(Location newLocation) {
 		if(xPos == newLocation.getxPos()){

@@ -131,7 +131,11 @@ public class Assignment extends Item implements Comparable<Assignment>{
 	 * @param din : datainputstream from which the piece is constructed
 	 * @param pos : Position of where the assignment is to be placed
 	 * @param description : description of the assignment
+<<<<<<< HEAD
+	 * @return assignment piece
+=======
 	 * @return
+>>>>>>> GameItems
 	 * @throws IOException
 	 * @author Harman (singhharm1)
 	 */

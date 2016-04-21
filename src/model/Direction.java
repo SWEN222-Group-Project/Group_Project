@@ -13,7 +13,11 @@ public enum Direction {
 	
 	/**
 	 * Return Direction that is 90 clockwise of current Direction
+<<<<<<< HEAD
+	 * @return direction 
+=======
 	 * @return 
+>>>>>>> GameItems
 	 */
 	public Direction clockwise(){
 		return intToDirection((this.ordinal() + 1) % 4);
@@ -21,7 +25,11 @@ public enum Direction {
 
 	/**
 	 * Return Direction that is 90 anticlockwise of current Direction
+<<<<<<< HEAD
+	 * @return direction
+=======
 	 * @return 
+>>>>>>> GameItems
 	 */
 	public Direction anticlockwise(){
 		return intToDirection((this.ordinal() - 1) % 4);
@@ -29,7 +37,11 @@ public enum Direction {
 
 	/**
 	 * Return Direction that is 180 of current Direction
+<<<<<<< HEAD
+	 * @return direction
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public Direction opposite(){
 		return intToDirection((this.ordinal() + 2 ) % 4);
@@ -39,7 +51,11 @@ public enum Direction {
 	 * Convert the integer into a direction.
 	 * Requires: 0 <= i < 4
 	 * @param 0 == North, 1 == East, 2 == South, 3 == West
+<<<<<<< HEAD
+	 * @return direction
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	private Direction intToDirection(int i){
 		return Direction.values()[i];

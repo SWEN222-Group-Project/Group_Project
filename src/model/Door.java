@@ -63,7 +63,11 @@ public class Door extends Piece {
 	/**
 	 * Returns whether or not a key is valid and be used to enter the door
 	 * @param key
+<<<<<<< HEAD
+	 * @return if you can enter
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public boolean canEnter(Key key){
 		if(keys.contains(key.getNum())){
@@ -75,7 +79,11 @@ public class Door extends Piece {
 
 	/**
 	 * Returns whether or not the door is locked
+<<<<<<< HEAD
+	 * @return locked or not
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	public boolean isLocked(){
 		return isLocked;
@@ -133,7 +141,11 @@ public class Door extends Piece {
 	 * Construct Door piece from an input stream.
 	 * @param din
 	 * @param rooms
+<<<<<<< HEAD
+	 * @return door
+=======
 	 * @return
+>>>>>>> GameItems
 	 * @throws IOException
 	 */
 	public static Door fromInputStream(DataInputStream din,
@@ -192,7 +204,10 @@ public class Door extends Piece {
 		Door door = new Door(pos, dir, leadsTo);
 		door.addKeys(keys);
 		door.setLocked(isLocked);
+<<<<<<< HEAD
+=======
 
+>>>>>>> GameItems
 		door.setTILE_WIDTH(tileWidth);
 		door.setTILE_HEIGHT(tileHeight);
 		door.setX(realX); //set Piece x variable
@@ -206,7 +221,11 @@ public class Door extends Piece {
 	 * This method allows the rooms to be determined that the door leads to.
 	 * @param rooms
 	 * @param room
+<<<<<<< HEAD
+	 * @return room
+=======
 	 * @return
+>>>>>>> GameItems
 	 */
 	private static Room getRoom(ArrayList<Room> rooms, String room){
 		for(Room r : rooms){
